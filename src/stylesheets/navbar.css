@@ -1,0 +1,12 @@
+.navbar {
+    display: flex;
+    /* justify-content: space-between; */
+    align-items: center;
+    background-color: white;
+    padding: 10px 20px; /* Możesz dostosować wartości do swoich preferencji */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Dodaj cień, aby navbar był wyraźny na jasnym tle */
+  }
+
+  .navbar-item{
+    margin: 0 10%;
+  }

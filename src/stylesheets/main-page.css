@@ -1,0 +1,20 @@
+
+.main-img{
+    width: 96%;
+    margin: 0 2%;
+}
+
+.reservation-panel{
+    display: flex;
+    
+    background-color: white;
+    position: absolute;
+    top: 30%;
+    left: 45%;
+}
+
+.reservation-panel-tile{
+    padding: 3px;
+    border: solid 1px;
+}
+
