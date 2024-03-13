@@ -2,7 +2,7 @@
 import './App.css'
 import MainPage from './components/MainPage.jsx'
 import Navbar from './components/Navbar.jsx'
-import ReservationPanel from './components/ReservationPanel.jsx'
+import Footer from './components/Footer.jsx'
 
 
 function App() {
@@ -12,6 +12,7 @@ function App() {
     <>
       <Navbar />
       <MainPage />
+      <Footer />
     </>
   )
 }

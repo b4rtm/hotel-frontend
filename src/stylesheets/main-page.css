@@ -1,7 +1,12 @@
+body{
+    margin: 0;
+    padding: 0;
+}
 
 .main-img{
-    width: 96%;
-    margin: 0 2%;
+    /* max-height: 900px; */
+    width: 80%;
+    margin: 0 10%;
 }
 
 .reservation-panel{

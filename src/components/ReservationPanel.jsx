@@ -10,8 +10,8 @@ function ReservationPanel(){
         
 
         <div className="reservation-panel">
-            <ReservationPanelTile className='reservation-panel-tile' initialDate={currentDate.toLocaleDateString()}/>
-            <ReservationPanelTile className='reservation-panel-tile' initialDate={tomorrowDate.toLocaleDateString()}/>
+            <ReservationPanelTile className='reservation-panel-tile' initialDate={currentDate}/>
+            <ReservationPanelTile className='reservation-panel-tile' initialDate={tomorrowDate}/>
         </div>
       );
     
