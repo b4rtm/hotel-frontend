@@ -8,4 +8,11 @@
 
   .navbar-item{
     margin: 0 10%;
+    font-size: 18px;
+    font-weight: bold;
+    color: rgb(8, 8, 53);
+  }
+
+  .navbar .logo{
+    max-width: 100px;
   }

@@ -3,9 +3,9 @@
 .footer{
     padding: 25px;
     display: flex;
-    background-color: rgb(18, 2, 73);
+    background-color: rgb(31, 31, 31);
     color: rgb(224, 220, 220);
-    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif ;
+    
     
 }
 
@@ -17,7 +17,7 @@
 }
 
 .footer-column h1{
-    color: #57e605;
+    color: rgb(21, 98, 199);
 }
 
 .footer-content{
