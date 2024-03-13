@@ -16,3 +16,7 @@
   .navbar .logo{
     max-width: 100px;
   }
+
+  a{
+    text-decoration: none;
+  }
