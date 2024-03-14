@@ -1,0 +1,38 @@
+.register-page{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 100px;
+}
+
+.register-page .form-field{
+    display: flex;
+    flex-direction: column;
+}
+
+.register-page .form-field label{
+    font-size: 25px;
+    margin: 5px;
+}
+
+.register-page .form-field input{
+    font-size: 25px;
+}
+
+.register-page  button{
+    font-size: 25px;
+    margin-top: 50px;
+    width: 100%;
+
+    background-color: #23225e; /* Kolor tła */
+    color: #ffffff; /* Kolor tekstu */
+    
+    padding: 10px 20px; /* Wielkość wypełnienia */
+    border-radius: 5px; /* Promień zaokrąglenia */
+    cursor: pointer; /* Kursor wskazujący na interaktywny element */
+    transition: background-color 0.3s, color 0.3s; /* Animacja zmiany koloru */
+}
+
+.register-page button:hover {
+    background-color: #232291; /* Kolor tła po najechaniu myszką */
+}

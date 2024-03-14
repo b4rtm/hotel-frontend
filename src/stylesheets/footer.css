@@ -1,12 +1,9 @@
-
-
 .footer{
     padding: 25px;
     display: flex;
     background-color: rgb(31, 31, 31);
     color: rgb(224, 220, 220);
-    
-    
+    margin-top: auto;
 }
 
 .footer-column{

@@ -1,9 +1,23 @@
+body{
+  margin: 0;
+  padding: 0;
+  font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif ;
+}
+
+#root{
+  min-height: 100vh;
+  display:flex;
+  flex-direction:column;
+}
+
 .navbar {
     display: flex;
     /* justify-content: space-between; */
     align-items: center;
     background-color: white;
     padding: 10px 20px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Cień */
+
   }
 
   .navbar-item{

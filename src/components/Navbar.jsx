@@ -9,9 +9,11 @@ function Navbar(){
           </Link>
           <div className='navbar-item'>Pokoje</div>
           <div className='navbar-item'>Kontakt</div>
-          <div className='navbar-item'>Logowanie</div>
-          <Link to="/register">
-            <div className='navbar-item'>Rejestracja</div>
+          <Link to="/login" className='navbar-item'>
+            Logowanie
+          </Link>
+          <Link to="/register" className='navbar-item'>
+            Rejestracja
           </Link>
         </div>
       );
