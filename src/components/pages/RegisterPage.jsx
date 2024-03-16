@@ -4,6 +4,10 @@ import Footer from '../Footer';
 import FormField from '../FormField';
 import Navbar from '../Navbar';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+
+
+
 const RegisterPage = () =>{
 
     const [name, setName] = useState('');
@@ -17,16 +21,18 @@ const RegisterPage = () =>{
     const [confirmPassword, setConfirmPassword] = useState('');
     const [passwordsMatch, setPasswordsMatch] = useState(true);
 
+    const navigateTo = useNavigate();
+
 
     const handleRegister = async () => {
 
-        if(password != passwordsMatch){
+        if(password != confirmPassword){
             setPasswordsMatch(false);
             return;
         }
 
         try {
-          const response = await axios.post("http://localhost:8080/customers", {
+          const response = await axios.post("http://localhost:8080/register", {
             name,
             surname,
             email,
@@ -36,6 +42,7 @@ const RegisterPage = () =>{
             postCode,
             password
           });
+          navigateTo('/login')
         }
         catch (error) {
             console.error("register error:", error);

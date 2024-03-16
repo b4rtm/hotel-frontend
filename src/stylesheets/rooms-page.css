@@ -1,0 +1,15 @@
+
+.rooms-page{
+
+}
+
+.rooms-page h1{
+    color: rgb(8, 46, 97);
+    font-size: 50px;
+    text-align: center;
+}
+
+.rooms-page .room-card{
+    display: flex;
+    flex-direction: column;
+}

@@ -7,7 +7,9 @@ function Navbar(){
            <Link to="/">
             <img className="logo" src="logo.png"/>
           </Link>
-          <div className='navbar-item'>Pokoje</div>
+          <Link to="/rooms" className='navbar-item'>
+          Pokoje
+          </Link>
           <div className='navbar-item'>Kontakt</div>
           <Link to="/login" className='navbar-item'>
             Logowanie
