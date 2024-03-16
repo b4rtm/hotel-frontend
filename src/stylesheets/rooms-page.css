@@ -1,6 +1,9 @@
 
 .rooms-page{
-
+    margin: 0 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .rooms-page h1{
@@ -9,7 +12,43 @@
     text-align: center;
 }
 
+.rooms-page .rooms-list{
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 100px;
+}
+
 .rooms-page .room-card{
     display: flex;
     flex-direction: column;
+    margin: 40px;
+    border: solid 1px;
+}
+
+.rooms-page .room-card img{
+    width: 450px;
+    height: 300px;
+    object-fit: cover;
+}
+
+.rooms-page .room-card button{
+    font-size: 25px;
+
+    background-color: #23225e;
+    color: #ffffff;
+    
+    padding: 10px 10px;
+    border-radius: 0;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.rooms-page .room-card p{
+    text-align: center;
+    font-size: 40px;
+    margin: 0;
+}
+
+.rooms-page .room-card button:hover{
+    background-color: #232291;
 }

@@ -30,9 +30,13 @@ const RoomsPage = () =>{
                 <h1>Pokoje i apartamenty</h1>
                 <div className='rooms-list'>
                     {rooms.map(room => (
-                        <div key={room.id} className='room-item'>
-                            <h2>{room.name}</h2>
-                        </div>
+                        <a key={room.id} className='room-card'>
+                            <img src={room.imagePath}/>
+                            <p>{room.name}</p>
+                            <p>{room.pricePerNight} zł</p>
+
+                            <button>Rezerwuj pokój</button>
+                        </a>
                     ))}
                 </div>
             </div>

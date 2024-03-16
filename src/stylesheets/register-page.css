@@ -19,20 +19,20 @@
     font-size: 25px;
 }
 
-.register-page  button{
+button{
     font-size: 25px;
     margin-top: 50px;
     width: 100%;
 
-    background-color: #23225e; /* Kolor tła */
-    color: #ffffff; /* Kolor tekstu */
+    background-color: #23225e;
+    color: #ffffff;
     
-    padding: 10px 20px; /* Wielkość wypełnienia */
-    border-radius: 5px; /* Promień zaokrąglenia */
-    cursor: pointer; /* Kursor wskazujący na interaktywny element */
-    transition: background-color 0.3s, color 0.3s; /* Animacja zmiany koloru */
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
 }
 
 .register-page button:hover {
-    background-color: #232291; /* Kolor tła po najechaniu myszką */
+    background-color: #232291;
 }
