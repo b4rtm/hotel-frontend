@@ -3,6 +3,7 @@ import Navbar from '../Navbar';
 import '../../stylesheets/rooms-page.css'
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const RoomsPage = () =>{
 
@@ -20,8 +21,12 @@ const RoomsPage = () =>{
         };
 
         fetchRooms();
-    }, []); // Pusta zależność oznacza, że useEffect będzie wywołany tylko raz, po załadowaniu komponentu
+    }, []); 
 
+    const navigateTo = useNavigate();
+    const goToRoomDetails = (roomId) => {
+        navigateTo('/rooms/' + roomId)
+    };
 
     return(
         <>
@@ -30,13 +35,13 @@ const RoomsPage = () =>{
                 <h1>Pokoje i apartamenty</h1>
                 <div className='rooms-list'>
                     {rooms.map(room => (
-                        <a key={room.id} className='room-card'>
+                        <div key={room.id} className='room-card' onClick={() => goToRoomDetails(room.id)}>
                             <img src={room.imagePath}/>
                             <p>{room.name}</p>
                             <p>{room.pricePerNight} zł</p>
 
                             <button>Rezerwuj pokój</button>
-                        </a>
+                        </div>
                     ))}
                 </div>
             </div>

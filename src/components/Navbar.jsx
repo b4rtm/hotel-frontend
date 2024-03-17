@@ -5,7 +5,7 @@ function Navbar(){
     return (
         <div className="navbar">
            <Link to="/">
-            <img className="logo" src="logo.png"/>
+            <img className="logo" src="/logo.png"/>
           </Link>
           <Link to="/rooms" className='navbar-item'>
           Pokoje

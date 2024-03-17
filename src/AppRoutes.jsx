@@ -6,6 +6,7 @@ import MainPage from './components/pages/MainPage';
 import LoginPage from './components/pages/LoginPage';
 import RegisterPage from './components/pages/RegisterPage';
 import RoomsPage from './components/pages/RoomsPage';
+import RoomDescriptionPage from './components/pages/RoomDescriptionPage';
 
 
 const AppRoutes = () => {
@@ -16,6 +17,7 @@ const AppRoutes = () => {
         <Route path="/register" element={<RegisterPage/>} />
         <Route path="/login" element={<LoginPage/>} />
         <Route path="/rooms" element={<RoomsPage/>} />
+        <Route path="/rooms/:id" element={<RoomDescriptionPage/>} />
       </Routes>
     </BrowserRouter>
   );

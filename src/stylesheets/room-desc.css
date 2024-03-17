@@ -1,0 +1,11 @@
+
+.room-desc{
+    display: flex;
+    margin-bottom: 100px;
+}
+
+.room-desc img{
+    width: 1100px;
+    height: 700px;
+    object-fit: cover;
+}
