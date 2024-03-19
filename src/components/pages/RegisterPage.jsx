@@ -1,79 +1,83 @@
-import { useState } from 'react';
-import '../../stylesheets/register-page.css'
+import '../../stylesheets/register-page.css';
 import Footer from '../Footer';
-import FormField from '../FormField';
 import Navbar from '../Navbar';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
+import FormField from '../FormField';
 
+const RegisterPage = () => {
 
+    const formik = useFormik({
+        initialValues: {
+            name: '',
+            surname: '',
+            email: '',
+            phoneNumber: '',
+            address: '',
+            city: '',
+            postcode: '',
+            pesel: '',
+            password: '',
+            confirmPassword: '',
+        },
+        validationSchema: Yup.object({
+            name: Yup.string().required('Wpisz imię'),
+            surname: Yup.string().required('Wpisz nazwisko'),
+            email: Yup.string().email('Niepoprawny adres email').required('Wpisz email'),
+            phoneNumber: Yup.string().matches(/^[\d+\s]+$/, 'Niepoprawny format numeru telefonu').required('Wpisz numer telefonu'),
+            address: Yup.string().required('Wpisz adres'),
+            city: Yup.string().required('Wpisz miasto'),
+            postcode: Yup.string().matches(/^\d{2}-\d{3}$/, 'Niepoprawny format kodu pocztowego').required('Wpisz kod pocztowy'),
+            pesel: Yup.string().matches(/^\d{11}$/, 'Niepoprawny format numeru PESEL').required('Wpisz pesel'),
+            password: Yup.string().required('Wpisz hasło'),
+            confirmPassword: Yup.string().oneOf([Yup.ref('password'), null], 'Hasła muszą być takie same').required('Potwierdź hasło'),
+        }),
+        onSubmit: async (values) => {
 
-const RegisterPage = () =>{
-
-    const [name, setName] = useState('');
-    const [surname, setSurname] = useState('');
-    const [email, setEmail] = useState('');
-    const [phoneNumber, setTel] = useState('');
-    const [address, setAddress] = useState('');
-    const [city, setCity] = useState('');
-    const [pesel, setPesel] = useState('');
-    const [postCode, setPostcode] = useState('');
-    const [password, setPassword] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
-    const [passwordsMatch, setPasswordsMatch] = useState(true);
-
-    const navigateTo = useNavigate();
-
-
-    const handleRegister = async () => {
-
-        if(password != confirmPassword){
-            setPasswordsMatch(false);
-            return;
-        }
-
-        try {
-          const response = await axios.post("http://localhost:8080/register", {
-            name,
-            surname,
-            email,
-            phoneNumber,
-            address,
-            city,
-            postCode,
-            pesel,
-            password
-          });
-          navigateTo('/login')
-        }
-        catch (error) {
-            console.error("register error:", error);
-        }
-    }
-
+            try {
+                const response = await axios.post("http://localhost:8080/register", values);
+                console.log('Rejestracja udana:', response);
+            } catch (error) {
+                console.error("Błąd rejestracji:", error);
+            }
+        },
+    });
 
     return (
         <>
-        <Navbar/>
-        <div className='register-page'>
-            <h1>Dołącz do nas!</h1>
-            <div>
-                <FormField label="name" name="Imię" type="text" onChange={(e) => setName(e.target.value)}/>
-                <FormField label="surname" name="Nazwisko" type="text" onChange={(e) => setSurname(e.target.value)}/>
-                <FormField label="email" name="E-mail" type="text" onChange={(e) => setEmail(e.target.value)}/>
-                <FormField label="tel" name="Telefon" type="tel" onChange={(e) => setTel(e.target.value)}/>
-                <FormField label="address" name="Adres" type="text" onChange={(e) => setAddress(e.target.value)}/>
-                <FormField label="city" name="Miasto" type="text" onChange={(e) => setCity(e.target.value)} />
-                <FormField label="postcode" name="Kod pocztowy" type="text" onChange={(e) => setPostcode(e.target.value)}/>
-                <FormField label="pesel" name="PESEL" type="text" onChange={(e) => setPesel(e.target.value)}/>
-                <FormField label="password" name="Hasło" type="password" onChange={(e) => setPassword(e.target.value)}/>
-                <FormField label="confirm_password" name="Potwierdź hasło" type="password" onChange={(e) => setConfirmPassword(e.target.value)}/>
-                {!passwordsMatch && <p>Hasła nie są zgodne</p>}
-                <button type="submit" onClick={handleRegister}>Zarejestruj się</button>
+            <Navbar />
+            <div className='register-page'>
+                <h1>Dołącz do nas!</h1>
+                <div>
+                    <form onSubmit={formik.handleSubmit}>
+                        <FormField label="name" name="Imię" type="text" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.name} />
+                        {formik.touched.name && formik.errors.name && <p className="error">{formik.errors.name}</p>}
+                        <FormField label="surname" name="Nazwisko" type="text" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.surname} />
+                        {formik.touched.surname && formik.errors.surname && <p className="error">{formik.errors.surname}</p>}
+                        <FormField label="email" name="Email" type="text" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.email} />
+                        {formik.touched.email && formik.errors.email && <p className="error">{formik.errors.email}</p>}
+                        <FormField label="phoneNumber" name="Numer telefonu" type="text" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.phoneNumber} />
+                        {formik.touched.phoneNumber && formik.errors.phoneNumber && <p className="error">{formik.errors.phoneNumber}</p>}
+                        <FormField label="address" name="Adres" type="text" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.address} />
+                        {formik.touched.address && formik.errors.address && <p className="error">{formik.errors.address}</p>}
+                        <FormField label="city" name="Miasto" type="text" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.city} />
+                        {formik.touched.city && formik.errors.city && <p className="error">{formik.errors.city}</p>}
+                        <FormField label="postcode" name="Kod pocztowy" type="text" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.postcode} />
+                        {formik.touched.postcode && formik.errors.postcode && <p className="error">{formik.errors.postcode}</p>}
+                        <FormField label="pesel" name="PESEL" type="text" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.pesel} />
+                        {formik.touched.pesel && formik.errors.pesel && <p className="error">{formik.errors.pesel}</p>}
+                        <FormField label="password" name="Hasło" type="password" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.password} />
+                        {formik.touched.password && formik.errors.password && <p className="error">{formik.errors.password}</p>}
+                        <FormField label="confirmPassword" name="Potwierdź hasło" type="password" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.confirmPassword} />
+                        {formik.touched.confirmPassword && formik.errors.confirmPassword && <p className="error">{formik.errors.confirmPassword}</p>}
+                        {!formik.isValidating && <button type="submit">Zarejestruj się</button>}
+                        {!formik.isValid && formik.submitCount > 0 && <p className="error">Formularz zawiera błędy</p>}
+                    </form>
+                </div>
             </div>
-        </div>
-        <Footer/>
-    </>
+            <Footer />
+        </>
     );
 }
 
