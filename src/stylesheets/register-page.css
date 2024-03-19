@@ -19,6 +19,12 @@
     font-size: 25px;
 }
 
+.register-page p{
+    color: red;
+    font-size: 18px;
+    margin: 0 0 15px 0;
+}
+
 button{
     font-size: 25px;
     margin-top: 50px;

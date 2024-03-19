@@ -1,8 +1,8 @@
-const FormField = ({label, name, type, onChange}) =>  {
+const FormField = ({label, name, type, onChange, onBlur, value}) =>  {
     return (
-        <div className="form-field" onChange={onChange}>
+        <div className="form-field" onChange={onChange} onBlur={onBlur} value={value}>
             <label htmlFor={label}>{name}</label>
-            <input name={label} id={label} type={type} required/>
+            <input name={label} id={label} type={type} />
         </div>
     );
 }
