@@ -6,12 +6,16 @@ import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import { registerLocale } from 'react-datepicker';
+import pl from 'date-fns/locale/pl';
+
+registerLocale('pl', pl);
 
 const RoomDescriptionPage = () =>{
 
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
-    const [reservedDates, setReservedDates] = useState([new Date('2024-03-10'), new Date('2024-03-15')]);
+    const [reservedDates, setReservedDates] = useState(null);
     const [overlapError, setOverlapError] = useState(false);
     const { id } = useParams();
     const [room, setRoom] = useState();
@@ -37,6 +41,24 @@ const RoomDescriptionPage = () =>{
                 const url = 'http://localhost:8080/rooms/' + id
                 const response = await axios.get(url);
                 setRoom(response.data);
+                const generateDatesBetween = (checkInDate, checkOutDate) => {
+                    const dates = [];
+                    const currentDay = new Date(checkInDate);
+                    while (currentDay <= checkOutDate) {
+                      dates.push(new Date(currentDay));
+                      currentDay.setDate(currentDay.getDate() + 1);
+                    }
+                    return dates;
+                  };
+          
+                  const parsedDates = response.data.bookings.flatMap(booking =>
+                    generateDatesBetween(
+                      new Date(booking.checkInDate.join('-')),
+                      new Date(booking.checkOutDate.join('-'))
+                    )
+                  );
+                  setReservedDates(parsedDates);
+
             } catch (error) {
                 console.error('Error fetching room:', error);
             }
@@ -87,6 +109,7 @@ const RoomDescriptionPage = () =>{
                             dateFormat="dd/MM/yyyy"
                             placeholderText="Wybierz datę początku"
                             excludeDates={reservedDates}
+                            locale="pl"
                             />
                         </div>
                         <div>
@@ -101,6 +124,7 @@ const RoomDescriptionPage = () =>{
                             dateFormat="dd/MM/yyyy"
                             placeholderText="Wybierz datę końca"
                             excludeDates={reservedDates}
+                            locale="pl"
                             />
                         </div>
                         {overlapError && <p style={{ color: 'red' }}>Wybrana data przecina się z wcześniej zarezerwowaną datą.</p>}

@@ -5,8 +5,11 @@ import axios from 'axios';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import FormField from '../FormField';
+import { useNavigate } from 'react-router-dom';
 
 const RegisterPage = () => {
+
+    const navigateTo = useNavigate();
 
     const formik = useFormik({
         initialValues: {
@@ -37,7 +40,7 @@ const RegisterPage = () => {
 
             try {
                 const response = await axios.post("http://localhost:8080/register", values);
-                console.log('Rejestracja udana:', response);
+                navigateTo('/login')
             } catch (error) {
                 console.error("Błąd rejestracji:", error);
             }
