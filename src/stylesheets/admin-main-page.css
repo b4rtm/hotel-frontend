@@ -1,0 +1,15 @@
+
+.admin-main-page{
+   text-align: center;
+}
+
+.admin-main-page .options{
+    display: flex;
+    justify-content: center;
+}
+
+.admin-main-page .tile{
+    padding: 70px;
+    border: solid 1px;
+    margin: 100px;
+}
