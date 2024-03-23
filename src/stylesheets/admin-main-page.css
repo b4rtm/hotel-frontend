@@ -13,3 +13,8 @@
     border: solid 1px;
     margin: 100px;
 }
+
+.manage-users-page td{
+    padding: 5px;
+}
+
