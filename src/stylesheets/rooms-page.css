@@ -52,3 +52,13 @@
 .rooms-page .room-card button:hover{
     background-color: #232291;
 }
+
+.rooms-page .search-input{
+    margin-left: 40px;;
+    width: 300px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    font-size: 16px;
+}

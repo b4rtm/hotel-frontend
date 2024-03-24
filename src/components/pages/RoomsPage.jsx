@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 const RoomsPage = () =>{
 
     const [rooms, setRooms] = useState([]);
+    const [searchTerm, setSearchTerm] = useState('');
 
     useEffect(() => {
 
@@ -28,13 +29,23 @@ const RoomsPage = () =>{
         navigateTo('/rooms/' + roomId)
     };
 
+    const handleSearchChange = (event) => {
+        setSearchTerm(event.target.value);
+    };
+
+    const filteredRooms = rooms.filter(room => room.name.toLowerCase().includes(searchTerm.toLowerCase()));
+
+
     return(
         <>
             <Navbar/>
             <div className='rooms-page'>
                 <h1>Pokoje i apartamenty</h1>
+                <input className="search-input" type="text" placeholder="Wyszukaj pokój..." value={searchTerm} onChange={handleSearchChange}/>
                 <div className='rooms-list'>
-                    {rooms.map(room => (
+                    
+                    {
+                    filteredRooms.map(room => (
                         <div key={room.id} className='room-card' onClick={() => goToRoomDetails(room.id)}>
                             <img src={room.imagePath}/>
                             <p>{room.name}</p>
