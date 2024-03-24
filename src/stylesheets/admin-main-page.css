@@ -14,7 +14,19 @@
     margin: 100px;
 }
 
+.manage-users-page h1{
+    text-align: center;
+}
+
+.manage-users-page .content{
+    display: flex;
+    justify-content: space-around;
+}
+
+
+
 .manage-users-page td{
     padding: 5px;
+    text-align: center;
 }
 
