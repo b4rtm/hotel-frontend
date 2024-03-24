@@ -12,6 +12,7 @@
 .admin-main-page .options{
     display: flex;
     justify-content: center;
+    flex-wrap: wrap;
 }
 
 .admin-main-page .tile{

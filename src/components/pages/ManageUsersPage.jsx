@@ -123,7 +123,7 @@ const ManageUsersPage = () => {
                         </thead>
                         <tbody>
                             {users.map(user => (
-                                <tr key={user.id} className='user-info'>
+                                <tr key={user.id} className='info'>
                                     <td>
                                         <p>{user.id}</p>
                                     </td>

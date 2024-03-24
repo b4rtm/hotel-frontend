@@ -9,6 +9,7 @@ import RoomsPage from './components/pages/RoomsPage';
 import RoomDescriptionPage from './components/pages/RoomDescriptionPage';
 import AdminMainPage from './components/pages/AdminMainPage';
 import ManageUsersPage from './components/pages/ManageUsersPage';
+import ManageRoomsPage from './components/pages/ManageRoomsPage';
 
 
 const AppRoutes = () => {
@@ -22,6 +23,7 @@ const AppRoutes = () => {
         <Route path="/rooms/:id" element={<RoomDescriptionPage/>} />
         <Route path="/admin" element={<AdminMainPage/>} />
         <Route path="/admin/users" element={<ManageUsersPage/>} />
+        <Route path="/admin/rooms" element={<ManageRoomsPage/>} />
 
       </Routes>
     </BrowserRouter>

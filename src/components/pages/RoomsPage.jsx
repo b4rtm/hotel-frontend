@@ -2,8 +2,8 @@ import Footer from '../Footer';
 import Navbar from '../Navbar';
 import '../../stylesheets/rooms-page.css'
 import { useEffect, useState } from 'react';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { fetchRooms } from '../../api/rooms';
 
 const RoomsPage = () =>{
 
@@ -11,17 +11,11 @@ const RoomsPage = () =>{
     const [searchTerm, setSearchTerm] = useState('');
 
     useEffect(() => {
-
-        const fetchRooms = async () => {
-            try {
-                const response = await axios.get('http://localhost:8080/rooms');
-                setRooms(response.data);
-            } catch (error) {
-                console.error('Error fetching rooms:', error);
-            }
-        };
-
-        fetchRooms();
+        const fetchData = async () => {
+            const roomsData = await fetchRooms()
+            setRooms(roomsData);
+        }
+        fetchData();
     }, []); 
 
     const navigateTo = useNavigate();
@@ -34,7 +28,6 @@ const RoomsPage = () =>{
     };
 
     const filteredRooms = rooms.filter(room => room.name.toLowerCase().includes(searchTerm.toLowerCase()));
-
 
     return(
         <>

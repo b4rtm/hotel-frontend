@@ -8,8 +8,8 @@ const AdminMainPage = () => {
             <h1>Panel administratora</h1>
             <div className="options">
                 <OptionTile label="Zarządzaj użytkownikami" path="/users"></OptionTile>
-                <OptionTile label="Zarządzaj rezerwacjami"></OptionTile>
-                <OptionTile label="Zarządzaj pokojami"></OptionTile>
+                <OptionTile label="Zarządzaj rezerwacjami" path="/bookings"></OptionTile>
+                <OptionTile label="Zarządzaj pokojami" path="/rooms"></OptionTile>
             </div>
         </div>
     );
