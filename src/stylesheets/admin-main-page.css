@@ -20,9 +20,15 @@
 
 .manage-users-page .content{
     display: flex;
-    justify-content: space-around;
+    margin: 0 100px;
 }
 
+.manage-users-page .fields{
+}
+
+.manage-users-page .register-page{
+    margin-left: 300px;
+}
 
 
 .manage-users-page td{
