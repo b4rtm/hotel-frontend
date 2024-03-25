@@ -6,6 +6,7 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import FormField from '../FormField';
 import Modal from 'react-modal';
+import { fetchUsers, postUser } from "../../api/users";
 
 
 const ManageUsersPage = () => {
@@ -69,40 +70,24 @@ const ManageUsersPage = () => {
             pesel: Yup.string().matches(/^\d{11}$/, 'Niepoprawny format numeru PESEL').required('Wpisz pesel'),
         }),
         onSubmit: async (values) => {
-
-            try {
-                const response = await axios.put("http://localhost:8080/users/" + currentUser.id, values);
-                location.reload()
-            } catch (error) {
-                console.error("Błąd rejestracji:", error);
-            }
+          putUser(currentUser.id, values);
+          location.reload();
         },
     });
     
 
     useEffect(() => {
-
-        const fetchUsers = async () => {
-            try {
-                const response = await axios.get('http://localhost:8080/users');
-                setUsers(response.data);
-            } catch (error) {
-                console.error('Error fetching users:', error);
-            }
+        const fetchData = async () => {
+            const usersData = await fetchUsers();
+            setUsers(usersData);
         }
-
-        fetchUsers();
+        fetchData();
     }, [])
 
 
     const handleDeleteUser = async (userId) => {
-        try {
-            const response = await axios.delete('http://localhost:8080/users/' + userId);
-            location.reload()
-        } catch (error) {
-            console.error('Error deleting user:', error);
-        }
-        
+        deleteUser(userId);
+        location.reload();
     };
 
 
