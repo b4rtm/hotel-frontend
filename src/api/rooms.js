@@ -10,8 +10,20 @@ export const fetchRooms = async () => {
 };
 
 export const postRoom = async (values) => {
+
+    const formData = new FormData();
+    formData.append('name', values.name);
+    formData.append('capacity', values.capacity);
+    formData.append('pricePerNight', values.pricePerNight);
+    formData.append('description', values.description);
+    formData.append('image', values.image);
+
     try {
-        const response = await axios.post('http://localhost:8080/rooms', values);
+        const response = await axios.post('http://localhost:8080/rooms', formData, {
+            headers: {
+              'Content-Type': 'multipart/form-data'
+            }
+          });
     } catch (error) {
         console.error('Error posting room:', error);
     }

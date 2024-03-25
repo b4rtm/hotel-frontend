@@ -48,12 +48,14 @@ const ManageRoomsPage = () => {
             capacity: '',
             pricePerNight: '',
             description: '',
+            image: null,
         },
         validationSchema: Yup.object({
             name: Yup.string().required('Wpisz nazwę'),
             capacity: Yup.string().required('Wpisz pojemność'),
             pricePerNight: Yup.string().required('Wpisz cenę'),
             description: Yup.string().required('Wpisz opis'),
+            image: Yup.mixed().required('Wybierz zdjęcie'), 
         }),
         onSubmit: async (values) => {
             if(currentRoom === 1){
@@ -84,6 +86,10 @@ const ManageRoomsPage = () => {
     const handleAddRoom = () => {
         setCurrentRoom(1);
         formik.resetForm();
+    };
+
+    const handleFileChange = (event) => {
+        formik.setFieldValue("image", event.currentTarget.files[0]);
     };
 
 
@@ -135,7 +141,7 @@ const ManageRoomsPage = () => {
                 </div>
                 {currentRoom != null && (
                     <div className="register-page">
-                        <form onSubmit={formik.handleSubmit}>
+                        <form  enctype="multipart/form-data" onSubmit={formik.handleSubmit}>
                             <FormField label="name" name="Nazwa" type="text" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.name} />
                             {formik.touched.name && formik.errors.name && <p className="error">{formik.errors.name}</p>}
                             <FormField label="capacity" name="Pojemność" type="number" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.capacity} />
@@ -144,6 +150,11 @@ const ManageRoomsPage = () => {
                             {formik.touched.pricePerNight && formik.errors.emapricePerNightil && <p className="error">{formik.errors.pricePerNight}</p>}
                             <FormField label="description" name="Opis pokoju" type="text" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.description} />
                             {formik.touched.description && formik.errors.description && <p className="error">{formik.errors.description}</p>}
+                            <div className="form-field" >
+                                <label htmlFor="image">Zdjęcie pokoju</label>
+                                <input name="image" id="image" type="file" onChange={handleFileChange} onBlur={formik.handleBlur}/>
+                            </div>
+                            {formik.touched.image && formik.errors.image && <p className="error">{formik.errors.image}</p>}
                             {!formik.isValidating && <button type="submit">Zatwierdź</button>}
                             {!formik.isValid && formik.submitCount > 0 && <p className="error">Formularz zawiera błędy</p>}
                         </form>
