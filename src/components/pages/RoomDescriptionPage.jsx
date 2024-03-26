@@ -9,6 +9,7 @@ import { registerLocale } from 'react-datepicker';
 import pl from 'date-fns/locale/pl';
 import { fetchRoom } from '../../api/rooms';
 import { generateDatesBetween, postBooking } from '../../api/bookings';
+import { handleEndDateChange, handleStartDateChange } from '../../api/date';
 
 registerLocale('pl', pl);
 
@@ -20,19 +21,6 @@ const RoomDescriptionPage = () =>{
     const [overlapError, setOverlapError] = useState(false);
     const { id } = useParams();
     const [room, setRoom] = useState();
-  
-    const handleStartDateChange = date => {
-      setStartDate(date);
-      setOverlapError(false);
-    };
-
-    const isBetweenDates = (dateStart, dateEnd, date) =>  date > dateStart && date < dateEnd;
-  
-    const handleEndDateChange = (date) => {
-      setEndDate(date);
-      const overlap = reservedDates.some(reservedDate => isBetweenDates(startDate, date, reservedDate));
-      setOverlapError(overlap);
-    };
 
 
     useEffect(() => {

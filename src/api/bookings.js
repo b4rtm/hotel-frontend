@@ -1,5 +1,16 @@
 import axios from "axios";
 
+
+export const fetchBookings = async () => {
+    try {
+        const response = await axios.get('http://localhost:8080/bookings');
+        return response.data
+    } catch (error) {
+        console.error('Error fetching bookings:', error);
+    }
+};
+
+
 export const generateDatesBetween = (checkInDate, checkOutDate) => {
     const dates = [];
     const currentDay = new Date(checkInDate);
