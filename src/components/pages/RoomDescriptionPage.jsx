@@ -2,12 +2,13 @@ import Footer from '../Footer';
 import Navbar from '../Navbar';
 import '../../stylesheets/room-desc.css'
 import { useEffect, useState } from 'react';
-import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { registerLocale } from 'react-datepicker';
 import pl from 'date-fns/locale/pl';
+import { fetchRoom } from '../../api/rooms';
+import { generateDatesBetween, postBooking } from '../../api/bookings';
 
 registerLocale('pl', pl);
 
@@ -35,51 +36,32 @@ const RoomDescriptionPage = () =>{
 
 
     useEffect(() => {
-        const fetchRoom = async () => {
-            try {
-
-                const url = 'http://localhost:8080/rooms/' + id
-                const response = await axios.get(url);
-                setRoom(response.data);
-                const generateDatesBetween = (checkInDate, checkOutDate) => {
-                    const dates = [];
-                    const currentDay = new Date(checkInDate);
-                    while (currentDay <= checkOutDate) {
-                      dates.push(new Date(currentDay));
-                      currentDay.setDate(currentDay.getDate() + 1);
-                    }
-                    return dates;
-                  };
-          
-                  const parsedDates = response.data.bookings.flatMap(booking =>
-                    generateDatesBetween(
-                      new Date(booking.checkInDate.join('-')),
-                      new Date(booking.checkOutDate.join('-'))
-                    )
-                  );
-                  setReservedDates(parsedDates);
-
-            } catch (error) {
-                console.error('Error fetching room:', error);
-            }
-        };
-
-        fetchRoom();
-    }, []); 
-
+        const fetchData = async () =>{
+            const roomData = await fetchRoom(id);
+            setRoom(roomData);
+        }
+        fetchData();
+    }, []);
+    
+    useEffect(() => {
+        if (room && room.bookings) {
+            const parsedDates = room.bookings.flatMap(booking =>
+                generateDatesBetween(
+                    new Date(booking.checkInDate.join('-')),
+                    new Date(booking.checkOutDate.join('-'))
+                )
+            );
+            setReservedDates(parsedDates);
+        }
+    }, [room]);
 
     const handleReservation = async () => {
-        try {
-            const response = await axios.post('http://localhost:8080/bookings', {
+            postBooking({
                 checkInDate: startDate,
                 checkOutDate: endDate,
                 roomId: room.id,
                 customerId: "1"
-            });
-
-        } catch (error) {
-            console.error('Error booking room:', error);
-        }
+            })
     };
 
     return (

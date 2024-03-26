@@ -55,7 +55,6 @@ const ManageRoomsPage = () => {
             capacity: Yup.string().required('Wpisz pojemność'),
             pricePerNight: Yup.string().required('Wpisz cenę'),
             description: Yup.string().required('Wpisz opis'),
-            image: Yup.mixed().required('Wybierz zdjęcie'), 
         }),
         onSubmit: async (values) => {
             if(currentRoom === 1){
@@ -94,7 +93,7 @@ const ManageRoomsPage = () => {
 
 
     return (
-        <div className='manage-users-page'>
+        <div className='manage-page'>
             <h1>Zarządzaj pokojami</h1>
 
             <div className="content">
