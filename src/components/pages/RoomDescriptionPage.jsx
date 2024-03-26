@@ -72,7 +72,7 @@ const RoomDescriptionPage = () =>{
                             <label>Początek rezerwacji:</label>
                             <DatePicker
                             selected={startDate}
-                            onChange={handleStartDateChange}
+                            onChange={(date) => handleStartDateChange(date, setStartDate, setOverlapError)}
                             selectsStart
                             startDate={startDate}
                             endDate={endDate}
@@ -86,7 +86,7 @@ const RoomDescriptionPage = () =>{
                             <label>Koniec rezerwacji:</label>
                             <DatePicker
                             selected={endDate}
-                            onChange={handleEndDateChange}
+                            onChange={(date) => handleEndDateChange(date, setEndDate, setOverlapError, startDate, reservedDates)}
                             selectsEnd
                             startDate={startDate}
                             endDate={endDate}

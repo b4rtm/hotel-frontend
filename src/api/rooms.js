@@ -15,24 +15,6 @@ export const fetchRoom = async (id) => {
         const url = 'http://localhost:8080/rooms/' + id
         const response = await axios.get(url);
         return response.data
-        const generateDatesBetween = (checkInDate, checkOutDate) => {
-            const dates = [];
-            const currentDay = new Date(checkInDate);
-            while (currentDay <= checkOutDate) {
-              dates.push(new Date(currentDay));
-              currentDay.setDate(currentDay.getDate() + 1);
-            }
-            return dates;
-          };
-  
-          const parsedDates = response.data.bookings.flatMap(booking =>
-            generateDatesBetween(
-              new Date(booking.checkInDate.join('-')),
-              new Date(booking.checkOutDate.join('-'))
-            )
-          );
-          setReservedDates(parsedDates);
-
     } catch (error) {
         console.error('Error fetching room:', error);
     }

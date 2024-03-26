@@ -2,12 +2,14 @@ import '../../stylesheets/register-page.css';
 import { useEffect, useState } from "react";
 import "../../stylesheets/admin-main-page.css"
 import Modal from 'react-modal';
-import { deleteBooking, fetchBookings } from '../../api/bookings';
+import { deleteBooking, fetchBookings, generateDatesBetween } from '../../api/bookings';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { registerLocale } from 'react-datepicker';
 import pl from 'date-fns/locale/pl';
 import { handleEndDateChange, handleStartDateChange } from '../../api/date';
+import { fetchRoom, fetchRooms } from '../../api/rooms';
+import FormField from '../FormField';
 
 registerLocale('pl', pl);
 
@@ -15,18 +17,26 @@ registerLocale('pl', pl);
 const ManageBookingsPage = () => {
 
     const [bookings, setBookings] = useState([])
+    const [rooms, setRooms] = useState([])
     const [selectedBookingId, setSelectedBookingId] = useState(null);
+    const [selectedRoom, setSelectedRoom] = useState(null);
+
     const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
 
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
     const [reservedDates, setReservedDates] = useState(null);
+    const [overlapError, setOverlapError] = useState(false);
+
+    const [email, setEmail] = useState('');
 
 
     useEffect(() => {
         const fetchData = async () => {
             const bookingsData = await fetchBookings();
             setBookings(bookingsData);
+            const roomsData = await fetchRooms();
+            setRooms(roomsData);
         }
         fetchData();
     }, [])
@@ -51,7 +61,24 @@ const ManageBookingsPage = () => {
         location.reload();
     };
 
+    const handleRoomChange = async (event) => {
+        const roomId = parseInt(event.target.value);
+        const room = rooms.find(room => room.id === roomId);
 
+        const newRoom = await fetchRoom(room.id)
+        console.log(newRoom)
+        setSelectedRoom(newRoom);
+
+        const parsedDates = newRoom.bookings.flatMap(booking =>
+            generateDatesBetween(
+                new Date(booking.checkInDate.join('-')),
+                new Date(booking.checkOutDate.join('-'))
+            )
+        );
+        setReservedDates(parsedDates);
+      };
+
+    
     return (
         <div className='manage-page'>
             <h1>Zarządzaj rezerwacjami</h1>
@@ -99,10 +126,21 @@ const ManageBookingsPage = () => {
                
                 <div className="register-page">
                     <div>
+                        <label>Wybierz pokój:</label>
+                            <select value={selectedRoom ? selectedRoom.id : ""} onChange={handleRoomChange}>
+                            <option value="">{selectedRoom ? selectedRoom.name : "Wybierz pokój"}</option>
+                            {rooms.map((room) => (
+                                <option key={room.id} value={room.id}>
+                                {room.name}
+                                </option>
+                            ))}
+                            </select>
+                    </div>
+                    <div>
                         <label>Początek rezerwacji:</label>
                         <DatePicker
                         selected={startDate}
-                        onChange={handleStartDateChange}
+                        onChange={(date) => handleStartDateChange(date, setStartDate, setOverlapError)}
                         selectsStart
                         startDate={startDate}
                         endDate={endDate}
@@ -116,7 +154,7 @@ const ManageBookingsPage = () => {
                         <label>Koniec rezerwacji:</label>
                         <DatePicker
                         selected={endDate}
-                        onChange={handleEndDateChange}
+                        onChange={(date) => handleEndDateChange(date, setEndDate, setOverlapError, startDate, reservedDates)}
                         selectsEnd
                         startDate={startDate}
                         endDate={endDate}
@@ -127,6 +165,8 @@ const ManageBookingsPage = () => {
                         locale="pl"
                         />
                     </div>
+                    <FormField label="email" name="E-mail" type="text" onChange={(e) => setEmail(e.target.value)}/>
+                    {/* <button onClick={addBooking}>Dodaj rezerwację</button> */}
                 </div>
             </div>
             <Modal className="modal" isOpen={isConfirmationOpen} onRequestClose={handleCloseConfirmation}>

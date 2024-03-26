@@ -7,4 +7,11 @@ const FormField = ({label, name, type, onChange, onBlur, value}) =>  {
     );
 }
 
+FormField.defaultProps = {
+    type: 'text', 
+    onChange: () => {}, 
+    onBlur: () => {}, 
+    value: ''
+}
+
 export default FormField;
