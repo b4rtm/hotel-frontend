@@ -28,3 +28,11 @@ export const generateDatesBetween = (checkInDate, checkOutDate) => {
         console.error('Error posting booking:', error);
     }
 };
+
+export const deleteBooking = async (id) => {
+    try {
+        const response = await axios.delete('http://localhost:8080/bookings/' + id);
+        } catch (error) {
+        console.error('Error deleting booking:', error);
+    }
+};

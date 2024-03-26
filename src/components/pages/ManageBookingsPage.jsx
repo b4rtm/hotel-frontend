@@ -2,7 +2,7 @@ import '../../stylesheets/register-page.css';
 import { useEffect, useState } from "react";
 import "../../stylesheets/admin-main-page.css"
 import Modal from 'react-modal';
-import { fetchBookings } from '../../api/bookings';
+import { deleteBooking, fetchBookings } from '../../api/bookings';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { registerLocale } from 'react-datepicker';
@@ -61,7 +61,7 @@ const ManageBookingsPage = () => {
                     <table>
                         <thead>
                         <tr>
-                            <th></th>
+                            <th>ID</th>
                             <th>Data ropoczęcia</th>
                             <th>Data zakończenia</th>
                             <th>ID klienta</th>
@@ -72,7 +72,7 @@ const ManageBookingsPage = () => {
                             {bookings.map((booking, index) => (
                                 <tr key={index + 1} className='info'>
                                     <td>
-                                        <p>{index + 1}</p>
+                                        <p>{booking.id}</p>
                                     </td>
                                     <td>
                                         <p>{booking.checkInDate}</p>
@@ -95,7 +95,6 @@ const ManageBookingsPage = () => {
                             ))}
                         </tbody>
                     </table>
-                    <button>Dodaj nowy pokój</button>
                 </div>
                
                 <div className="register-page">
