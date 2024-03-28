@@ -12,7 +12,7 @@
     flex-direction: column;
 }
 
-.register-page .form-field label{
+.register-page .form-field label, select{
     font-size: 30px;
     margin: 5px;
 }

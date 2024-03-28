@@ -2,14 +2,15 @@ import '../../stylesheets/register-page.css';
 import { useEffect, useState } from "react";
 import "../../stylesheets/admin-main-page.css"
 import Modal from 'react-modal';
-import { deleteBooking, fetchBookings, generateDatesBetween } from '../../api/bookings';
+import { deleteBooking, fetchBookings, generateDatesBetween, postBooking } from '../../api/bookings';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { registerLocale } from 'react-datepicker';
 import pl from 'date-fns/locale/pl';
-import { handleEndDateChange, handleStartDateChange } from '../../api/date';
+import { formatDate, handleEndDateChange, handleStartDateChange } from '../../api/date';
 import { fetchRoom, fetchRooms } from '../../api/rooms';
 import FormField from '../FormField';
+import { fetchUsers } from './../../api/users';
 
 registerLocale('pl', pl);
 
@@ -18,6 +19,7 @@ const ManageBookingsPage = () => {
 
     const [bookings, setBookings] = useState([])
     const [rooms, setRooms] = useState([])
+    const [users, setUsers] = useState([])
     const [selectedBookingId, setSelectedBookingId] = useState(null);
     const [selectedRoom, setSelectedRoom] = useState(null);
 
@@ -37,6 +39,8 @@ const ManageBookingsPage = () => {
             setBookings(bookingsData);
             const roomsData = await fetchRooms();
             setRooms(roomsData);
+            const usersData = await fetchUsers();
+            setUsers(usersData);
         }
         fetchData();
     }, [])
@@ -78,6 +82,17 @@ const ManageBookingsPage = () => {
         setReservedDates(parsedDates);
       };
 
+      const addBooking = () =>{
+        const user = users.find(user => user.email == email)
+        postBooking({
+            customerId : user.id,
+            roomId : selectedRoom.id,
+            checkInDate : startDate,
+            checkOutDate : endDate
+        })
+        location.reload();
+      }
+
     
     return (
         <div className='manage-page'>
@@ -102,16 +117,16 @@ const ManageBookingsPage = () => {
                                         <p>{booking.id}</p>
                                     </td>
                                     <td>
-                                        <p>{booking.checkInDate}</p>
+                                        <p>{formatDate(booking.checkInDate)}</p>
                                     </td>
                                     <td>
-                                        <p>{booking.checkOutDate}</p>
-                                    </td>
-                                    <td>
-                                        <p>{booking.room.id}</p>
+                                        <p>{formatDate(booking.checkOutDate)}</p>
                                     </td>
                                     <td>
                                         <p>{booking.customer.id}</p>
+                                    </td>
+                                    <td>
+                                        <p>{booking.room.id}</p>
                                     </td>
                                     <td>
                                         <svg onClick={() => handleOpenConfirmation(booking.id)} xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="2em" height="2em" viewBox="0 0 24 24" fill="black"><title>Usuń</title>
@@ -125,7 +140,7 @@ const ManageBookingsPage = () => {
                 </div>
                
                 <div className="register-page">
-                    <div>
+                    <div className="form-field">
                         <label>Wybierz pokój:</label>
                             <select value={selectedRoom ? selectedRoom.id : ""} onChange={handleRoomChange}>
                             <option value="">{selectedRoom ? selectedRoom.name : "Wybierz pokój"}</option>
@@ -136,7 +151,7 @@ const ManageBookingsPage = () => {
                             ))}
                             </select>
                     </div>
-                    <div>
+                    <div className="form-field">
                         <label>Początek rezerwacji:</label>
                         <DatePicker
                         selected={startDate}
@@ -145,12 +160,11 @@ const ManageBookingsPage = () => {
                         startDate={startDate}
                         endDate={endDate}
                         dateFormat="dd/MM/yyyy"
-                        placeholderText="Wybierz datę początku"
                         excludeDates={reservedDates}
                         locale="pl"
                         />
                     </div>
-                    <div>
+                    <div className="form-field">
                         <label>Koniec rezerwacji:</label>
                         <DatePicker
                         selected={endDate}
@@ -160,13 +174,12 @@ const ManageBookingsPage = () => {
                         endDate={endDate}
                         minDate={startDate}
                         dateFormat="dd/MM/yyyy"
-                        placeholderText="Wybierz datę końca"
                         excludeDates={reservedDates}
                         locale="pl"
                         />
                     </div>
-                    <FormField label="email" name="E-mail" type="text" onChange={(e) => setEmail(e.target.value)}/>
-                    {/* <button onClick={addBooking}>Dodaj rezerwację</button> */}
+                    <FormField label="email" name="E-mail" type="text" onChange={(e) => setEmail(e.target.value)} value={email}/>
+                    <button onClick={addBooking}>Dodaj rezerwację</button>
                 </div>
             </div>
             <Modal className="modal" isOpen={isConfirmationOpen} onRequestClose={handleCloseConfirmation}>

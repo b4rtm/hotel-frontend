@@ -10,3 +10,8 @@ export const handleEndDateChange = (date, setEndDate, setOverlapError, startDate
     const overlap = reservedDates.some(reservedDate => isBetweenDates(startDate, date, reservedDate));
     setOverlapError(overlap);
   };
+
+export const formatDate = (dateArray) => {
+    const [year, month, day] = dateArray;
+    return `${day}-${month}-${year}`;
+}
