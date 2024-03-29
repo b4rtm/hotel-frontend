@@ -62,3 +62,21 @@
     margin-bottom: 20px;
     font-size: 16px;
 }
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+.rooms-page .pagination div{
+    font-size: 25px;
+    color: #23225e;
+    margin: 0 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+.pagination div.active {
+    background-color: #ccc;
+}
