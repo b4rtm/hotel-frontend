@@ -18,3 +18,16 @@
     border: solid 1px;
 }
 
+.select-lang{
+    display: flex;
+    position: absolute;
+    top: 120px;
+    right: 50px;
+}
+
+.lang-icon img{
+    border: 1px solid;
+    margin: 5px;
+    width: 50px;
+    height: 30px;
+}
