@@ -1,5 +1,5 @@
-import OptionTile from "../OptionTile";
-import "../../stylesheets/admin-main-page.css"
+import OptionTile from "../../OptionTile";
+import "../../../stylesheets/admin-main-page.css"
 
 const AdminMainPage = () => {
 

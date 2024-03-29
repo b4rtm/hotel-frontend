@@ -7,10 +7,10 @@ import LoginPage from './components/pages/LoginPage';
 import RegisterPage from './components/pages/RegisterPage';
 import RoomsPage from './components/pages/RoomsPage';
 import RoomDescriptionPage from './components/pages/RoomDescriptionPage';
-import AdminMainPage from './components/pages/AdminMainPage';
-import ManageUsersPage from './components/pages/ManageUsersPage';
-import ManageRoomsPage from './components/pages/ManageRoomsPage';
-import ManageBookingsPage from './components/pages/ManageBookingsPage';
+import AdminMainPage from './components/pages/admin/AdminMainPage';
+import ManageUsersPage from './components/pages/admin/ManageUsersPage';
+import ManageRoomsPage from './components/pages/admin/ManageRoomsPage';
+import ManageBookingsPage from './components/pages/admin/ManageBookingsPage';
 
 
 const AppRoutes = () => {

@@ -1,16 +1,16 @@
-import '../../stylesheets/register-page.css';
+import '../../../stylesheets/register-page.css';
 import { useEffect, useState } from "react";
-import "../../stylesheets/admin-main-page.css"
+import "../../../stylesheets/admin-main-page.css"
 import Modal from 'react-modal';
-import { deleteBooking, fetchBookings, generateDatesBetween, postBooking } from '../../api/bookings';
+import { deleteBooking, fetchBookings, generateDatesBetween, postBooking } from '../../../api/bookings';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { registerLocale } from 'react-datepicker';
 import pl from 'date-fns/locale/pl';
-import { formatDate, handleEndDateChange, handleStartDateChange } from '../../api/date';
-import { fetchRoom, fetchRooms } from '../../api/rooms';
-import FormField from '../FormField';
-import { fetchUsers } from './../../api/users';
+import { formatDate, handleEndDateChange, handleStartDateChange } from '../../../api/date';
+import { fetchRoom, fetchRooms } from '../../../api/rooms';
+import FormField from '../../FormField';
+import { fetchUsers } from '../../../api/users';
 
 registerLocale('pl', pl);
 

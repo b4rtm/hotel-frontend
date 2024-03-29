@@ -1,12 +1,11 @@
-import axios from "axios";
-import '../../stylesheets/register-page.css';
+import '../../../stylesheets/register-page.css';
 import { useEffect, useState } from "react";
-import "../../stylesheets/admin-main-page.css"
+import "../../../stylesheets/admin-main-page.css"
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import FormField from '../FormField';
+import FormField from '../../FormField';
 import Modal from 'react-modal';
-import { fetchUsers, postUser } from "../../api/users";
+import { fetchUsers, putUser } from "../../../api/users";
 
 
 const ManageUsersPage = () => {
