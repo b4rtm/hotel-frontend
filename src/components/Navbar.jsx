@@ -31,9 +31,9 @@ const Navbar = ({language}) =>{
       <Link to="/rooms" className='navbar-item'>
         {t('rooms')}
       </Link>
-      <div className='navbar-item'>
+      <Link to="/contact" className='navbar-item'>
         {t('contact')}
-      </div>
+      </Link>
       { user ? (
         <>
           <div  className='navbar-item'>

@@ -11,6 +11,7 @@ import AdminMainPage from './components/pages/admin/AdminMainPage';
 import ManageUsersPage from './components/pages/admin/ManageUsersPage';
 import ManageRoomsPage from './components/pages/admin/ManageRoomsPage';
 import ManageBookingsPage from './components/pages/admin/ManageBookingsPage';
+import ContactPage from './components/pages/ContactPage';
 
 
 const AppRoutes = () => {
@@ -26,6 +27,7 @@ const AppRoutes = () => {
         <Route path="/admin/users" element={<ManageUsersPage/>} />
         <Route path="/admin/rooms" element={<ManageRoomsPage/>} />
         <Route path="/admin/bookings" element={<ManageBookingsPage/>} />
+        <Route path="/contact" element={<ContactPage/>} />
 
       </Routes>
     </BrowserRouter>
