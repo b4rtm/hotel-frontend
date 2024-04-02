@@ -2,7 +2,7 @@ import Footer from '../Footer';
 import Navbar from '../Navbar';
 import '../../stylesheets/room-desc.css'
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { registerLocale } from 'react-datepicker';
@@ -10,6 +10,7 @@ import pl from 'date-fns/locale/pl';
 import { fetchRoom } from '../../api/rooms';
 import { generateDatesBetween, postBooking } from '../../api/bookings';
 import { handleEndDateChange, handleStartDateChange } from '../../api/date';
+import { fetchUser } from '../../api/users';
 
 registerLocale('pl', pl);
 
@@ -21,14 +22,18 @@ const RoomDescriptionPage = () =>{
     const [overlapError, setOverlapError] = useState(false);
     const { id } = useParams();
     const [room, setRoom] = useState();
-
+    const [user, setUser] = useState();
+    const navigateTo = useNavigate();
 
     useEffect(() => {
         const fetchData = async () =>{
             const roomData = await fetchRoom(id);
             setRoom(roomData);
+            const userData = await fetchUser();
+            setUser(userData);
         }
         fetchData();
+       
     }, []);
     
     useEffect(() => {
@@ -44,12 +49,16 @@ const RoomDescriptionPage = () =>{
     }, [room]);
 
     const handleReservation = async () => {
-            postBooking({
-                checkInDate: startDate,
-                checkOutDate: endDate,
-                roomId: room.id,
-                customerId: "1"
-            })
+        if(!user){
+            localStorage.setItem('redirectPath', `/rooms/${id}`);
+            navigateTo('/login');
+        }
+        postBooking({
+            checkInDate: startDate,
+            checkOutDate: endDate,
+            roomId: room.id,
+            customerId: user?.id
+        })
     };
 
     return (

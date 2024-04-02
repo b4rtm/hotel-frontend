@@ -28,7 +28,14 @@ const LoginPage = () =>{
             try {
                 const response = await axios.post("http://localhost:8080/auth/login", values);
                 localStorage.setItem('token', response.data.token);
-                navigateTo('/')
+                const storedPath = localStorage.getItem('redirectPath');
+                if (storedPath) {
+                    localStorage.removeItem('redirectPath'); 
+                    navigateTo(storedPath); 
+                } else {
+                    navigateTo('/');
+                }
+
               }
               catch (error) {
                   if (error.response.status === 401) {
