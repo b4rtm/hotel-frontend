@@ -5,31 +5,28 @@ import FormField from '../FormField';
 import Navbar from '../Navbar';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 
 const LoginPage = () =>{
 
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
-
-
+    const navigateTo = useNavigate();
 
     const formik = useFormik({
         initialValues: {
-            email: '',
+            username: '',
             password: '',
         },
         validationSchema: Yup.object({
-            email: Yup.string().required('Wpisz email'),
+            username: Yup.string().required('Wpisz email'),
             password: Yup.string().required('Wpisz hasło'),
         }),
         onSubmit: async (values) => {
-
+            
             try {
-                const response = await axios.post("http://localhost:8080/login", {
-                  email,
-                  password
-                });
+                const response = await axios.post("http://localhost:8080/auth/login", values);
+                localStorage.setItem('token', response.data.token);
                 navigateTo('/')
               }
               catch (error) {
@@ -45,8 +42,8 @@ const LoginPage = () =>{
         <div className='register-page'>
             <h1>Zaloguj się!</h1>
             <form onSubmit={formik.handleSubmit}>
-                <FormField label="email" name="Email" type="text" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.email} />
-                {formik.touched.email && formik.errors.email && <p className="error">{formik.errors.email}</p>}
+                <FormField label="username" name="Email" type="text" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.username} />
+                {formik.touched.username && formik.errors.username && <p className="error">{formik.errors.username}</p>}
                 <FormField label="password" name="Hasło" type="password" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.password} />
                 {formik.touched.password && formik.errors.password && <p className="error">{formik.errors.password}</p>}
                 {!formik.isValidating && <button type="submit">Zaloguj się</button>}                

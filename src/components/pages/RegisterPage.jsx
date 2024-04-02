@@ -39,7 +39,7 @@ const RegisterPage = () => {
         onSubmit: async (values) => {
 
             try {
-                const response = await axios.post("http://localhost:8080/register", values);
+                const response = await axios.post("http://localhost:8080/auth/register", values);
                 navigateTo('/login')
             } catch (error) {
                 console.error("Błąd rejestracji:", error);

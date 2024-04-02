@@ -1,13 +1,23 @@
 import '../stylesheets/navbar.css'
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import i18next from 'i18next';
 import '../translations/transations'
+import { fetchUser } from '../api/users';
 
 const Navbar = ({language}) =>{
 
   const { t } = useTranslation();
+  const [user, setUser] = useState(null);
+
+  useEffect(() =>{
+    const fetchData = async () => {
+      const userData = await fetchUser();
+      setUser(userData)
+    }
+    fetchData();
+  }, [])
 
   useEffect(() => {
     i18next.changeLanguage(language);
@@ -24,14 +34,28 @@ const Navbar = ({language}) =>{
       <div className='navbar-item'>
         {t('contact')}
       </div>
-      <Link to="/login" className='navbar-item'>
-        {t('login')}
-      </Link>
-      <Link to="/register" className='navbar-item'>
-        {t('register')}
-      </Link>
+      { user ? (
+        <>
+          <div  className='navbar-item'>
+            {t('loggedAs')} {user.email}
+          </div>
+          <Link to="/login" onClick={localStorage.removeItem('token')} className='navbar-item'>
+            {t('logout')}
+          </Link>
+        </>
+      ) : (
+        <>
+          <Link to="/login" className='navbar-item'>
+            {t('login')}
+          </Link>
+          <Link to="/register" className='navbar-item'>
+            {t('register')}
+          </Link>
+        </>
+      )}
+      
     </div>
-);
+  );
     
 }
 

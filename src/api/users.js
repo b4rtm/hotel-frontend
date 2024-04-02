@@ -1,4 +1,5 @@
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export const fetchUsers = async () => {
     try {
@@ -6,6 +7,20 @@ export const fetchUsers = async () => {
         return response.data
     } catch (error) {
         console.error('Error fetching users:', error);
+    }
+};
+
+export const fetchUser = async () => {
+    if(localStorage.getItem('token')){
+        try {
+            const response = await axios.get('http://localhost:8080/users/getUser', {
+                headers: {
+                Authorization: `Bearer ${localStorage.getItem('token')}`,
+                }});
+            return response.data
+        } catch (error) {
+            console.error('Error fetching users:', error);
+        }
     }
 };
 
