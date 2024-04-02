@@ -12,6 +12,7 @@ import { useNavigate } from 'react-router-dom';
 const LoginPage = () =>{
 
     const navigateTo = useNavigate();
+    const [errorMessage, setErrorMessage] = useState('');
 
     const formik = useFormik({
         initialValues: {
@@ -30,7 +31,9 @@ const LoginPage = () =>{
                 navigateTo('/')
               }
               catch (error) {
-                  console.error("login error:", error);
+                  if (error.response.status === 401) {
+                    setErrorMessage('Niepoprawny email lub hasło.');
+                }
               }
         },
     });
@@ -46,7 +49,8 @@ const LoginPage = () =>{
                 {formik.touched.username && formik.errors.username && <p className="error">{formik.errors.username}</p>}
                 <FormField label="password" name="Hasło" type="password" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.password} />
                 {formik.touched.password && formik.errors.password && <p className="error">{formik.errors.password}</p>}
-                {!formik.isValidating && <button type="submit">Zaloguj się</button>}                
+                {!formik.isValidating && <button type="submit">Zaloguj się</button>} 
+                {errorMessage && <p className="error">{errorMessage}</p>}           
                 {!formik.isValid && formik.submitCount > 0 && <p className="error">Wypełnij formularz logowania</p>}
             </form>
         </div>
