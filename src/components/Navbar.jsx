@@ -39,7 +39,7 @@ const Navbar = ({language}) =>{
           <div  className='navbar-item'>
             {t('loggedAs')} {user.email}
           </div>
-          <Link to="/login" onClick={localStorage.removeItem('token')} className='navbar-item'>
+          <Link to="/login" onClick={() => localStorage.removeItem('token')} className='navbar-item'>
             {t('logout')}
           </Link>
         </>

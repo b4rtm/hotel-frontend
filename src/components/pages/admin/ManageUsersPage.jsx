@@ -5,7 +5,7 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import FormField from '../../FormField';
 import Modal from 'react-modal';
-import { fetchUsers, putUser } from "../../../api/users";
+import { deleteUser, fetchUsers, putUser } from "../../../api/users";
 
 
 const ManageUsersPage = () => {

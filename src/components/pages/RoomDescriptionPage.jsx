@@ -52,13 +52,16 @@ const RoomDescriptionPage = () =>{
         if(!user){
             localStorage.setItem('redirectPath', `/rooms/${id}`);
             navigateTo('/login');
+            
         }
-        postBooking({
-            checkInDate: startDate,
-            checkOutDate: endDate,
-            roomId: room.id,
-            customerId: user?.id
-        })
+        else{
+            postBooking({
+                checkInDate: startDate,
+                checkOutDate: endDate,
+                roomId: room.id,
+                customerId: user?.id
+            })
+        }
     };
 
     return (

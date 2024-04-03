@@ -32,7 +32,8 @@ export const postRoom = async (values) => {
     try {
         const response = await axios.post('http://localhost:8080/rooms', formData, {
             headers: {
-              'Content-Type': 'multipart/form-data'
+              'Content-Type': 'multipart/form-data',
+              Authorization: `Bearer ${localStorage.getItem('token')}`
             }
           });
     } catch (error) {
@@ -42,7 +43,10 @@ export const postRoom = async (values) => {
 
 export const putRoom = async (id, values) => {
     try {
-        const response = await axios.put('http://localhost:8080/rooms/' + id, values);
+        const response = await axios.put('http://localhost:8080/rooms/' + id, values, {
+            headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+            }});
     } catch (error) {
         console.error('Error putting room:', error);
     }
@@ -50,7 +54,10 @@ export const putRoom = async (id, values) => {
 
 export const deleteRoom = async (id) => {
     try {
-        const response = await axios.delete('http://localhost:8080/rooms/' + id);
+        const response = await axios.delete('http://localhost:8080/rooms/' + id, {
+            headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+            }});
         } catch (error) {
         console.error('Error deleting room:', error);
     }
