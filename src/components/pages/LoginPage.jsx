@@ -7,6 +7,7 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { fetchUser } from '../../api/users';
 
 
 const LoginPage = () =>{
@@ -30,10 +31,15 @@ const LoginPage = () =>{
                 localStorage.setItem('token', response.data.token);
                 console.log(response.data.token)
                 const storedPath = localStorage.getItem('redirectPath');
+                const fetchedUser = await fetchUser()
+                console.log(fetchedUser)
                 if (storedPath) {
                     localStorage.removeItem('redirectPath'); 
                     navigateTo(storedPath); 
-                } else {
+                } else if(fetchedUser.role == "ROLE_ADMIN") {
+                    navigateTo('/admin');
+                }
+                else{
                     navigateTo('/');
                 }
 

@@ -1,4 +1,3 @@
-import ReservationPanel from "../ReservationPanel";
 import '../../stylesheets/main-page.css'
 import Navbar from "../Navbar";
 import Footer from "../Footer";
@@ -17,7 +16,11 @@ function MainPage(){
                     <div className="lang-icon" onClick={() => setLanguage('pl')}><img src="/poland-flag-icon.png" alt="PL" /></div>
                     <div className="lang-icon" onClick={() => setLanguage('en')}><img src="/uk-flag-icon.png" alt="EN" /></div>
                 </div>
-                <ReservationPanel />
+            </div>
+            <div className='welcome'>
+                <span>Witaj w</span>
+                <span className="larger-text">Royal Residence</span>
+                <span>Łódź</span>
             </div>
             <Footer language={language}/>
         </>
