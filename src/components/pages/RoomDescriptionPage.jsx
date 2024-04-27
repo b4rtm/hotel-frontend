@@ -23,6 +23,8 @@ const RoomDescriptionPage = () =>{
     const { id } = useParams();
     const [room, setRoom] = useState();
     const [user, setUser] = useState();
+    const [isReservationAttempted, setIsReservationAttempted] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false);
     const navigateTo = useNavigate();
 
     useEffect(() => {
@@ -49,20 +51,25 @@ const RoomDescriptionPage = () =>{
     }, [room]);
 
     const handleReservation = async () => {
+        setIsReservationAttempted(true);
         if(!user){
             localStorage.setItem('redirectPath', `/rooms/${id}`);
             navigateTo('/login');
-            
         }
-        else{
-            postBooking({
-                checkInDate: startDate,
-                checkOutDate: endDate,
-                roomId: room.id,
-                customerId: user?.id
-            })
+        else if(!overlapError && startDate && endDate){
+            openModal();
         }
     };
+
+    const openModal = () => {
+        setIsModalOpen(true);
+    };
+    
+    const closeModal = () => {
+        setIsModalOpen(false);
+    };
+    
+
 
     return (
         <>
@@ -74,13 +81,12 @@ const RoomDescriptionPage = () =>{
                     
                 </div>
                 <div className='second-row'>
-                    <p>{room?.description}</p>
-                    <p>{room?.pricePerNight} zł na noc</p>
-                    <p>{room?.capacity} {room?.capacity === 1 ? 'osoba' : 'osoby'}</p>
+                    <p className='desc'>{room?.description}</p>
+                    <p className='price'>{room?.pricePerNight} zł za noc</p>
+                    <p className='capacity'>Pokój mieści {room?.capacity} {room?.capacity === 1 ? 'osobę' : 'osoby'}</p>
                     
-                    <div>
-                        <h2>Wybierz datę początku i końca rezerwacji:</h2>
-                        <div>
+                    <div className='date'>
+                        <div className='pick-date'>
                             <label>Początek rezerwacji:</label>
                             <DatePicker
                             selected={startDate}
@@ -94,7 +100,7 @@ const RoomDescriptionPage = () =>{
                             locale="pl"
                             />
                         </div>
-                        <div>
+                        <div className='pick-date'>
                             <label>Koniec rezerwacji:</label>
                             <DatePicker
                             selected={endDate}
@@ -109,12 +115,30 @@ const RoomDescriptionPage = () =>{
                             locale="pl"
                             />
                         </div>
-                        {overlapError && <p style={{ color: 'red' }}>Wybrana data przecina się z wcześniej zarezerwowaną datą.</p>}
                     </div>
+                    {overlapError && <p style={{ color: 'red' }}>Wybrana data przecina się z wcześniej zarezerwowaną datą.</p>}
+                    {isReservationAttempted && !startDate && !endDate && <p className='error'>Wybierz datę początku i datę końca rezerwacji.</p>}
                     <button onClick={handleReservation}>Rezerwuj</button>
 
                 </div>
             </div>
+            {isModalOpen && (
+            <div className="modal">
+                <div className="modal-content">
+                    <h2>Czy na pewno chcesz zarezerwować?</h2>
+                    <button onClick={closeModal} style={{backgroundColor: 'darkred', border: "red"}}>Anuluj</button>
+                    <button onClick={() => {
+                        closeModal();
+                        postBooking({
+                            checkInDate: startDate,
+                            checkOutDate: endDate,
+                            roomId: room.id,
+                            customerId: user?.id
+                        });
+                    }}>Zarezerwuj</button>
+                </div>
+            </div>
+        )}
             <Footer/>
         </>
     );
