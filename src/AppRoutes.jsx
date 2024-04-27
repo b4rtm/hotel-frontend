@@ -12,6 +12,7 @@ import ManageUsersPage from './components/pages/admin/ManageUsersPage';
 import ManageRoomsPage from './components/pages/admin/ManageRoomsPage';
 import ManageBookingsPage from './components/pages/admin/ManageBookingsPage';
 import ContactPage from './components/pages/ContactPage';
+import SummaryPage from './components/pages/SummaryPage';
 
 
 const AppRoutes = () => {
@@ -28,6 +29,7 @@ const AppRoutes = () => {
         <Route path="/admin/rooms" element={<ManageRoomsPage/>} />
         <Route path="/admin/bookings" element={<ManageBookingsPage/>} />
         <Route path="/contact" element={<ContactPage/>} />
+        <Route path="/summary/:id" element={<SummaryPage/>} />
 
       </Routes>
     </BrowserRouter>

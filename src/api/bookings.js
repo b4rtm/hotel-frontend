@@ -14,6 +14,19 @@ export const fetchBookings = async () => {
 };
 
 
+export const fetchBooking = async (id) => {
+    try {
+        const response = await axios.get('http://localhost:8080/booking/' + id, {
+            headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+            }});
+        return response.data
+    } catch (error) {
+        console.error('Error fetching booking:', error);
+    }
+};
+
+
 export const generateDatesBetween = (checkInDate, checkOutDate) => {
     const dates = [];
     const currentDay = new Date(checkInDate);
@@ -30,7 +43,9 @@ export const generateDatesBetween = (checkInDate, checkOutDate) => {
             headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`,
             }});
-    } catch (error) {
+            const bookingId = response.data;
+            return bookingId;
+        } catch (error) {
         console.error('Error posting booking:', error);
     }
 };

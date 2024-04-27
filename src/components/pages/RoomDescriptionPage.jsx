@@ -127,14 +127,15 @@ const RoomDescriptionPage = () =>{
                 <div className="modal-content">
                     <h2>Czy na pewno chcesz zarezerwować?</h2>
                     <button onClick={closeModal} style={{backgroundColor: 'darkred', border: "red"}}>Anuluj</button>
-                    <button onClick={() => {
+                    <button onClick={async () => {
                         closeModal();
-                        postBooking({
+                        const id = await postBooking({
                             checkInDate: startDate,
                             checkOutDate: endDate,
                             roomId: room.id,
                             customerId: user?.id
                         });
+                        navigateTo("/summary/" + id);
                     }}>Zarezerwuj</button>
                 </div>
             </div>
