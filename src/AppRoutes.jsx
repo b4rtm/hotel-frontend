@@ -29,7 +29,7 @@ const AppRoutes = () => {
         <Route path="/admin/rooms" element={<ManageRoomsPage/>} />
         <Route path="/admin/bookings" element={<ManageBookingsPage/>} />
         <Route path="/contact" element={<ContactPage/>} />
-        <Route path="/summary/:id" element={<SummaryPage/>} />
+        <Route path="/summary/:bookingId" element={<SummaryPage/>} />
 
       </Routes>
     </BrowserRouter>

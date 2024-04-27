@@ -16,7 +16,7 @@ export const fetchBookings = async () => {
 
 export const fetchBooking = async (id) => {
     try {
-        const response = await axios.get('http://localhost:8080/booking/' + id, {
+        const response = await axios.get('http://localhost:8080/bookings/' + id, {
             headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`,
             }});
