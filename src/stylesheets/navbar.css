@@ -11,17 +11,18 @@ body{
 }
 
 .navbar {
+  font-family: 'Roboto', sans-serif;
     display: flex;
     /* justify-content: space-between; */
     align-items: center;
-    background-color: white;
+    background-color: rgb(248, 246, 246);
     padding: 10px 20px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Cień */
+    box-shadow: 4px 4px 6px rgba(0, 0, 0, 0.1); /* Cień */
 
   }
 
   .navbar-item{
-    margin: 0 10%;
+    padding: 0 170px;
     font-size: 18px;
     font-weight: bold;
     color: rgb(8, 8, 53);

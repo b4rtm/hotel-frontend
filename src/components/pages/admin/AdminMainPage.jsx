@@ -7,9 +7,9 @@ const AdminMainPage = () => {
         <div className="admin-main-page">
             <h1>Panel administratora</h1>
             <div className="options">
-                <OptionTile label="Zarządzaj użytkownikami" path="/users"></OptionTile>
-                <OptionTile label="Zarządzaj rezerwacjami" path="/bookings"></OptionTile>
-                <OptionTile label="Zarządzaj pokojami" path="/rooms"></OptionTile>
+                <OptionTile image="/user.png" label="Zarządzaj użytkownikami" path="/users"></OptionTile>
+                <OptionTile image="calendar.png" label="Zarządzaj rezerwacjami" path="/bookings"></OptionTile>
+                <OptionTile image="bed.png" label="Zarządzaj pokojami" path="/rooms"></OptionTile>
             </div>
         </div>
     );

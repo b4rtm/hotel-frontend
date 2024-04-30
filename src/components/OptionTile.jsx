@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 
-const OptionTile = ({label, path}) => {
+const OptionTile = ({image, label, path}) => {
 
     const navigateTo = useNavigate();
 
@@ -9,7 +9,10 @@ const OptionTile = ({label, path}) => {
     };
     return (
         <div className="tile" onClick={navigateToPath}>
-            {label}
+            <div className="title">
+                {label}
+            </div>
+            <img src={image} />
         </div>
     );
 }

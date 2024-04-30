@@ -150,7 +150,7 @@ const ManageRoomsPage = () => {
                             {formik.touched.description && formik.errors.description && <p className="error">{formik.errors.description}</p>}
                             <div className="form-field" >
                                 <label htmlFor="image">Zdjęcie pokoju</label>
-                                <input name="image" id="image" type="file" onChange={handleFileChange} onBlur={formik.handleBlur}/>
+                                <input name="image" id="image" type="file" style={{ width: '400px' }} onChange={handleFileChange} onBlur={formik.handleBlur}/>
                             </div>
                             {formik.touched.image && formik.errors.image && <p className="error">{formik.errors.image}</p>}
                             {!formik.isValidating && <button type="submit">Zatwierdź</button>}

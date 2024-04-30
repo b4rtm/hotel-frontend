@@ -142,7 +142,7 @@ const ManageBookingsPage = () => {
                 <div className="register-page">
                     <div className="form-field">
                         <label>Wybierz pokój:</label>
-                            <select value={selectedRoom ? selectedRoom.id : ""} onChange={handleRoomChange}>
+                            <select style={{ fontSize: '20px' }} value={selectedRoom ? selectedRoom.id : ""} onChange={handleRoomChange}>
                             <option value="">{selectedRoom ? selectedRoom.name : "Wybierz pokój"}</option>
                             {rooms.map((room) => (
                                 <option key={room.id} value={room.id}>

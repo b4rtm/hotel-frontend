@@ -10,6 +10,7 @@
 .register-page .form-field{
     display: flex;
     flex-direction: column;
+    margin-bottom: 10px;
 }
 
 .register-page .form-field label, select{
