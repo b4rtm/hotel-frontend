@@ -19,7 +19,7 @@ const RegisterPage = () => {
             phoneNumber: '',
             address: '',
             city: '',
-            postcode: '',
+            postCode: '',
             pesel: '',
             password: '',
             confirmPassword: '',
@@ -31,7 +31,7 @@ const RegisterPage = () => {
             phoneNumber: Yup.string().matches(/^[\d+\s]+$/, 'Niepoprawny format numeru telefonu').required('Wpisz numer telefonu'),
             address: Yup.string().required('Wpisz adres'),
             city: Yup.string().required('Wpisz miasto'),
-            postcode: Yup.string().matches(/^\d{2}-\d{3}$/, 'Niepoprawny format kodu pocztowego').required('Wpisz kod pocztowy'),
+            postCode: Yup.string().matches(/^\d{2}-\d{3}$/, 'Niepoprawny format kodu pocztowego').required('Wpisz kod pocztowy'),
             pesel: Yup.string().matches(/^\d{11}$/, 'Niepoprawny format numeru PESEL').required('Wpisz pesel'),
             password: Yup.string().required('Wpisz hasło'),
             confirmPassword: Yup.string().oneOf([Yup.ref('password'), null], 'Hasła muszą być takie same').required('Potwierdź hasło'),
@@ -66,8 +66,8 @@ const RegisterPage = () => {
                         {formik.touched.address && formik.errors.address && <p className="error">{formik.errors.address}</p>}
                         <FormField label="city" name="Miasto" type="text" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.city} />
                         {formik.touched.city && formik.errors.city && <p className="error">{formik.errors.city}</p>}
-                        <FormField label="postcode" name="Kod pocztowy" type="text" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.postcode} />
-                        {formik.touched.postcode && formik.errors.postcode && <p className="error">{formik.errors.postcode}</p>}
+                        <FormField label="postCode" name="Kod pocztowy" type="text" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.postCode} />
+                        {formik.touched.postCode && formik.errors.postCode && <p className="error">{formik.errors.postCode}</p>}
                         <FormField label="pesel" name="PESEL" type="text" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.pesel} />
                         {formik.touched.pesel && formik.errors.pesel && <p className="error">{formik.errors.pesel}</p>}
                         <FormField label="password" name="Hasło" type="password" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.password} />

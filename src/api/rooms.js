@@ -43,6 +43,7 @@ export const postRoom = async (values) => {
 
 export const putRoom = async (id, values) => {
     try {
+        console.log(values)
         const response = await axios.put('http://localhost:8080/rooms/' + id, values, {
             headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`,
