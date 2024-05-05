@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useEffect } from 'react';
 import i18next from 'i18next';
 import '../translations/i18n'
+import { Link } from 'react-router-dom';
 
 function Footer({language}) {
 
@@ -32,9 +33,15 @@ function Footer({language}) {
             <div className='footer-column'>
                 <h1>{t('quickLinksTitle')}</h1>
                 <div className='footer-content'>
+                    <Link to='/rooms'>
                     <p>{t('rooms')}</p>
+                    </Link>
+                    <Link to='/login'>
                     <p>{t('login')}</p>
+                    </Link>
+                    <Link to='/contact'>
                     <p>{t('contact')}</p>
+                    </Link>
                 </div>
             </div>
         </div>

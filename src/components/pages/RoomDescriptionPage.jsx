@@ -97,6 +97,9 @@ const RoomDescriptionPage = () =>{
                             dateFormat="dd/MM/yyyy"
                             placeholderText="Wybierz datę początku"
                             excludeDates={reservedDates}
+                            filterDate={(date) => {
+                                return date >= new Date() && !reservedDates.includes(date);
+                            }}
                             locale="pl"
                             />
                         </div>
@@ -112,6 +115,9 @@ const RoomDescriptionPage = () =>{
                             dateFormat="dd/MM/yyyy"
                             placeholderText="Wybierz datę końca"
                             excludeDates={reservedDates}
+                            filterDate={(date) => {
+                                return date >= new Date() && !reservedDates.includes(date);
+                            }}
                             locale="pl"
                             />
                         </div>

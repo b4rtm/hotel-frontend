@@ -17,6 +17,7 @@
     color: rgb(17, 114, 241);
 }
 
-.footer-content{
-
+.footer-content p{
+    text-decoration: none;
+    color: azure;
 }
