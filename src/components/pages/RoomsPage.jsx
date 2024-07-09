@@ -46,7 +46,7 @@ const RoomsPage = () => {
                 <div className='rooms-list'>
                     {currentRooms.map(room => (
                         <div key={room.id} className='room-card' onClick={() => goToRoomDetails(room.id)}>
-                            <img src={room.imagePath} alt={room.name} />
+                            <img src={room.imagePaths[0]} alt={room.name} />
                             <p>{room.name}</p>
                             <p>{room.pricePerNight} zł</p>
                             <button>Rezerwuj pokój</button>

@@ -11,6 +11,7 @@ import { fetchRoom } from '../../api/rooms';
 import { generateDatesBetween, postBooking } from '../../api/bookings';
 import { handleEndDateChange, handleStartDateChange } from '../../api/date';
 import { fetchUser } from '../../api/users';
+import RoomSlider from '../RoomSlider'
 
 registerLocale('pl', pl);
 
@@ -76,9 +77,8 @@ const RoomDescriptionPage = () =>{
             <Navbar/>
             <div className='room-desc'>
                 <div className='first-row'>
-                    <img src={room?.imagePath} />
+                    <RoomSlider room={room} />
                     <h1>{room?.name}</h1>
-                    
                 </div>
                 <div className='second-row'>
                     <p className='desc'>{room?.description}</p>

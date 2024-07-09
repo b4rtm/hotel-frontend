@@ -1,0 +1,43 @@
+/* slick-custom.css */
+
+/* Kropki nawigacyjne */
+.slick-dots li button:before {
+    font-size: 12px;
+    color: white;  /* Zmień kolor kropek */
+}
+
+.slick-dots li.slick-active button:before {
+    color: white;  /* Zmień kolor aktywnej kropki */
+}
+
+/* Strzałki */
+.slick-prev, .slick-next {
+    width: 40px;
+    height: 40px;
+    z-index: 1;
+    color: white;  /* Zmień kolor strzałek */
+}
+
+.slick-prev:before, .slick-next:before {
+    font-size: 30px;
+    color: white;  /* Zmień kolor ikon strzałek */
+}
+
+.slider{
+    width: 100%;
+    max-width: 1000px; 
+    overflow: visible; 
+}
+
+.slick-prev {
+    left: 10px;
+}
+
+.slick-next {
+    right: 10px;
+}
+
+.slick-track{
+    display: flex;
+    min-width: 1000px;
+}
