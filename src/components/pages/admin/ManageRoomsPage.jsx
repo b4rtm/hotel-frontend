@@ -5,14 +5,16 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import FormField from '../../FormField';
 import Modal from 'react-modal';
-import { deleteRoom, fetchRooms, postRoom, putRoom } from "../../../api/rooms";
+import { deleteRoom, fetchRooms, postRoom, putRoom, deleteRoomImage } from "../../../api/rooms";
 
 const ManageRoomsPage = () => {
     const [rooms, setRooms] = useState([]);
     const [currentRoom, setCurrentRoom] = useState(null);
     const [selectedRoomId, setSelectedRoomId] = useState(null);
     const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
+    const [isDeleteImageModalOpen, setIsDeleteImageModalOpen] = useState(false); // State for delete image modal
     const [previewImages, setPreviewImages] = useState([]);
+    const [imageToDelete, setImageToDelete] = useState(null); // State to track image to delete
 
     const handleOpenConfirmation = (id) => {
         setIsConfirmationOpen(true);
@@ -96,28 +98,45 @@ const ManageRoomsPage = () => {
         formik.setFieldValue("newImages", [...(formik.values.newImages || []), ...files]);
     };
 
+
     const handleRemoveImage = (id, type) => {
-        if (type === 'preview') {
-            const updatedPreviewImages = previewImages.filter(image => image.id !== id);
-            setPreviewImages(updatedPreviewImages);
-            const updatedNewImages = formik.values.newImages.filter(image => image.id !== id);
-            formik.setFieldValue("newImages", updatedNewImages);
-        } else if (type === 'existing') {
-            handleRemoveExistingImage(currentRoom.id, id);
-        }
+        setIsDeleteImageModalOpen(true);
+        setImageToDelete({ id, type });
     };
 
-    const handleRemoveExistingImage = async (roomId, imageId) => {
+    const handleDeleteImage = async () => {
         try {
-            await deleteRoomImage(roomId, imageId);
-            const updatedImages = formik.values.imagePaths.filter(image => image.id !== imageId);
-            formik.setFieldValue("imagePaths", updatedImages);
+            if (imageToDelete.type === 'preview') {
+                const updatedPreviewImages = previewImages.filter(image => image.id !== imageToDelete.id);
+                setPreviewImages(updatedPreviewImages);
+                const updatedNewImages = formik.values.newImages.filter(image => image.id !== imageToDelete.id);
+                formik.setFieldValue("newImages", updatedNewImages);
+            } else if (imageToDelete.type === 'existing') {
+                await deleteRoomImage(currentRoom.id, imageToDelete.id);
+                const updatedImages = formik.values.imagePaths.filter(image => image.id !== imageToDelete.id);
+                formik.setFieldValue("imagePaths", updatedImages);
+                const updatedRooms = rooms.map(room => {
+                    if (room.id === currentRoom.id) {
+                        return {
+                            ...room,
+                            imagePaths: room.imagePaths.filter(image => image.id !== imageToDelete.id)
+                        };
+                    }
+                    return room;
+                });
+                setRooms(updatedRooms);
+            }
+            setIsDeleteImageModalOpen(false);
+            setImageToDelete(null);
         } catch (error) {
             console.error("Błąd podczas usuwania zdjęcia:", error);
         }
     };
 
-
+    const handleCloseDeleteModal = () => {
+        setIsDeleteImageModalOpen(false);
+        setImageToDelete(null);
+    };
     return (
         <div className='manage-page'>
             <h1>Zarządzaj pokojami</h1>
@@ -179,20 +198,20 @@ const ManageRoomsPage = () => {
                                 <label htmlFor="image">Zdjęcia pokoju</label>
                                 <input name="images" id="image" type="file" style={{ width: '400px' }} multiple onChange={handleFileChange} onBlur={formik.handleBlur} />
                             </div>
-                             <div>
-                            <p>Zdjęcia pokoju:</p>
-                            {[...previewImages, ...formik.values.imagePaths].map((image, index) => (
-                                <div key={index} className="image-container">
-                                    <img src={image.url ? image.url : image} alt={`Room image`} className='room-image'/>
-                                    <img
-                                        src="/delete-1-icon.png"
-                                        alt="Usuń"
-                                        className="remove-icon"
-                                        onClick={() => handleRemoveImage(image.id, image.url ? 'preview' : 'existing')}
-                                    />
-                                </div>
-                            ))}
-                        </div>
+                            <div>
+                                <p>Zdjęcia pokoju:</p>
+                                {[...previewImages, ...formik.values.imagePaths].map((image, index) => (
+                                    <div key={index} className="image-container">
+                                        <img src={image.url ? image.url : image} alt={`Room image`} className='room-image'/>
+                                        <img
+                                            src="/delete-1-icon.png"
+                                            alt="Usuń"
+                                            className="remove-icon"
+                                            onClick={() => handleRemoveImage(image.id ? image.id : image, image.url ? 'preview' : 'existing')}
+                                        />
+                                    </div>
+                                ))}
+                            </div>
                             {!formik.isValidating && <button type="submit">Zatwierdź</button>}
                             {!formik.isValid && formik.submitCount > 0 && <p className="error">Formularz zawiera błędy</p>}
                         </form>
@@ -203,6 +222,11 @@ const ManageRoomsPage = () => {
                 <p>Czy na pewno chcesz usunąć pokój?</p>
                 <button className="delete" onClick={() => handleConfirmDeleteRoom(selectedRoomId)}>Tak</button>
                 <button onClick={handleCloseConfirmation}>Anuluj</button>
+            </Modal>
+            <Modal isOpen={isDeleteImageModalOpen} onRequestClose={handleCloseDeleteModal} contentLabel="Potwierdzenie usunięcia zdjęcia" className="modal">
+                <h2>Potwierdź usunięcie zdjęcia</h2>
+                <button className="delete" onClick={handleDeleteImage}>Usuń</button>
+                <button onClick={handleCloseDeleteModal}>Anuluj</button>
             </Modal>
         </div>
     );

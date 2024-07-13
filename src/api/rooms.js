@@ -64,12 +64,16 @@ export const deleteRoom = async (id) => {
     }
 };
 
-export const deleteRoomImage = async (roomId, imageId) => {
+export const deleteRoomImage = async (roomId, imageUrl) => {
     try {
-        const response = await axios.delete(`https://example.com/api/rooms/${roomId}/images/${imageId}`, {
+        const response = await axios.delete(`http://localhost:8080/rooms/${roomId}/images`, {
             headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`,
-            }});
+            },
+            data: {
+                imageUrl: imageUrl
+            }
+        });
         } catch (error) {
         console.error('Error deleting room:', error);
     }
