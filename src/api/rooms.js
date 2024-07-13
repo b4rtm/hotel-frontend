@@ -63,3 +63,14 @@ export const deleteRoom = async (id) => {
         console.error('Error deleting room:', error);
     }
 };
+
+export const deleteRoomImage = async (roomId, imageId) => {
+    try {
+        const response = await axios.delete(`https://example.com/api/rooms/${roomId}/images/${imageId}`, {
+            headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+            }});
+        } catch (error) {
+        console.error('Error deleting room:', error);
+    }
+};

@@ -8,37 +8,38 @@ import Modal from 'react-modal';
 import { deleteRoom, fetchRooms, postRoom, putRoom } from "../../../api/rooms";
 
 const ManageRoomsPage = () => {
-    const [rooms, setRooms] = useState([])
-    const [currentRoom, setCurrentRoom] = useState(null)
-
-
+    const [rooms, setRooms] = useState([]);
+    const [currentRoom, setCurrentRoom] = useState(null);
     const [selectedRoomId, setSelectedRoomId] = useState(null);
     const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
+    const [previewImages, setPreviewImages] = useState([]);
 
-    
     const handleOpenConfirmation = (id) => {
         setIsConfirmationOpen(true);
         setSelectedRoomId(id);
     };
-    
+
     const handleCloseConfirmation = () => {
         setIsConfirmationOpen(false);
     };
-    
+
     const handleConfirmDeleteRoom = () => {
         handleCloseConfirmation();
         handleDeleteRoom(selectedRoomId);
     };
 
-    const setDefaultFields = (room) =>{
+    const setDefaultFields = (room) => {
         formik.setValues({ 
             id: room.id,
             name: room.name,
             capacity: room.capacity,
             pricePerNight: room.pricePerNight,
             description: room.description,
-        })
-    }
+            imagePaths: room.imagePaths || [],
+            newImages: []
+        });
+        setPreviewImages([]);
+    };
 
     const formik = useFormik({
         initialValues: {
@@ -47,7 +48,8 @@ const ManageRoomsPage = () => {
             capacity: '',
             pricePerNight: '',
             description: '',
-            image: null,
+            imagePaths: [],
+            newImages: []
         },
         validationSchema: Yup.object({
             name: Yup.string().required('Wpisz nazwę'),
@@ -56,38 +58,63 @@ const ManageRoomsPage = () => {
             description: Yup.string().required('Wpisz opis'),
         }),
         onSubmit: async (values) => {
-            if(currentRoom === 1){
-                postRoom(values)
-            }else{
-                putRoom(currentRoom.id, values)
+            if (currentRoom === 1) {
+                await postRoom(values);
+            } else {
+                await putRoom(currentRoom.id, values);
             }
-            location.reload()
+            location.reload();
         },
     });
-    
 
     useEffect(() => {
-
         const fetchData = async () => {
             const roomsData = await fetchRooms();
             setRooms(roomsData);
-        }
+        };
         fetchData();
-    }, [])
-
+    }, []);
 
     const handleDeleteRoom = async (id) => {
-        deleteRoom(id);
-        location.reload()
+        await deleteRoom(id);
+        location.reload();
     };
 
     const handleAddRoom = () => {
         setCurrentRoom(1);
         formik.resetForm();
+        setPreviewImages([]);
     };
 
+    const generateUniqueId = () => '_' + Math.random().toString(36).substr(2, 9);
+
     const handleFileChange = (event) => {
-        formik.setFieldValue("image", event.currentTarget.files[0]);
+        const files = Array.from(event.currentTarget.files).map(file => ({ id: generateUniqueId(), file }));
+        const newImages = files.map(file => ({ id: file.id, url: URL.createObjectURL(file.file) }));
+
+        setPreviewImages([...previewImages, ...newImages]);
+        formik.setFieldValue("newImages", [...(formik.values.newImages || []), ...files]);
+    };
+
+    const handleRemoveImage = (id, type) => {
+        if (type === 'preview') {
+            const updatedPreviewImages = previewImages.filter(image => image.id !== id);
+            setPreviewImages(updatedPreviewImages);
+            const updatedNewImages = formik.values.newImages.filter(image => image.id !== id);
+            formik.setFieldValue("newImages", updatedNewImages);
+        } else if (type === 'existing') {
+            handleRemoveExistingImage(currentRoom.id, id);
+        }
+    };
+
+    const handleRemoveExistingImage = async (roomId, imageId) => {
+        try {
+            await deleteRoomImage(roomId, imageId);
+            const updatedImages = formik.values.imagePaths.filter(image => image.id !== imageId);
+            formik.setFieldValue("imagePaths", updatedImages);
+        } catch (error) {
+            console.error("Błąd podczas usuwania zdjęcia:", error);
+        }
     };
 
 
@@ -99,12 +126,12 @@ const ManageRoomsPage = () => {
                 <div className="fields">
                     <table>
                         <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Nazwa</th>
-                            <th>Cena</th>
-                            <th>Pojemność</th>
-                        </tr>
+                            <tr>
+                                <th>ID</th>
+                                <th>Nazwa</th>
+                                <th>Cena</th>
+                                <th>Pojemność</th>
+                            </tr>
                         </thead>
                         <tbody>
                             {rooms.map(room => (
@@ -122,7 +149,7 @@ const ManageRoomsPage = () => {
                                         <p>{room.capacity}</p>
                                     </td>
                                     <td>
-                                        <svg onClick={() => {setCurrentRoom(room); setDefaultFields(room)}} xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="2em" height="2em" viewBox="0 0 50 50" fill="black"><title>Edytuj</title>
+                                        <svg onClick={() => { setCurrentRoom(room); setDefaultFields(room) }} xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="2em" height="2em" viewBox="0 0 50 50" fill="black"><title>Edytuj</title>
                                             <path d="M 43.125 2 C 41.878906 2 40.636719 2.488281 39.6875 3.4375 L 38.875 4.25 L 45.75 11.125 C 45.746094 11.128906 46.5625 10.3125 46.5625 10.3125 C 48.464844 8.410156 48.460938 5.335938 46.5625 3.4375 C 45.609375 2.488281 44.371094 2 43.125 2 Z M 37.34375 6.03125 C 37.117188 6.0625 36.90625 6.175781 36.75 6.34375 L 4.3125 38.8125 C 4.183594 38.929688 4.085938 39.082031 4.03125 39.25 L 2.03125 46.75 C 1.941406 47.09375 2.042969 47.457031 2.292969 47.707031 C 2.542969 47.957031 2.90625 48.058594 3.25 47.96875 L 10.75 45.96875 C 10.917969 45.914063 11.070313 45.816406 11.1875 45.6875 L 43.65625 13.25 C 44.054688 12.863281 44.058594 12.226563 43.671875 11.828125 C 43.285156 11.429688 42.648438 11.425781 42.25 11.8125 L 9.96875 44.09375 L 5.90625 40.03125 L 38.1875 7.75 C 38.488281 7.460938 38.578125 7.011719 38.410156 6.628906 C 38.242188 6.246094 37.855469 6.007813 37.4375 6.03125 C 37.40625 6.03125 37.375 6.03125 37.34375 6.03125 Z"></path>
                                         </svg>
                                     </td>
@@ -139,7 +166,7 @@ const ManageRoomsPage = () => {
                 </div>
                 {currentRoom != null && (
                     <div className="register-page">
-                        <form  enctype="multipart/form-data" onSubmit={formik.handleSubmit}>
+                        <form encType="multipart/form-data" onSubmit={formik.handleSubmit}>
                             <FormField label="name" name="Nazwa" type="text" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.name} />
                             {formik.touched.name && formik.errors.name && <p className="error">{formik.errors.name}</p>}
                             <FormField label="capacity" name="Pojemność" type="number" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.capacity} />
@@ -148,11 +175,24 @@ const ManageRoomsPage = () => {
                             {formik.touched.pricePerNight && formik.errors.pricePerNight && <p className="error">{formik.errors.pricePerNight}</p>}
                             <FormField label="description" name="Opis pokoju" type="text" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.description} />
                             {formik.touched.description && formik.errors.description && <p className="error">{formik.errors.description}</p>}
-                            <div className="form-field" >
-                                <label htmlFor="image">Zdjęcie pokoju</label>
-                                <input name="image" id="image" type="file" style={{ width: '400px' }} onChange={handleFileChange} onBlur={formik.handleBlur}/>
+                            <div className="form-field">
+                                <label htmlFor="image">Zdjęcia pokoju</label>
+                                <input name="images" id="image" type="file" style={{ width: '400px' }} multiple onChange={handleFileChange} onBlur={formik.handleBlur} />
                             </div>
-                            {formik.touched.image && formik.errors.image && <p className="error">{formik.errors.image}</p>}
+                             <div>
+                            <p>Zdjęcia pokoju:</p>
+                            {[...previewImages, ...formik.values.imagePaths].map((image, index) => (
+                                <div key={index} className="image-container">
+                                    <img src={image.url ? image.url : image} alt={`Room image`} className='room-image'/>
+                                    <img
+                                        src="/delete-1-icon.png"
+                                        alt="Usuń"
+                                        className="remove-icon"
+                                        onClick={() => handleRemoveImage(image.id, image.url ? 'preview' : 'existing')}
+                                    />
+                                </div>
+                            ))}
+                        </div>
                             {!formik.isValidating && <button type="submit">Zatwierdź</button>}
                             {!formik.isValid && formik.submitCount > 0 && <p className="error">Formularz zawiera błędy</p>}
                         </form>
@@ -164,8 +204,8 @@ const ManageRoomsPage = () => {
                 <button className="delete" onClick={() => handleConfirmDeleteRoom(selectedRoomId)}>Tak</button>
                 <button onClick={handleCloseConfirmation}>Anuluj</button>
             </Modal>
-    </div>
+        </div>
     );
-}
+};
 
-export default ManageRoomsPage
+export default ManageRoomsPage;
