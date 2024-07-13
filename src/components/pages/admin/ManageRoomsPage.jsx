@@ -12,9 +12,9 @@ const ManageRoomsPage = () => {
     const [currentRoom, setCurrentRoom] = useState(null);
     const [selectedRoomId, setSelectedRoomId] = useState(null);
     const [isConfirmationOpen, setIsConfirmationOpen] = useState(false);
-    const [isDeleteImageModalOpen, setIsDeleteImageModalOpen] = useState(false); // State for delete image modal
+    const [isDeleteImageModalOpen, setIsDeleteImageModalOpen] = useState(false);
     const [previewImages, setPreviewImages] = useState([]);
-    const [imageToDelete, setImageToDelete] = useState(null); // State to track image to delete
+    const [imageToDelete, setImageToDelete] = useState(null);
 
     const handleOpenConfirmation = (id) => {
         setIsConfirmationOpen(true);
@@ -192,7 +192,7 @@ const ManageRoomsPage = () => {
                             {formik.touched.capacity && formik.errors.capacity && <p className="error">{formik.errors.capacity}</p>}
                             <FormField label="pricePerNight" name="Cena za noc" type="number" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.pricePerNight} />
                             {formik.touched.pricePerNight && formik.errors.pricePerNight && <p className="error">{formik.errors.pricePerNight}</p>}
-                            <FormField label="description" name="Opis pokoju" type="text" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.description} />
+                            <FormField label="description" name="Opis pokoju" type="textarea" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.description} />
                             {formik.touched.description && formik.errors.description && <p className="error">{formik.errors.description}</p>}
                             <div className="form-field">
                                 <label htmlFor="image">Zdjęcia pokoju</label>
