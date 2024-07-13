@@ -1,11 +1,12 @@
 import '../../../stylesheets/register-page.css';
 import { useEffect, useState } from "react";
 import "../../../stylesheets/admin-main-page.css"
-import { useFormik } from 'formik';
+import { Form, Formik, useFormik } from 'formik';
 import * as Yup from 'yup';
 import FormField from '../../FormField';
 import Modal from 'react-modal';
 import { deleteUser, fetchUsers, putUser } from "../../../api/users";
+import FastFormField from '../../FastFormField';
 
 
 const ManageUsersPage = () => {
@@ -137,26 +138,51 @@ const ManageUsersPage = () => {
                 </div>
                 {currentUser != null && (
                     <div className="register-page">
-                        <form onSubmit={formik.handleSubmit}>
-                            <FormField label="name" name="Imię" type="text" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.name} />
-                            {formik.touched.name && formik.errors.name && <p className="error">{formik.errors.name}</p>}
-                            <FormField label="surname" name="Nazwisko" type="text" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.surname} />
-                            {formik.touched.surname && formik.errors.surname && <p className="error">{formik.errors.surname}</p>}
-                            <FormField label="email" name="Email" type="text" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.email} />
-                            {formik.touched.email && formik.errors.email && <p className="error">{formik.errors.email}</p>}
-                            <FormField label="phoneNumber" name="Numer telefonu" type="text" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.phoneNumber} />
-                            {formik.touched.phoneNumber && formik.errors.phoneNumber && <p className="error">{formik.errors.phoneNumber}</p>}
-                            <FormField label="address" name="Adres" type="text" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.address} />
-                            {formik.touched.address && formik.errors.address && <p className="error">{formik.errors.address}</p>}
-                            <FormField label="city" name="Miasto" type="text" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.city} />
-                            {formik.touched.city && formik.errors.city && <p className="error">{formik.errors.city}</p>}
-                            <FormField label="postCode" name="Kod pocztowy" type="text" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.postCode} />
-                            {formik.touched.postCode && formik.errors.postCode && <p className="error">{formik.errors.postCode}</p>}
-                            <FormField label="pesel" name="PESEL" type="text" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.pesel} />
-                            {formik.touched.pesel && formik.errors.pesel && <p className="error">{formik.errors.pesel}</p>}
-                            {!formik.isValidating && <button type="submit">Zatwierdź zmiany</button>}
+
+                    <Formik
+                    initialValues={{
+                        id: currentUser.id,
+                        name: currentUser.name,
+                        surname: currentUser.surname,
+                        email: currentUser.email,
+                        phoneNumber: currentUser.phoneNumber,
+                        address: currentUser.address,
+                        city: currentUser.city,
+                        postCode: currentUser.postCode,
+                        pesel: currentUser.pesel,
+                    }}
+                    validationSchema={Yup.object({
+                        name: Yup.string().required('Wpisz imię'),
+                        surname: Yup.string().required('Wpisz nazwisko'),
+                        email: Yup.string().email('Niepoprawny adres email').required('Wpisz email'),
+                        phoneNumber: Yup.string().matches(/^[\d+\s]+$/, 'Niepoprawny format numeru telefonu').required('Wpisz numer telefonu'),
+                        address: Yup.string().required('Wpisz adres'),
+                        city: Yup.string().required('Wpisz miasto'),
+                        postCode: Yup.string().matches(/^\d{2}-\d{3}$/, 'Niepoprawny format kodu pocztowego').required('Wpisz kod pocztowy'),
+                        pesel: Yup.string().matches(/^\d{11}$/, 'Niepoprawny format numeru PESEL').required('Wpisz pesel'),
+                                })}
+                    onSubmit={async (values) => {
+                        putUser(currentUser.id, values);
+                        location.reload();
+                    }}
+                    >
+                    {formik => (
+                        <Form>
+                            <FastFormField name="name" label="Imię" type="text" />
+                            <FastFormField name="surname" label="Nazwisko" type="text" />
+                            <FastFormField name="email" label="Email" type="text" />
+                            <FastFormField name="phoneNumber" label="Numer telefonu" type="text" />
+                            <FastFormField name="address" label="Adres" type="text" />
+                            <FastFormField name="city" label="Miasto" type="text" />
+                            <FastFormField name="postCode" label="Kod pocztowy" type="text" />
+                            <FastFormField name="pesel" label="PESEL" type="text" />
+                            <button type="submit" disabled={formik.isSubmitting}>Zatwierdź zmiany</button>
                             {!formik.isValid && formik.submitCount > 0 && <p className="error">Formularz zawiera błędy</p>}
-                        </form>
+                        </Form>
+                    )}
+                </Formik>
+
+                    
                     </div>
                 )}
             </div>

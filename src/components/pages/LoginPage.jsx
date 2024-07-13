@@ -1,76 +1,70 @@
 import { useState } from 'react';
-import '../../stylesheets/register-page.css'
+import '../../stylesheets/register-page.css';
 import Footer from '../Footer';
-import FormField from '../FormField';
 import Navbar from '../Navbar';
-import { useFormik } from 'formik';
+import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { fetchUser } from '../../api/users';
+import FormField from '../FormField';
+import FastFormField from '../FastFormField';
 
-
-const LoginPage = () =>{
-
+const LoginPage = () => {
     const navigateTo = useNavigate();
     const [errorMessage, setErrorMessage] = useState('');
 
-    const formik = useFormik({
-        initialValues: {
-            username: '',
-            password: '',
-        },
-        validationSchema: Yup.object({
-            username: Yup.string().required('Wpisz email'),
-            password: Yup.string().required('Wpisz hasło'),
-        }),
-        onSubmit: async (values) => {
-            
-            try {
-                const response = await axios.post("http://localhost:8080/auth/login", values);
-                localStorage.setItem('token', response.data.token);
-                console.log(response.data.token)
-                const storedPath = localStorage.getItem('redirectPath');
-                const fetchedUser = await fetchUser()
-                console.log(fetchedUser)
-                if (storedPath) {
-                    localStorage.removeItem('redirectPath'); 
-                    navigateTo(storedPath); 
-                } else if(fetchedUser.role == "ROLE_ADMIN") {
-                    navigateTo('/admin');
-                }
-                else{
-                    navigateTo('/');
-                }
-
-              }
-              catch (error) {
-                  if (error.response.status === 401) {
-                    setErrorMessage('Niepoprawny email lub hasło.');
-                }
-              }
-        },
-    });
-
-
     return (
         <>
-        <Navbar/>
-        <div className='register-page'>
-            <h1>Zaloguj się!</h1>
-            <form onSubmit={formik.handleSubmit}>
-                <FormField label="username" name="Email" type="text" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.username} />
-                {formik.touched.username && formik.errors.username && <p className="error">{formik.errors.username}</p>}
-                <FormField label="password" name="Hasło" type="password" onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.password} />
-                {formik.touched.password && formik.errors.password && <p className="error">{formik.errors.password}</p>}
-                {!formik.isValidating && <button type="submit">Zaloguj się</button>} 
-                {errorMessage && <p className="error">{errorMessage}</p>}           
-                {!formik.isValid && formik.submitCount > 0 && <p className="error">Wypełnij formularz logowania</p>}
-            </form>
-        </div>
-        <Footer/>
-    </>
+            <Navbar />
+            <div className='register-page'>
+                <h1>Zaloguj się!</h1>
+                <Formik
+                    initialValues={{
+                        username: '',
+                        password: '',
+                    }}
+                    validationSchema={Yup.object({
+                        username: Yup.string().required('Wpisz email'),
+                        password: Yup.string().required('Wpisz hasło'),
+                    })}
+                    onSubmit={async (values, { setSubmitting }) => {
+                        try {
+                            const response = await axios.post("http://localhost:8080/auth/login", values);
+                            localStorage.setItem('token', response.data.token);
+                            const storedPath = localStorage.getItem('redirectPath');
+                            const fetchedUser = await fetchUser();
+                            if (storedPath) {
+                                localStorage.removeItem('redirectPath'); 
+                                navigateTo(storedPath); 
+                            } else if (fetchedUser.role === "ROLE_ADMIN") {
+                                navigateTo('/admin');
+                            } else {
+                                navigateTo('/');
+                            }
+                        } catch (error) {
+                            if (error.response.status === 401) {
+                                setErrorMessage('Niepoprawny email lub hasło.');
+                            }
+                        } finally {
+                            setSubmitting(false);
+                        }
+                    }}
+                >
+                    {formik => (
+                        <Form>
+                            <FastFormField name="username" label="Email" type="text" />
+                            <FastFormField name="password" label="Hasło" type="password" />
+                            <button type="submit" disabled={formik.isSubmitting}>Zaloguj się</button>
+                            {errorMessage && <p className="error">{errorMessage}</p>}
+                            {!formik.isValid && formik.submitCount > 0 && <p className="error">Wypełnij formularz logowania</p>}
+                        </Form>
+                    )}
+                </Formik>
+            </div>
+            <Footer />
+        </>
     );
-}
+};
 
 export default LoginPage;
