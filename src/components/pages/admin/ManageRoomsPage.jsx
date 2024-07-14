@@ -113,13 +113,13 @@ const ManageRoomsPage = () => {
                 formik.setFieldValue("newImages", updatedNewImages);
             } else if (imageToDelete.type === 'existing') {
                 await deleteRoomImage(currentRoom.id, imageToDelete.id);
-                const updatedImages = formik.values.imagePaths.filter(image => image.id !== imageToDelete.id);
+                const updatedImages = formik.values.imagePaths.filter(image => image !== imageToDelete.id);
                 formik.setFieldValue("imagePaths", updatedImages);
                 const updatedRooms = rooms.map(room => {
                     if (room.id === currentRoom.id) {
                         return {
                             ...room,
-                            imagePaths: room.imagePaths.filter(image => image.id !== imageToDelete.id)
+                            imagePaths: room.imagePaths.filter(image => image !== imageToDelete.id)
                         };
                     }
                     return room;
@@ -135,6 +135,8 @@ const ManageRoomsPage = () => {
 
     const handleCloseDeleteModal = () => {
         setIsDeleteImageModalOpen(false);
+        console.log(imageToDelete.id + "XDDDD")
+
         setImageToDelete(null);
     };
     return (
