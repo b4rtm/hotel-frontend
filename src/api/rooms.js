@@ -42,9 +42,19 @@ export const postRoom = async (values) => {
 };
 
 export const putRoom = async (id, values) => {
+
+    const formData = new FormData();
+    formData.append('name', values.name);
+    formData.append('capacity', values.capacity);
+    formData.append('pricePerNight', values.pricePerNight);
+    formData.append('description', values.description);
+    
+    values.newImages.forEach((image, index) => {
+        formData.append('newImages', image.file);
+    });
     try {
         console.log(values)
-        const response = await axios.put('http://localhost:8080/rooms/' + id, values, {
+        const response = await axios.put('http://localhost:8080/rooms/' + id, formData, {
             headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`,
             }});
