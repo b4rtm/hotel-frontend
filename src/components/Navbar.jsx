@@ -5,12 +5,35 @@ import { useEffect, useState } from 'react';
 import i18next from 'i18next';
 import '../translations/transations'
 import { fetchUser } from '../api/users';
+import Dropdown from 'react-dropdown';
+import 'react-dropdown/style.css';
+import { useNavigate } from 'react-router-dom';
+
 
 const Navbar = ({language}) =>{
 
   const { t } = useTranslation();
   const [user, setUser] = useState(null);
+  const navigate = useNavigate();
 
+  const options = [
+    { value: 'myReservations', label: 'Moje rezerwacje' },
+    { value: 'logout', label: 'Wyloguj' }
+  ];
+
+  const handleDropdownChange = (option) => {
+    switch (option.value) {
+      case 'myReservations':
+        console.log('Przejście do Moich rezerwacji');
+        break;
+      case 'logout':
+        localStorage.removeItem('token')
+        navigate('/login');
+        break;
+      default:
+        break;
+    }
+  };
   useEffect(() =>{
     const fetchData = async () => {
       const userData = await fetchUser();
@@ -36,12 +59,14 @@ const Navbar = ({language}) =>{
       </Link>
       { user ? (
         <>
-          <div  className='navbar-item'>
-            {t('loggedAs')} {user.email}
-          </div>
-          <Link to="/login" onClick={() => localStorage.removeItem('token')} className='navbar-item'>
-            {t('logout')}
-          </Link>
+ <div className='navbar-item'>
+      <Dropdown
+      className='navbar-item'
+      options={options}
+      onChange={handleDropdownChange}
+      placeholder={`${user.name} ${user.surname}`}
+    />
+    </div>
         </>
       ) : (
         <>
