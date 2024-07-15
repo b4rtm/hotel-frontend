@@ -6,6 +6,7 @@ import * as Yup from 'yup';
 import Modal from 'react-modal';
 import { deleteUser, fetchUsers, putUser } from "../../../api/users";
 import FastFormField from '../../FastFormField';
+import { Link } from 'react-router-dom';
 
 const ManageUsersPage = () => {
     const [users, setUsers] = useState([]);
@@ -52,6 +53,7 @@ const ManageUsersPage = () => {
     return (
         <div className='manage-page'>
             <h1>Zarządzaj użytkownikami</h1>
+            <Link to="/login" className="logout-button" onClick={() => localStorage.removeItem('token')}>Wyloguj</Link>
 
             <div className="content">
                 <div className="fields">

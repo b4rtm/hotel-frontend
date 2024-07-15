@@ -6,6 +6,7 @@ import * as Yup from 'yup';
 import FormField from '../../FormField';
 import Modal from 'react-modal';
 import { deleteRoom, fetchRooms, postRoom, putRoom, deleteRoomImage } from "../../../api/rooms";
+import { Link } from 'react-router-dom';
 
 const ManageRoomsPage = () => {
     const [rooms, setRooms] = useState([]);
@@ -142,6 +143,7 @@ const ManageRoomsPage = () => {
     return (
         <div className='manage-page'>
             <h1>Zarządzaj pokojami</h1>
+            <Link to="/login" className="logout-button" onClick={() => localStorage.removeItem('token')}>Wyloguj</Link>
 
             <div className="content">
                 <div className="fields">
