@@ -1,0 +1,10 @@
+
+.booking-history-page .booking{
+    margin: 15px;
+    padding: 5px;
+    font-size: 24px;
+}
+
+.booking-history-page .booking img{
+    width: 300px;
+}

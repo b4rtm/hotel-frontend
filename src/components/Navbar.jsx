@@ -24,7 +24,7 @@ const Navbar = ({language}) =>{
   const handleDropdownChange = (option) => {
     switch (option.value) {
       case 'myReservations':
-        console.log('Przejście do Moich rezerwacji');
+        navigate('/booking-history/' + user.id);
         break;
       case 'logout':
         localStorage.removeItem('token')

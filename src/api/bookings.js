@@ -13,6 +13,17 @@ export const fetchBookings = async () => {
     }
 };
 
+export const fetchUserBookings = async (id) => {
+    try {
+        const response = await axios.get(`http://localhost:8080/bookings/user?userId=${id}`, {
+            headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+            }});
+        return response.data
+    } catch (error) {
+        console.error('Error fetching bookings:', error);
+    }
+};
 
 export const fetchBooking = async (id) => {
     try {
