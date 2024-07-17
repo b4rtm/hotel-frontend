@@ -1,10 +1,31 @@
 
+.booking-history-page h1{
+    text-align: center;
+    font-size: 60px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
 .booking-history-page .booking{
-    margin: 15px;
-    padding: 5px;
+    margin: 135px;
     font-size: 24px;
+    border: 1px rgb(170, 170, 170) solid;
+    border-radius: 15px;
+    display: flex;
+    max-height: 400px;
+    justify-content: space-between;
 }
 
 .booking-history-page .booking img{
-    width: 300px;
+    width: 800px;
+    object-fit: cover;
+    right: 0px;
 }
+
+.booking-history-page .booking .booking-info{
+    margin-left: 50px;
+    font-size: 40px;
+    font-weight: bold;
+}
+
+
+

@@ -28,13 +28,16 @@ const BookingHistoryPage = () => {
         <>
             <Navbar />
                 <div className="booking-history-page">
+                    <h1>Twoje rezerwacje</h1>
                 {bookings.map((booking, index) => (
                     <div className="booking" key={index}>
+                        <div className="booking-info">
+                            <p>Numer rezerwacji: {booking.id}</p>
+                            <p>Data rozpoczęcia: {formatDate(booking.checkInDate)}</p>
+                            <p>Data zakończenia: {formatDate(booking.checkOutDate)}</p>
+                            <p>{booking.room.name}</p>
+                        </div>
                         <img src={booking.room.imagePaths[0]} />
-                        <p>Numer rezerwacji: {booking.id}</p>
-                        <p>Data rozpoczęcia: {formatDate(booking.checkInDate)}</p>
-                        <p>Data zakończenia: {formatDate(booking.checkOutDate)}</p>
-                        <p>{booking.room.name}</p>
                     </div>
                 ))}
                 </div>
