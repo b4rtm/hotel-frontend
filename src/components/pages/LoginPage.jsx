@@ -1,24 +1,36 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import '../../stylesheets/register-page.css';
 import Footer from '../Footer';
 import Navbar from '../Navbar';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { fetchUser } from '../../api/users';
-import FormField from '../FormField';
 import FastFormField from '../FastFormField';
 
 const LoginPage = () => {
     const navigateTo = useNavigate();
+    const location = useLocation();
+
     const [errorMessage, setErrorMessage] = useState('');
+    const [infoMessage, setInfoMessage] = useState('');
+
+    useEffect(() => {
+        const queryParams = new URLSearchParams(location.search);
+        const message = queryParams.get('message');
+        if (message === 'activate') {
+            setInfoMessage('Twoje konto zostało zarejestrowane. Aby się zalogować, musisz aktywować swoje konto klikając w link aktywacyjny wysłany na Twój e-mail.');
+        }
+    }, [location.search]);
 
     return (
         <>
             <Navbar />
             <div className='register-page'>
                 <h1>Zaloguj się!</h1>
+                {infoMessage && <p className="error">{infoMessage}</p>}
+
                 <Formik
                     initialValues={{
                         username: '',
