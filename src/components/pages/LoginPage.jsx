@@ -46,6 +46,10 @@ const LoginPage = () => {
                             if (error.response.status === 401) {
                                 setErrorMessage('Niepoprawny email lub hasło.');
                             }
+                            else if (error.response.status === 403) {
+                                console.log(error)
+                                setErrorMessage('Konto nie zostało aktywowane.');
+                            }
                         } finally {
                             setSubmitting(false);
                         }
