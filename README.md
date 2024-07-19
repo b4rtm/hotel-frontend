@@ -9,10 +9,13 @@ Link to backend: https://github.com/b4rtm/hotel-backend
 - adding, editing and deleting rooms, users and bookings (admin panel)
 - booking room
 - login and register
+- account activation through link sent to email (SMTP)
 - form validation
 - pagination
 - internationalization
 - room search
+- room can have several pictures
+- booking confirmation email
 
 ## Images
 ### Main page
