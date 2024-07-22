@@ -6,6 +6,7 @@ import * as Yup from 'yup';
 import FormField from '../../FormField';
 import Modal from 'react-modal';
 import { deleteRoom, fetchRooms, postRoom, putRoom, deleteRoomImage } from "../../../api/rooms";
+import { Link } from 'react-router-dom';
 
 const ManageRoomsPage = () => {
     const [rooms, setRooms] = useState([]);

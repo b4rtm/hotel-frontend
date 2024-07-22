@@ -14,6 +14,7 @@ import ManageBookingsPage from './components/pages/admin/ManageBookingsPage';
 import ContactPage from './components/pages/ContactPage';
 import SummaryPage from './components/pages/SummaryPage';
 import BookingHistoryPage from './components/pages/BookingHistoryPage';
+import ManageStaffPage from './components/pages/admin/ManageStaffPage';
 
 
 const AppRoutes = () => {
@@ -29,6 +30,7 @@ const AppRoutes = () => {
         <Route path="/admin/users" element={<ManageUsersPage/>} />
         <Route path="/admin/rooms" element={<ManageRoomsPage/>} />
         <Route path="/admin/bookings" element={<ManageBookingsPage/>} />
+        <Route path="/admin/staff" element={<ManageStaffPage/>} />
         <Route path="/contact" element={<ContactPage/>} />
         <Route path="/booking-history/:userId" element={<BookingHistoryPage/>} />
         <Route path="/summary/:bookingId" element={<SummaryPage/>} />
