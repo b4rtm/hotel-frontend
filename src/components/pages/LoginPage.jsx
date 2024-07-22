@@ -8,6 +8,7 @@ import axios from 'axios';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { fetchUser } from '../../api/users';
 import FastFormField from '../FastFormField';
+import { GoogleLogin } from '@react-oauth/google';
 
 const LoginPage = () => {
     const navigateTo = useNavigate();
@@ -15,6 +16,7 @@ const LoginPage = () => {
 
     const [errorMessage, setErrorMessage] = useState('');
     const [infoMessage, setInfoMessage] = useState('');
+    const [googleLoginError, setGoogleLoginError] = useState(null);
 
     useEffect(() => {
         const queryParams = new URLSearchParams(location.search);
@@ -24,13 +26,30 @@ const LoginPage = () => {
         }
     }, [location.search]);
 
+    const handleGoogleLoginSuccess = (response) => {
+       
+      };
+    
+    
+      const handleGoogleLoginError = (response) => {
+       
+      };
+
     return (
         <>
             <Navbar />
             <div className='register-page'>
                 <h1>Zaloguj się!</h1>
                 {infoMessage && <p className="error">{infoMessage}</p>}
-
+                <div>
+                    <div>
+                    <GoogleLogin
+                        onSuccess={handleGoogleLoginSuccess}
+                        onError={handleGoogleLoginError}
+                    />
+                    </div>
+                    {googleLoginError && <div>{googleLoginError}</div>}
+                </div>
                 <Formik
                     initialValues={{
                         username: '',
