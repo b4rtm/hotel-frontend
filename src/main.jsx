@@ -7,7 +7,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
   <GoogleOAuthProvider clientId='8218279479-970tm6tra2pje83ob0mlqn2a8hepme94.apps.googleusercontent.com'>
     <React.StrictMode>
       <App />
-    </React.StrictMode>,
+    </React.StrictMode>
   </GoogleOAuthProvider>
 
 )

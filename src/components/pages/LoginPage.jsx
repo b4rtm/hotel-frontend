@@ -26,14 +26,30 @@ const LoginPage = () => {
         }
     }, [location.search]);
 
-    const handleGoogleLoginSuccess = (response) => {
-       
-      };
-    
-    
-      const handleGoogleLoginError = (response) => {
-       
-      };
+    const handleGoogleLoginSuccess = async (response) => {
+        try {
+            const idToken = response.credential;
+            const backendResponse = await axios.post("http://localhost:8080/auth/google-login", { idToken: idToken });
+            localStorage.setItem('token', backendResponse.data.token);
+            const storedPath = localStorage.getItem('redirectPath');
+            const fetchedUser = await fetchUser();
+            if (storedPath) {
+                localStorage.removeItem('redirectPath'); 
+                navigateTo(storedPath); 
+            } else if (fetchedUser.role === "ROLE_ADMIN") {
+                navigateTo('/admin');
+            } else {
+                navigateTo('/');
+            }
+        } catch (error) {
+            setGoogleLoginError('Failed to log in with Google.');
+        }
+    };
+
+    const handleGoogleLoginError = (error) => {
+        setGoogleLoginError('Google login failed. Please try again.');
+        console.error(error);
+    };
 
     return (
         <>
