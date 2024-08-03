@@ -6,6 +6,10 @@
     justify-content: center;
 }
 
+.rooms-page .main-content{
+    display: flex;
+}
+
 .rooms-page h1{
     color: rgb(8, 46, 97);
     font-size: 50px;
@@ -54,7 +58,6 @@
 }
 
 .rooms-page .search-input{
-    margin-left: 40px;;
     width: 300px;
     padding: 8px;
     border: 1px solid #ccc;
@@ -79,4 +82,10 @@
 
 .pagination div.active {
     background-color: #ccc;
+}
+
+.filter-panel{
+    display: flex;
+    flex-direction: column;
+    width: 315px;
 }
