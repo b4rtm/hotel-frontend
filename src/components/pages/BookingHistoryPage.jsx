@@ -29,7 +29,7 @@ const BookingHistoryPage = () => {
             <Navbar />
                 <div className="booking-history-page">
                     <h1>Twoje rezerwacje</h1>
-                {bookings.map((booking, index) => (
+                {bookings && bookings.map((booking, index) => (
                     <div className="booking" key={index}>
                         <div className="booking-info">
                             <p>Numer rezerwacji: {booking.id}</p>
