@@ -4,8 +4,9 @@ import '../../stylesheets/rooms-page.css';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { fetchRooms } from '../../api/rooms';
-import ReactSlider from 'react-slider';
+import DatePicker from 'react-datepicker';
 import { Slider } from '@mui/material';
+import {isRoomAvailable } from '../../api/date';
 
 const RoomsPage = () => {
     const [rooms, setRooms] = useState([]);
@@ -13,6 +14,10 @@ const RoomsPage = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [priceRange, setPriceRange] = useState([0, 1000]);
     const [capacity, setCapacity] = useState('');
+    const [startDate, setStartDate] = useState(null);
+    const [endDate, setEndDate] = useState(null);
+    const today = new Date();
+
 
     useEffect(() => {
         const fetchData = async () => {
@@ -33,6 +38,7 @@ const RoomsPage = () => {
 
     const handlePriceRangeChange = (event, newValue) => {
         setPriceRange(newValue);
+        console.log(rooms);
     };
 
     const handleCapacityChange = (event) => {
@@ -45,9 +51,11 @@ const RoomsPage = () => {
         const matchesMinPrice = room.pricePerNight >= priceRange[0];
         const matchesMaxPrice = room.pricePerNight <= priceRange[1];
         const matchesCapacity = capacity === '' || room.capacity == parseInt(capacity);
+        const matchesAvailability = isRoomAvailable(room, startDate, endDate);
 
-        return matchesSearchTerm && matchesMinPrice && matchesMaxPrice && matchesCapacity;
-    });
+        return matchesSearchTerm && matchesMinPrice && matchesMaxPrice && matchesCapacity && matchesAvailability;
+        });
+
     const getAriaValueText = (value) => {
         return `${value} zł`;
     };
@@ -90,6 +98,36 @@ const RoomsPage = () => {
                                 <option value='5'>5 osób</option>
                             </select>
                         </label>
+                        <div className='date'>
+                        <div className='pick-date'>
+                            <label>Początek rezerwacji:</label>
+                            <DatePicker
+                            selected={startDate}
+                            onChange={(date) => setStartDate(date)}
+                            selectsStart
+                            startDate={startDate}
+                            endDate={endDate}
+                            minDate={today} 
+                            dateFormat="dd/MM/yyyy"
+                            placeholderText="Wybierz datę początku"
+                            locale="pl"
+                            />
+                        </div>
+                        <div className='pick-date'>
+                            <label>Koniec rezerwacji:</label>
+                            <DatePicker
+                            selected={endDate}
+                            onChange={(date) => setEndDate(date)}
+                            selectsEnd
+                            startDate={startDate}
+                            endDate={endDate}
+                            minDate={startDate}
+                            dateFormat="dd/MM/yyyy"
+                            placeholderText="Wybierz datę końca"
+                            locale="pl"
+                            />
+                        </div>
+                    </div>
                     </div>
                     <div className='rooms'>
                         <div className='rooms-list'>
