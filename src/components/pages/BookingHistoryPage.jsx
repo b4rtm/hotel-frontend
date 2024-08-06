@@ -60,7 +60,8 @@ const BookingHistoryPage = () => {
             comment:review,
             rating
         };
-        postReview(reviewData)
+        postReview(reviewData);
+        location.reload();
         closeModal();
     };
 
