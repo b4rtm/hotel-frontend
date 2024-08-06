@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { useParams } from 'react-router-dom';
 import { formatDate } from "../../api/date";
 import { fetchRooms } from "../../api/rooms";
-import Modal from 'react-modal'; // Dodajemy import modalu
+import Modal from 'react-modal';
 import '../../stylesheets/booking-history.css';
 import { Rating, TextareaAutosize } from "@mui/material";
 import { postReview } from "../../api/reviews";
@@ -48,10 +48,16 @@ const BookingHistoryPage = () => {
     };
 
     const handleAddReview = async () => {
+        console.log(bookings);
         console.log(`Dodaj recenzję dla rezerwacji ${selectedBookingId}:`, { review, rating });
+
+        const selectedBooking = bookings.find(booking => booking.id === selectedBookingId);
+
         const reviewData = {
             bookingId: selectedBookingId,
-            review,
+            customerId:userId,
+            roomId: selectedBooking.room.id,
+            comment:review,
             rating
         };
         postReview(reviewData)
@@ -99,7 +105,7 @@ const BookingHistoryPage = () => {
                 setRating(newValue);
                 }}
             />
-                <TextareaAutosize aria-label="minimum height" minRows={3} placeholder="Dodaj komentarz" />
+                <TextareaAutosize aria-label="minimum height" value={review} minRows={3} placeholder="Dodaj komentarz" onChange={(event) => setReview(event.target.value)}/>
                 <button onClick={handleAddReview}>Dodaj recenzję</button>
                 <button onClick={closeModal}>Anuluj</button>
             </Modal>
