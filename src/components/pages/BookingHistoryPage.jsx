@@ -76,14 +76,17 @@ const BookingHistoryPage = () => {
                             <p>Data rozpoczęcia: {formatDate(booking.checkInDate)}</p>
                             <p>Data zakończenia: {formatDate(booking.checkOutDate)}</p>
                             <p>{booking.room.name}</p>
-                            {isReviewable(booking.checkOutDate) && (
+                            {booking.hasReview ? (
+                                <button className="added-review">Dodano opinię</button>
+                            ) :
+                            (isReviewable(booking.checkOutDate) && (
                                 <button
                                     className="add-review-button"
                                     onClick={() => openModal(booking.id)}
                                 >
-                                    Dodaj recenzję
+                                    Dodaj opinię
                                 </button>
-                            )}
+                                ))}
                         </div>
                         <img src={booking.room.imagePaths[0]} alt={booking.room.name} />
                     </div>
