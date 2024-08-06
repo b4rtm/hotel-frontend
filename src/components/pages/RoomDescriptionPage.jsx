@@ -12,6 +12,7 @@ import { generateDatesBetween, postBooking } from '../../api/bookings';
 import { handleEndDateChange, handleStartDateChange } from '../../api/date';
 import { fetchUser } from '../../api/users';
 import RoomSlider from '../RoomSlider'
+import { Rating } from '@mui/material';
 
 registerLocale('pl', pl);
 
@@ -36,7 +37,6 @@ const RoomDescriptionPage = () =>{
             setUser(userData);
         }
         fetchData();
-       
     }, []);
     
     useEffect(() => {
@@ -127,6 +127,16 @@ const RoomDescriptionPage = () =>{
                     <button onClick={handleReservation}>Rezerwuj</button>
 
                 </div>
+            </div>
+            <div className='reviews-list'>
+                <h1>Opinie o pokoju:</h1>
+                {room?.reviews.map(review => (
+                    <div key={review.id} className='review'>
+                        <p>{review.name}</p>
+                         <Rating name="read-only" value={review.rating} readOnly />
+                         <p>{review.comment}</p>
+                    </div>
+                ))}
             </div>
             {isModalOpen && (
             <div className="modal">
