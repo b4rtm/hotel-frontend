@@ -13,6 +13,7 @@ const RoomsPage = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
     const [priceRange, setPriceRange] = useState([0, 1000]);
+    const [ratingRange, setRatingRange] = useState([0, 5]);
     const [capacity, setCapacity] = useState('');
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
@@ -35,9 +36,8 @@ const RoomsPage = () => {
     const calculateAverageRating = (reviews) => {
         if (!reviews || reviews.length === 0) return 0;
         const totalRating = reviews.reduce((sum, review) => sum + review.rating, 0);
-        return (totalRating / reviews.length).toFixed(1); // Formatuj wynik do jednej liczby po przecinku
+        return (totalRating / reviews.length).toFixed(1);
     };
-
 
     const handleSearchChange = (event) => {
         setSearchTerm(event.target.value);
@@ -45,6 +45,10 @@ const RoomsPage = () => {
 
     const handlePriceRangeChange = (event, newValue) => {
         setPriceRange(newValue);
+    };
+
+    const handleRatingRangeChange = (event, newValue) => {
+        setRatingRange(newValue);
     };
 
     const handleCapacityChange = (event) => {
@@ -59,10 +63,12 @@ const RoomsPage = () => {
         const matchesSearchTerm = room.name.toLowerCase().includes(searchTerm.toLowerCase());
         const matchesMinPrice = room.pricePerNight >= priceRange[0];
         const matchesMaxPrice = room.pricePerNight <= priceRange[1];
+        const matchesMinRating = calculateAverageRating(room.reviews) >= ratingRange[0];
+        const matchesMaxRating = calculateAverageRating(room.reviews) <= ratingRange[1];
         const matchesCapacity = capacity === '' || room.capacity == parseInt(capacity);
         const matchesAvailability = isRoomAvailable(room, startDate, endDate);
 
-        return matchesSearchTerm && matchesMinPrice && matchesMaxPrice && matchesCapacity && matchesAvailability;
+        return matchesSearchTerm && matchesMinPrice && matchesMaxPrice && matchesMinRating && matchesMaxRating && matchesCapacity && matchesAvailability;
     });
 
     const sortedRooms = filteredRooms.sort((a, b) => {
@@ -118,6 +124,20 @@ const RoomsPage = () => {
                                 onChange={handlePriceRangeChange}
                                 valueLabelDisplay="auto"
                                 getAriaValueText={getAriaValueText}
+                                disableSwap
+                            />
+                        </label>
+                        <label>
+                            Zakres ocen: {ratingRange[0]} - {ratingRange[1]}
+                            <Slider
+                                getAriaLabel={() => 'Zakres ocen'}
+                                min={0}
+                                max={5}
+                                step={0.1}
+                                value={ratingRange}
+                                onChange={handleRatingRangeChange}
+                                valueLabelDisplay="auto"
+                                getAriaValueText={(value) => `${value} gwiazdek`}
                                 disableSwap
                             />
                         </label>
