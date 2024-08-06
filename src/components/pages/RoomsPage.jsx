@@ -79,6 +79,12 @@ const RoomsPage = () => {
 
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
+    const calculateAverageRating = (reviews) => {
+        if (!reviews || reviews.length === 0) return 0;
+        const totalRating = reviews.reduce((sum, review) => sum + review.rating, 0);
+        return (totalRating / reviews.length).toFixed(1); // Formatuj wynik do jednej liczby po przecinku
+    };
+
     return (
         <>
             <Navbar />
@@ -156,6 +162,10 @@ const RoomsPage = () => {
                                     <img src={room.imagePaths[0]} alt={room.name} />
                                     <p>{room.name}</p>
                                     <p>{room.pricePerNight} zł</p>
+                                    <div className='rating'>
+                                        <p>{calculateAverageRating(room.reviews)}</p>
+                                        <img className="star" src='star.png'/>
+                                    </div>
                                     <button>Rezerwuj pokój</button>
                                 </div>
                             ))}
