@@ -32,6 +32,13 @@ const RoomsPage = () => {
         navigateTo('/rooms/' + roomId);
     };
 
+    const calculateAverageRating = (reviews) => {
+        if (!reviews || reviews.length === 0) return 0;
+        const totalRating = reviews.reduce((sum, review) => sum + review.rating, 0);
+        return (totalRating / reviews.length).toFixed(1); // Formatuj wynik do jednej liczby po przecinku
+    };
+
+
     const handleSearchChange = (event) => {
         setSearchTerm(event.target.value);
     };
@@ -63,6 +70,10 @@ const RoomsPage = () => {
             return a.name.localeCompare(b.name);
         } else if (sortOrder === 'desc') {
             return b.name.localeCompare(a.name);
+        } else if (sortOrder === 'rating-high') {
+            return calculateAverageRating(b.reviews) - calculateAverageRating(a.reviews);
+        } else if (sortOrder === 'rating-low') {
+            return calculateAverageRating(a.reviews) - calculateAverageRating(b.reviews);
         } else {
             return 0;
         }
@@ -79,12 +90,6 @@ const RoomsPage = () => {
 
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
-    const calculateAverageRating = (reviews) => {
-        if (!reviews || reviews.length === 0) return 0;
-        const totalRating = reviews.reduce((sum, review) => sum + review.rating, 0);
-        return (totalRating / reviews.length).toFixed(1); // Formatuj wynik do jednej liczby po przecinku
-    };
-
     return (
         <>
             <Navbar />
@@ -99,6 +104,8 @@ const RoomsPage = () => {
                                 <option value=''>Wybierz opcję</option>
                                 <option value='asc'>od A do Z</option>
                                 <option value='desc'>od Z do A</option>
+                                <option value='rating-high'>Ocena: od najwyższej</option>
+                                <option value='rating-low'>Ocena: od najniższej</option>
                             </select>
                         </label>
                         <label>
