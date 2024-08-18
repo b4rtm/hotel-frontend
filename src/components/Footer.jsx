@@ -1,18 +1,15 @@
 import '../stylesheets/main-page.css'
 import '../stylesheets/footer.css'
 import { useTranslation } from 'react-i18next';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import i18next from 'i18next';
 import '../translations/i18n'
 import { Link } from 'react-router-dom';
 
-function Footer({language}) {
+function Footer() {
 
     const { t } = useTranslation();
 
-    useEffect(() => {
-      i18next.changeLanguage(language);
-    }, [language]);
 
     return (
         <div className="footer">

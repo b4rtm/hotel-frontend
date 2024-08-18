@@ -10,7 +10,7 @@ import 'react-dropdown/style.css';
 import { useNavigate } from 'react-router-dom';
 
 
-const Navbar = ({language}) =>{
+const Navbar = () =>{
 
   const { t } = useTranslation();
   const [user, setUser] = useState(null);
@@ -41,10 +41,6 @@ const Navbar = ({language}) =>{
     }
     fetchData();
   }, [])
-
-  useEffect(() => {
-    i18next.changeLanguage(language);
-  }, [language]);
 
   return (
     <div className="navbar">
