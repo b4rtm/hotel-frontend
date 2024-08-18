@@ -89,10 +89,10 @@ const BookingHistoryPage = () => {
                                 </button>
                                 ))}
                             {booking.approved && !isReviewable(booking.checkOutDate) && (
-                                <button className="green-button">Zatwierdzona</button>
+                                <button className="green-button">Zatwierdzone przez hotel</button>
                             )} 
                             {!booking.approved && !isReviewable(booking.checkOutDate) &&(
-                                <button className="awaiting-button">Oczekiwanie na zatwierdzenie</button>
+                                <button className="awaiting-button">Oczekiwanie na zatwierdzenie przez hotel</button>
                             )}
                         </div>
                         <img src={booking.room.imagePaths[0]} alt={booking.room.name} />
