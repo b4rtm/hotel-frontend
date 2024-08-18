@@ -16,9 +16,9 @@ function Footer() {
             <div className='footer-column'>
                 <h1>Royal Residence</h1>
                 <div className='footer-content'>
-                    <p>{t('address')}</p>
+                    <p>{t('ourAddress')}</p>
                     <p>{t('phone')}</p>
-                    <p>{t('email')}</p>
+                    <p>{t('ourEmail')}</p>
                 </div>
             </div>
             <div className='footer-column'>

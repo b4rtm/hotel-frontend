@@ -7,6 +7,7 @@ import { fetchRooms } from '../../api/rooms';
 import DatePicker from 'react-datepicker';
 import { Slider } from '@mui/material';
 import { isRoomAvailable } from '../../api/date';
+import { useTranslation } from 'react-i18next';
 
 const RoomsPage = () => {
     const [rooms, setRooms] = useState([]);
@@ -19,6 +20,7 @@ const RoomsPage = () => {
     const [endDate, setEndDate] = useState(null);
     const [sortOrder, setSortOrder] = useState(''); 
     const today = new Date();
+    const { t } = useTranslation();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -86,7 +88,7 @@ const RoomsPage = () => {
     });
 
     const getAriaValueText = (value) => {
-        return `${value} zł`;
+       return `${value} ${t('currency')}`;
     };
 
     const roomsPerPage = 6;
@@ -100,23 +102,23 @@ const RoomsPage = () => {
         <>
             <Navbar />
             <div className='rooms-page'>
-                <h1>Pokoje i apartamenty</h1>
+            <h1>{t('rooms')}</h1>
                 <div className='main-content'>
                     <div className="filter-panel">
-                        <input className="search-input" type="text" placeholder="Wyszukaj pokój..." value={searchTerm} onChange={handleSearchChange} />
+                        <input className="search-input" type="text" placeholder={t('search')} value={searchTerm} onChange={handleSearchChange} />
                         <label>
-                            Sortuj według:
+                            {t('sortBy')}:
                             <select value={sortOrder} onChange={handleSortChange}>
-                                <option value=''>Wybierz opcję</option>
-                                <option value='asc'>od A do Z</option>
-                                <option value='desc'>od Z do A</option>
-                                <option value='rating-high'>Ocena: od najwyższej</option>
-                                <option value='rating-low'>Ocena: od najniższej</option>
+                                <option value=''>{t('selectOption')}</option>
+                                <option value='asc'>{t('ascending')}</option>
+                                <option value='desc'>{t('descending')}</option>
+                                <option value='rating-high'>{t('ratingHigh')}</option>
+                                <option value='rating-low'>{t('ratingLow')}</option>
                             </select>
                         </label>
                         <label>
-                            Zakres cen: {priceRange[0]} zł - {priceRange[1]} zł
-                            <Slider
+                        {t('priceRange')}: {priceRange[0]} {t('currency')} - {priceRange[1]} {t('currency')}
+                        <Slider
                                 getAriaLabel={() => 'Zakres cen'}
                                 min={0}
                                 max={1000}
@@ -128,7 +130,7 @@ const RoomsPage = () => {
                             />
                         </label>
                         <label>
-                            Zakres ocen: {ratingRange[0]} - {ratingRange[1]}
+                        {t('ratingRange')}: {ratingRange[0]} - {ratingRange[1]}
                             <Slider
                                 getAriaLabel={() => 'Zakres ocen'}
                                 min={0}
@@ -143,18 +145,18 @@ const RoomsPage = () => {
                         </label>
                         <label>
                             <select value={capacity} onChange={handleCapacityChange}>
-                                <option value=''>Wybierz liczbę osób</option>
-                                <option value='1'>1 osoba</option>
-                                <option value='2'>2 osoby</option>
-                                <option value='3'>3 osoby</option>
-                                <option value='4'>4 osoby</option>
-                                <option value='5'>5 osób</option>
+                            <option value=''>{t('selectCapacity')}</option>
+                                <option value='1'>{t('onePerson')}</option>
+                                <option value='2'>{t('twoPeople')}</option>
+                                <option value='3'>{t('threePeople')}</option>
+                                <option value='4'>{t('fourPeople')}</option>
+                                <option value='5'>{t('fivePeople')}</option>
                             </select>
                         </label>
                         <div className='date'>
                             <div className='pick-date'>
-                                <label>Początek rezerwacji:</label>
-                                <DatePicker
+                            <label>{t('startDate')}:</label>
+                            <DatePicker
                                     selected={startDate}
                                     onChange={(date) => setStartDate(date)}
                                     selectsStart
@@ -162,13 +164,13 @@ const RoomsPage = () => {
                                     endDate={endDate}
                                     minDate={today}
                                     dateFormat="dd/MM/yyyy"
-                                    placeholderText="Wybierz datę początku"
+                                    placeholderText={t('selectStartDate')}
                                     locale="pl"
                                 />
                             </div>
                             <div className='pick-date'>
-                                <label>Koniec rezerwacji:</label>
-                                <DatePicker
+                            <label>{t('endDate')}:</label>
+                            <DatePicker
                                     selected={endDate}
                                     onChange={(date) => setEndDate(date)}
                                     selectsEnd
@@ -176,7 +178,7 @@ const RoomsPage = () => {
                                     endDate={endDate}
                                     minDate={startDate}
                                     dateFormat="dd/MM/yyyy"
-                                    placeholderText="Wybierz datę końca"
+                                    placeholderText={t('selectEndDate')}
                                     locale="pl"
                                 />
                             </div>
@@ -188,12 +190,12 @@ const RoomsPage = () => {
                                 <div key={room.id} className='room-card' onClick={() => goToRoomDetails(room.id)}>
                                     <img src={room.imagePaths[0]} alt={room.name} />
                                     <p>{room.name}</p>
-                                    <p>{room.pricePerNight} zł</p>
+                                    <p>{room.pricePerNight} {t('currency')}</p>
                                     <div className='rating'>
                                         <p>{calculateAverageRating(room.reviews)}</p>
                                         <img className="star" src='star.png'/>
                                     </div>
-                                    <button>Rezerwuj pokój</button>
+                                    <button>{t('reserve')}</button>
                                 </div>
                             ))}
                         </div>

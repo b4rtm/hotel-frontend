@@ -17,8 +17,8 @@ const Navbar = () =>{
   const navigate = useNavigate();
 
   const options = [
-    { value: 'myReservations', label: 'Moje rezerwacje' },
-    { value: 'logout', label: 'Wyloguj' }
+    { value: 'myReservations', label: t("myReservations") },
+    { value: 'logout', label: t("logout") }
   ];
 
   const handleDropdownChange = (option) => {

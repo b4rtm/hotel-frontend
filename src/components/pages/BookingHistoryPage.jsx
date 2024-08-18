@@ -9,6 +9,7 @@ import Modal from 'react-modal';
 import '../../stylesheets/booking-history.css';
 import { Rating, TextareaAutosize } from "@mui/material";
 import { postReview } from "../../api/reviews";
+import { useTranslation } from "react-i18next";
 
 const BookingHistoryPage = () => {
     const { userId } = useParams();
@@ -18,6 +19,8 @@ const BookingHistoryPage = () => {
     const [selectedBookingId, setSelectedBookingId] = useState(null);
     const [review, setReview] = useState('');
     const [rating, setRating] = useState(0);
+    const { t } = useTranslation();
+
 
     useEffect(() => {
         const getBookings = async () => {
@@ -69,30 +72,31 @@ const BookingHistoryPage = () => {
         <>
             <Navbar />
             <div className="booking-history-page">
-                <h1>Twoje rezerwacje</h1>
+                <h1>{t('yourBookings')}</h1>
                 {bookings && bookings.map((booking, index) => (
                     <div className="booking" key={index}>
                         <div className="booking-info">
-                            <p>Numer rezerwacji: {booking.id}</p>
-                            <p>Data rozpoczęcia: {formatDate(booking.checkInDate)}</p>
-                            <p>Data zakończenia: {formatDate(booking.checkOutDate)}</p>
+                            <p>{t('bookingNumber')}: {booking.id}</p>
+                            <p>{t('startDate')}: {formatDate(booking.checkInDate)}</p>
+                            <p>{t('endDate')}: {formatDate(booking.checkOutDate)}</p>
                             <p>{booking.room.name}</p>
                             {booking.hasReview ? (
-                                <button className="added-review">Dodano opinię</button>
-                            ) :
-                            (isReviewable(booking.checkOutDate) && (
-                                <button
-                                    className="green-button"
-                                    onClick={() => openModal(booking.id)}
-                                >
-                                    Dodaj opinię
-                                </button>
-                                ))}
-                            {booking.approved && !isReviewable(booking.checkOutDate) && (
-                                <button className="green-button">Zatwierdzone przez hotel</button>
-                            )} 
-                            {!booking.approved && !isReviewable(booking.checkOutDate) &&(
-                                <button className="awaiting-button">Oczekiwanie na zatwierdzenie przez hotel</button>
+                                <button className="added-review">{t('reviewAdded')}</button>
+                            ) : (
+                                isReviewable(booking.checkOutDate) && (
+                                    <button
+                                        className="green-button"
+                                        onClick={() => openModal(booking.id)}
+                                    >
+                                        {t('addReview')}
+                                    </button>
+                                )
+                            )}
+                           {booking.approved && !isReviewable(booking.checkOutDate) && (
+                                <button className="green-button">{t('approvedByHotel')}</button>
+                            )}
+                            {!booking.approved && !isReviewable(booking.checkOutDate) && (
+                                <button className="awaiting-button">{t('awaitingApproval')}</button>
                             )}
                         </div>
                         <img src={booking.room.imagePaths[0]} alt={booking.room.name} />
@@ -108,16 +112,16 @@ const BookingHistoryPage = () => {
                 className="modal"
                 overlayClassName="review-modal-overlay"
             >
-                <h2>Dodaj recenzję</h2>
+                <h2>t('reviewModalTitle')</h2>
                 <Rating
                 value={rating}
                 onChange={(event, newValue) => {
                 setRating(newValue);
                 }}
             />
-                <TextareaAutosize aria-label="minimum height" value={review} minRows={3} placeholder="Dodaj komentarz" onChange={(event) => setReview(event.target.value)}/>
-                <button onClick={handleAddReview}>Dodaj recenzję</button>
-                <button onClick={closeModal}>Anuluj</button>
+                <TextareaAutosize aria-label="minimum height" value={review} minRows={3} placeholder={t('enterReview')} onChange={(event) => setReview(event.target.value)}/>
+                <button onClick={handleAddReview}>{t('submitReview')}</button>
+                <button onClick={closeModal}>{t('cancel')}</button>
             </Modal>
         </>
     );

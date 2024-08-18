@@ -13,10 +13,12 @@ import { handleEndDateChange, handleStartDateChange } from '../../api/date';
 import { fetchUser } from '../../api/users';
 import RoomSlider from '../RoomSlider';
 import { Rating } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 
 registerLocale('pl', pl);
 
 const RoomDescriptionPage = () => {
+    const { t } = useTranslation();
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
     const [reservedDates, setReservedDates] = useState(null);
@@ -76,7 +78,6 @@ const RoomDescriptionPage = () => {
 
     const closeModal = () => {
         setIsModalOpen(false);
-        console.log(room);
     };
 
     return (
@@ -89,12 +90,12 @@ const RoomDescriptionPage = () => {
                 </div>
                 <div className='second-row'>
                     <p className='desc'>{room?.description}</p>
-                    <p className='price'>{room?.pricePerNight} zł za noc</p>
-                    <p className='capacity'>Pokój mieści {room?.capacity} {room?.capacity === 1 ? 'osobę' : 'osoby'}</p>
+                    <p className='price'>{room?.pricePerNight} {t('currency')} {t('perNight')}</p>
+                    <p className='capacity'>{t('roomCapacity')} {room?.capacity} {room?.capacity === 1 ? t('person') : t('people')}</p>
                     
                     <div className='date'>
                         <div className='pick-date'>
-                            <label>Początek rezerwacji:</label>
+                            <label>{t('startDate')}:</label>
                             <DatePicker
                                 selected={startDate}
                                 onChange={(date) => handleStartDateChange(date, setStartDate, setOverlapError)}
@@ -102,7 +103,7 @@ const RoomDescriptionPage = () => {
                                 startDate={startDate}
                                 endDate={endDate}
                                 dateFormat="dd/MM/yyyy"
-                                placeholderText="Wybierz datę początku"
+                                placeholderText={t('selectStartDate')}
                                 excludeDates={reservedDates}
                                 filterDate={(date) => {
                                     return date >= new Date() && !reservedDates.includes(date);
@@ -111,7 +112,7 @@ const RoomDescriptionPage = () => {
                             />
                         </div>
                         <div className='pick-date'>
-                            <label>Koniec rezerwacji:</label>
+                            <label>{t('endDate')}:</label>
                             <DatePicker
                                 selected={endDate}
                                 onChange={(date) => handleEndDateChange(date, setEndDate, setOverlapError, startDate, reservedDates)}
@@ -120,7 +121,7 @@ const RoomDescriptionPage = () => {
                                 endDate={endDate}
                                 minDate={startDate}
                                 dateFormat="dd/MM/yyyy"
-                                placeholderText="Wybierz datę końca"
+                                placeholderText={t('selectEndDate')}
                                 excludeDates={reservedDates}
                                 filterDate={(date) => {
                                     return date >= new Date() && !reservedDates.includes(date);
@@ -129,16 +130,16 @@ const RoomDescriptionPage = () => {
                             />
                         </div>
                     </div>
-                    {overlapError && <p style={{ color: 'red' }}>Wybrana data przecina się z wcześniej zarezerwowaną datą.</p>}
-                    {isReservationAttempted && !startDate && !endDate && <p className='error'>Wybierz datę początku i datę końca rezerwacji.</p>}
-                    <button onClick={handleReservation}>Rezerwuj</button>
+                    {overlapError && <p style={{ color: 'red' }}>{t('dateOverlapError')}</p>}
+                    {isReservationAttempted && !startDate && !endDate && <p className='error'>{t('selectBothDates')}</p>}
+                    <button onClick={handleReservation}>{t('reserve')}</button>
                 </div>
             </div>
             <div className='reviews-list'>
-                <h1>Opinie o pokoju:</h1>
+                <h1>{t('roomReviews')}:</h1>
                 {room?.reviews.length > 0 ? (
                     <>
-                        <h2>Średnia ocen: {averageRating.toFixed(1)} / 5</h2>
+                        <h2>{t('averageRating')}: {averageRating.toFixed(1)} / 5</h2>
                         {room.reviews.map(review => (
                             <div key={review.id} className='review'>
                                 <p>{review.name}</p>
@@ -148,14 +149,14 @@ const RoomDescriptionPage = () => {
                         ))}
                     </>
                 ) : (
-                    <p>Brak opinii</p>
+                    <p>{t('noReviews')}</p>
                 )}
             </div>
             {isModalOpen && (
                 <div className="modal">
                     <div className="modal-content">
-                        <h2>Czy na pewno chcesz zarezerwować?</h2>
-                        <button onClick={closeModal} style={{ backgroundColor: 'darkred', border: 'red' }}>Anuluj</button>
+                        <h2>{t('confirmReservation')}</h2>
+                        <button onClick={closeModal} style={{ backgroundColor: 'darkred', border: 'red' }}>{t('cancel')}</button>
                         <button onClick={async () => {
                             closeModal();
                             const id = await postBooking({
@@ -165,7 +166,7 @@ const RoomDescriptionPage = () => {
                                 customerId: user?.id
                             });
                             navigateTo("/summary/" + id);
-                        }}>Zarezerwuj</button>
+                        }}>{t('confirm')}</button>
                     </div>
                 </div>
             )}

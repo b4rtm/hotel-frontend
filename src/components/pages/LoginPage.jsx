@@ -9,8 +9,10 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { fetchUser } from '../../api/users';
 import FastFormField from '../FastFormField';
 import { GoogleLogin } from '@react-oauth/google';
+import { useTranslation } from 'react-i18next';
 
 const LoginPage = () => {
+    const { t } = useTranslation();
     const navigateTo = useNavigate();
     const location = useLocation();
 
@@ -22,9 +24,9 @@ const LoginPage = () => {
         const queryParams = new URLSearchParams(location.search);
         const message = queryParams.get('message');
         if (message === 'activate') {
-            setInfoMessage('Twoje konto zostało zarejestrowane. Aby się zalogować, musisz aktywować swoje konto klikając w link aktywacyjny wysłany na Twój e-mail.');
+            setInfoMessage(t('accountActivationMessage'));
         }
-    }, [location.search]);
+    }, [location.search, t]);
 
     const handleGoogleLoginSuccess = async (response) => {
         try {
@@ -42,12 +44,12 @@ const LoginPage = () => {
                 navigateTo('/');
             }
         } catch (error) {
-            setGoogleLoginError('Failed to log in with Google.');
+            setGoogleLoginError(t('googleLoginFailed'));
         }
     };
 
     const handleGoogleLoginError = (error) => {
-        setGoogleLoginError('Google login failed. Please try again.');
+        setGoogleLoginError(t('googleLoginFailed'));
         console.error(error);
     };
 
@@ -55,14 +57,14 @@ const LoginPage = () => {
         <>
             <Navbar />
             <div className='register-page'>
-                <h1>Zaloguj się!</h1>
+                <h1>{t('login')}</h1>
                 {infoMessage && <p className="error">{infoMessage}</p>}
                 <div>
                     <div>
-                    <GoogleLogin
-                        onSuccess={handleGoogleLoginSuccess}
-                        onError={handleGoogleLoginError}
-                    />
+                        <GoogleLogin
+                            onSuccess={handleGoogleLoginSuccess}
+                            onError={handleGoogleLoginError}
+                        />
                     </div>
                     {googleLoginError && <div>{googleLoginError}</div>}
                 </div>
@@ -72,8 +74,8 @@ const LoginPage = () => {
                         password: '',
                     }}
                     validationSchema={Yup.object({
-                        username: Yup.string().required('Wpisz email'),
-                        password: Yup.string().required('Wpisz hasło'),
+                        username: Yup.string().required(t('enterEmail')),
+                        password: Yup.string().required(t('enterPassword')),
                     })}
                     onSubmit={async (values, { setSubmitting }) => {
                         try {
@@ -91,11 +93,9 @@ const LoginPage = () => {
                             }
                         } catch (error) {
                             if (error.response.status === 401) {
-                                setErrorMessage('Niepoprawny email lub hasło.');
-                            }
-                            else if (error.response.status === 403) {
-                                console.log(error)
-                                setErrorMessage('Konto nie zostało aktywowane.');
+                                setErrorMessage(t('invalidCredentials'));
+                            } else if (error.response.status === 403) {
+                                setErrorMessage(t('accountNotActivated'));
                             }
                         } finally {
                             setSubmitting(false);
@@ -104,11 +104,11 @@ const LoginPage = () => {
                 >
                     {formik => (
                         <Form>
-                            <FastFormField name="username" label="Email" type="text" />
-                            <FastFormField name="password" label="Hasło" type="password" />
-                            <button type="submit" disabled={formik.isSubmitting}>Zaloguj się</button>
+                            <FastFormField name="username" label={t('email')} type="text" />
+                            <FastFormField name="password" label={t('password')} type="password" />
+                            <button type="submit" disabled={formik.isSubmitting}>{t('login')}</button>
                             {errorMessage && <p className="error">{errorMessage}</p>}
-                            {!formik.isValid && formik.submitCount > 0 && <p className="error">Wypełnij formularz logowania</p>}
+                            {!formik.isValid && formik.submitCount > 0 && <p className="error">{t('formErrors')}</p>}
                         </Form>
                     )}
                 </Formik>

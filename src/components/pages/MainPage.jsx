@@ -3,10 +3,12 @@ import Navbar from '../Navbar';
 import Footer from '../Footer';
 import { useEffect, useState } from 'react';
 import { useLanguage } from '../../translations/LanguageContext';
+import { useTranslation } from 'react-i18next';
 
 function MainPage() {
   const { language, setLanguage } = useLanguage();
-  
+  const { t } = useTranslation();
+
   const handleLanguageChange = (lang) => {
     setLanguage(lang);
   };
@@ -31,7 +33,7 @@ function MainPage() {
         </div>
       </div>
       <div className='welcome'>
-        <span>Witaj w</span>
+        <span>{t('welcome')}</span>
         <span className="larger-text">Royal Residence</span>
         <span>Łódź</span>
       </div>
