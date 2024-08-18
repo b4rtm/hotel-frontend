@@ -2,7 +2,7 @@ import '../../../stylesheets/register-page.css';
 import { useEffect, useState } from "react";
 import "../../../stylesheets/admin-main-page.css"
 import Modal from 'react-modal';
-import { deleteBooking, fetchBookings, generateDatesBetween, postBooking } from '../../../api/bookings';
+import { approveBooking, deleteBooking, fetchBookings, generateDatesBetween, postBooking } from '../../../api/bookings';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { registerLocale } from 'react-datepicker';
@@ -94,6 +94,13 @@ const ManageBookingsPage = () => {
         location.reload();
       }
 
+      const handleApproveBooking = async (bookingId) => {
+            approveBooking(bookingId);
+            location.reload();
+      };
+
+    const pendingBookings = bookings.filter(booking => !booking.approved);
+    const approvedBookings = bookings.filter(booking => booking.approved);
     
     return (
         <div className='manage-page'>
@@ -101,46 +108,75 @@ const ManageBookingsPage = () => {
             <Link to="/login" className="logout-button" onClick={() => localStorage.removeItem('token')}>Wyloguj</Link>
 
             <div className="content">
-                <div className="fields">
-                    <table>
-                        <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Data ropoczęcia</th>
-                            <th>Data zakończenia</th>
-                            <th>ID klienta</th>
-                            <th>ID pokoju</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                            {bookings.map((booking, index) => (
-                                <tr key={index + 1} className='info'>
-                                    <td>
-                                        <p>{booking.id}</p>
-                                    </td>
-                                    <td>
-                                        <p>{formatDate(booking.checkInDate)}</p>
-                                    </td>
-                                    <td>
-                                        <p>{formatDate(booking.checkOutDate)}</p>
-                                    </td>
-                                    <td>
-                                        <p>{booking.customer.id}</p>
-                                    </td>
-                                    <td>
-                                        <p>{booking.room.id}</p>
-                                    </td>
-                                    <td>
-                                        <svg onClick={() => handleOpenConfirmation(booking.id)} xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="2em" height="2em" viewBox="0 0 24 24" fill="black"><title>Usuń</title>
-                                            <path d="M 10 2 L 9 3 L 3 3 L 3 5 L 4.109375 5 L 5.8925781 20.255859 L 5.8925781 20.263672 C 6.023602 21.250335 6.8803207 22 7.875 22 L 16.123047 22 C 17.117726 22 17.974445 21.250322 18.105469 20.263672 L 18.107422 20.255859 L 19.890625 5 L 21 5 L 21 3 L 15 3 L 14 2 L 10 2 z M 6.125 5 L 17.875 5 L 16.123047 20 L 7.875 20 L 6.125 5 z"></path>
-                                        </svg>
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
+                <div className='bookings-list'>
+                    <h2>Rezerwacje do zatwierdzenia</h2>
+                    <div className="fields">
+                        <table>
+                            <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Data rozpoczęcia</th>
+                                <th>Data zakończenia</th>
+                                <th>ID klienta</th>
+                                <th>ID pokoju</th>
+                                <th>Usuń</th>
+                                <th>Zatwierdź</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                                {pendingBookings.map((booking, index) => (
+                                    <tr key={index} className='info'>
+                                        <td>{booking.id}</td>
+                                        <td>{formatDate(booking.checkInDate)}</td>
+                                        <td>{formatDate(booking.checkOutDate)}</td>
+                                        <td>{booking.customer.id}</td>
+                                        <td>{booking.room.id}</td>
+                                        <td>
+                                            <svg onClick={() => handleOpenConfirmation(booking.id)} xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 24 24" fill="black"><title>Usuń</title>
+                                                <path d="M 10 2 L 9 3 L 3 3 L 3 5 L 4.109375 5 L 5.8925781 20.255859 L 5.8925781 20.263672 C 6.023602 21.250335 6.8803207 22 7.875 22 L 16.123047 22 C 17.117726 22 17.974445 21.250322 18.105469 20.263672 L 18.107422 20.255859 L 19.890625 5 L 21 5 L 21 3 L 15 3 L 14 2 L 10 2 z M 6.125 5 L 17.875 5 L 16.123047 20 L 7.875 20 L 6.125 5 z"></path>
+                                            </svg>
+                                        </td>
+                                        <td>
+                                            <img  onClick={() => handleApproveBooking(booking.id)}  className='icon' src='/check.png'/>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+
+
+                    <h2>Zatwierdzone rezerwacje</h2>
+                    <div className="fields">
+                        <table>
+                            <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Data rozpoczęcia</th>
+                                <th>Data zakończenia</th>
+                                <th>ID klienta</th>
+                                <th>ID pokoju</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                                {approvedBookings.map((booking, index) => (
+                                    <tr key={index} className='info'>
+                                        <td>{booking.id}</td>
+                                        <td>{formatDate(booking.checkInDate)}</td>
+                                        <td>{formatDate(booking.checkOutDate)}</td>
+                                        <td>{booking.customer.id}</td>
+                                        <td>{booking.room.id}</td>
+                                        <td>
+                                            <svg onClick={() => handleOpenConfirmation(booking.id)} xmlns="http://www.w3.org/2000/svg" width="2em" height="2em" viewBox="0 0 24 24" fill="black"><title>Usuń</title>
+                                                <path d="M 10 2 L 9 3 L 3 3 L 3 5 L 4.109375 5 L 5.8925781 20.255859 L 5.8925781 20.263672 C 6.023602 21.250335 6.8803207 22 7.875 22 L 16.123047 22 C 17.117726 22 17.974445 21.250322 18.105469 20.263672 L 18.107422 20.255859 L 19.890625 5 L 21 5 L 21 3 L 15 3 L 14 2 L 10 2 z M 6.125 5 L 17.875 5 L 16.123047 20 L 7.875 20 L 6.125 5 z"></path>
+                                            </svg>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-               
                 <div className="register-page">
                     <div className="form-field">
                         <label>Wybierz pokój:</label>

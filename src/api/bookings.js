@@ -71,3 +71,16 @@ export const deleteBooking = async (id) => {
         console.error('Error deleting booking:', error);
     }
 };
+
+export const approveBooking = async (bookingId) => {
+    try {
+        const response = await axios.patch(`http://localhost:8080/bookings/${bookingId}/approve`, null, {
+            headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+            }});
+            return response.data;
+        } catch (error) {
+        console.error('Error posting booking:', error);
+    }
+}
+

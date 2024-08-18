@@ -173,3 +173,8 @@
 .logout-button:hover {
   background-color: #cc0000;
 }
+
+.icon{
+  width: 40px;
+  cursor: pointer;
+}
