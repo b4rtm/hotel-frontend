@@ -82,12 +82,18 @@ const BookingHistoryPage = () => {
                             ) :
                             (isReviewable(booking.checkOutDate) && (
                                 <button
-                                    className="add-review-button"
+                                    className="green-button"
                                     onClick={() => openModal(booking.id)}
                                 >
                                     Dodaj opinię
                                 </button>
                                 ))}
+                            {booking.approved && !isReviewable(booking.checkOutDate) && (
+                                <button className="green-button">Zatwierdzona</button>
+                            )} 
+                            {!booking.approved && !isReviewable(booking.checkOutDate) &&(
+                                <button className="awaiting-button">Oczekiwanie na zatwierdzenie</button>
+                            )}
                         </div>
                         <img src={booking.room.imagePaths[0]} alt={booking.room.name} />
                     </div>
