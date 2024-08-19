@@ -27,9 +27,10 @@ export const postRoom = async (values) => {
     formData.append('capacity', values.capacity);
     formData.append('pricePerNight', values.pricePerNight);
     formData.append('description', values.description);
-    formData.append('image', values.image);
-
-    try {
+    values.newImages.forEach((image, index) => {
+        formData.append('newImages', image.file);
+    });
+        try {
         const response = await axios.post('http://localhost:8080/rooms', formData, {
             headers: {
               'Content-Type': 'multipart/form-data',
