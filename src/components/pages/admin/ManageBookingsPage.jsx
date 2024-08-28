@@ -99,8 +99,8 @@ const ManageBookingsPage = () => {
             location.reload();
       };
 
-    const pendingBookings = bookings.filter(booking => !booking.approved);
-    const approvedBookings = bookings.filter(booking => booking.approved);
+    const pendingBookings = bookings.filter(booking => !booking.isApproved);
+    const approvedBookings = bookings.filter(booking => booking.isApproved);
     
     return (
         <div className='manage-page'>
