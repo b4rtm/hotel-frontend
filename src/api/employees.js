@@ -18,6 +18,7 @@ export const fetchEmployees = async () => {
             headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`,
             }});
+            console.log(response.data)
         return response.data
     } catch (error) {
         console.error('Error fetching employees:', error);
@@ -43,5 +44,20 @@ export const putEmployee = async (id, values) => {
             }});
     } catch (error) {
         console.error('Error putting employee:', error);
+    }
+};
+
+export const translateRole = (role) => {
+    switch (role) {
+        case 'COOK':
+            return 'Kucharz/Kucharka';
+        case 'SECURITY':
+            return 'Ochroniarz/Ochroniarka';
+        case 'RECEPTIONIST':
+            return 'Recepcjonista/Recepcjoniska';
+        case 'HOUSEKEEPER':
+            return 'Pokojówka/Pokojowy';
+        default:
+            return role; // Na wypadek, gdyby pojawiła się nowa rola
     }
 };

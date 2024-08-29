@@ -13,13 +13,18 @@
     margin-bottom: 10px;
 }
 
-.register-page .form-field label, select{
+.register-page .form-field label{
     font-size: 30px;
     margin: 5px;
 }
 
 .register-page .form-field input{
     font-size: 25px;
+}
+
+.register-page .form-field select{
+    width: auto;
+    font-size: 20px;
 }
 
 .error{
