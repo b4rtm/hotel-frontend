@@ -12,12 +12,9 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     <React.StrictMode>
       <LanguageProvider>
       <LocalizationProvider dateAdapter={AdapterDateFns} adapterLocale={pl}>
-
       <App />
-      </LocalizationProvider>,
-
+      </LocalizationProvider>
       </LanguageProvider>
     </React.StrictMode>
   </GoogleOAuthProvider>
-
 )

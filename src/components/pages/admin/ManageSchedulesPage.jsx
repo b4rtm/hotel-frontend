@@ -15,7 +15,8 @@ import {
 import { EditingState, IntegratedEditing, ViewState } from '@devexpress/dx-react-scheduler';
 import { TextField, MenuItem, Select } from '@mui/material';
 import { fetchEmployees } from "../../../api/employees";
-import { DateTimePicker } from '@mui/x-date-pickers';
+import { DateTimePicker, LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 
 const ManageSchedulesPage = () => {
 
@@ -118,7 +119,7 @@ const ManageSchedulesPage = () => {
   );
 
   const CustomAppointmentForm = (props) => (
-    <AppointmentForm
+    <AppointmentForm 
       {...props}
       basicLayoutComponent={BasicLayout}
       messages={{
@@ -129,14 +130,14 @@ const ManageSchedulesPage = () => {
         repeatLabel: 'Powtarzaj',
         titleLabel: 'Tytuł',
         frequencyLabel: 'Częstotliwość', // Nowe tłumaczenia dla opcji powtarzania
-        dailyLabel: 'Codziennie',
-        weeklyLabel: 'Co tydzień',
-        monthlyLabel: 'Co miesiąc',
-        yearlyLabel: 'Co rok',
+        daily: 'Codziennie',
+        weekly: 'Co tydzień',
+        monthly: 'Co miesiąc',
+        yearly: 'Co rok',
         repeatEveryLabel: 'Powtarzaj co',
         daysLabel: 'dni',
         endRepeatLabel: 'Zakończ powtarzanie',
-        neverLabel: 'Nigdy',
+        never: 'Nigdy',
         onLabel: 'Po',
         occurrencesLabel: 'razach',
         afterLabel: 'Po',
@@ -148,6 +149,8 @@ const ManageSchedulesPage = () => {
       }}
     />
   );
+
+
   return (
     <Paper>
       <Scheduler data={data} locale="pl">
