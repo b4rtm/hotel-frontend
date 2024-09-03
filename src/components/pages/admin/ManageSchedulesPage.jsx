@@ -47,6 +47,12 @@ const ManageSchedulesPage = () => {
   const [employees, setEmployees] = useState([]);
   const [currentDate, setCurrentDate] = useState(new Date());
   const [currentViewName, setCurrentViewName] = useState('Week');
+  const [selectedPosition, setSelectedPosition] = useState('');
+  const roles = [...new Set(employees.map(employee => employee.position))];
+
+  const filteredData = selectedPosition
+    ? data.filter(event => employees.find(employee => employee.id === event.employeeId)?.position === selectedPosition)
+    : data;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -95,6 +101,22 @@ const ManageSchedulesPage = () => {
       </TextField>
     );
   };
+
+  const RoleSelector = ({ roles, selectedPosition, onRoleChange }) => (
+    <Select
+      value={selectedPosition}
+      onChange={(e) => onRoleChange(e.target.value)} 
+      variant="outlined"
+      displayEmpty
+    >
+      <MenuItem value="">Wszystkie</MenuItem>
+      {roles.map((role) => (
+        <MenuItem key={role} value={role}>
+          {role}
+        </MenuItem>
+      ))}
+    </Select>
+  );
 
   const BasicLayout = ({ appointmentData, onFieldChange, ...restProps }) => (
     <div>
@@ -161,7 +183,7 @@ const ManageSchedulesPage = () => {
 
   return (
     <Paper>
-      <Scheduler data={data} locale="pl">
+      <Scheduler data={filteredData} locale="pl">
         <ViewState
           currentDate={currentDate}
           onCurrentDateChange={setCurrentDate}
@@ -180,6 +202,11 @@ const ManageSchedulesPage = () => {
         <CustomViewSwitcher
           currentViewName={currentViewName}
           onChange={handleViewChange} 
+        />
+         <RoleSelector
+          roles={roles}
+          selectedPosition={selectedPosition}
+          onRoleChange={setSelectedPosition}
         />
         </Scheduler>
     </Paper>
