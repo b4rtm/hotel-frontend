@@ -97,13 +97,32 @@ const ManageSchedulesPage = () => {
   };
 
   const BasicLayout = ({ appointmentData, onFieldChange, ...restProps }) => (
-    <AppointmentForm.BasicLayout
-    appointmentData={appointmentData}
-    onFieldChange={onFieldChange}
-    {...restProps}
-  >
-    <EmployeeSelector appointmentData={appointmentData} onFieldChange={onFieldChange} />
-  </AppointmentForm.BasicLayout>
+    <div>
+      <EmployeeSelector appointmentData={appointmentData} onFieldChange={onFieldChange} />
+      <TextField
+        label="Tytuł"
+        value={appointmentData.title || ''}
+        onChange={(e) => onFieldChange({ title: e.target.value })}
+        fullWidth
+      />
+      <TextField
+        label="Notatki"
+        value={appointmentData.notes || ''}
+        onChange={(e) => onFieldChange({ notes: e.target.value })}
+        multiline
+        fullWidth
+      />
+      <label>Data rozpoczęcia</label>
+      <CustomDateTimePicker
+        value={appointmentData.startDate}
+        onChange={(date) => onFieldChange({ startDate: date })}
+      />
+      <label>Data zakończenia</label>
+      <CustomDateTimePicker
+        value={appointmentData.endDate}
+        onChange={(date) => onFieldChange({ endDate: date })}
+      />
+    </div>
   );
 
   const CustomViewSwitcher = ({ currentViewName, onChange }) => (
@@ -123,30 +142,19 @@ const ManageSchedulesPage = () => {
       {...props}
       basicLayoutComponent={BasicLayout}
       messages={{
-        moreInformationLabel: 'Notatki',
-        commitCommand: 'Zapisz', // Zmiana tekstu przycisku 'Save' na 'Zapisz'
-        detailsLabel: 'Szczegóły',
-        allDayLabel: 'Cały dzień',
-        repeatLabel: 'Powtarzaj',
-        titleLabel: 'Tytuł',
-        frequencyLabel: 'Częstotliwość', // Nowe tłumaczenia dla opcji powtarzania
-        daily: 'Codziennie',
-        weekly: 'Co tydzień',
-        monthly: 'Co miesiąc',
-        yearly: 'Co rok',
-        repeatEveryLabel: 'Powtarzaj co',
-        daysLabel: 'dni',
-        endRepeatLabel: 'Zakończ powtarzanie',
-        never: 'Nigdy',
-        onLabel: 'Po',
-        occurrencesLabel: 'razach',
-        afterLabel: 'Po',
-        repeatOnLabel: 'Powtarzaj w',
-        monthsLabel: 'miesiące',
-        ofEveryMonthLabel: 'każdego miesiąca',
-        ofLabel: 'z',
-        startOnLabel: 'Rozpocznij w',
+        commitCommand: 'Zapisz'
       }}
+    />
+  );
+
+  const CustomDateTimePicker = ({ value, onChange }) => (
+    <DateTimePicker
+      renderInput={(params) => <TextField {...params} fullWidth />}
+      value={value}
+      onChange={onChange}
+      ampm={false} // Ustawienie na format 24-godzinny
+      inputFormat="dd/MM/yyyy HH:mm" // Format wejściowy
+      mask="__ / __ / ____ __:__" // Maski wejściowe dla lepszej użyteczności
     />
   );
 
