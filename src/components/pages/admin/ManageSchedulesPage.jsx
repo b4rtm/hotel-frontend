@@ -15,7 +15,7 @@ import { EditingState, IntegratedEditing, ViewState } from '@devexpress/dx-react
 import { TextField, MenuItem, Select } from '@mui/material';
 import { fetchEmployees } from "../../../api/employees";
 import { DateTimePicker } from '@mui/x-date-pickers';
-import { fetchSchedules, postSchedule } from "../../../api/schedules";
+import { deleteSchedule, fetchSchedules, postSchedule, putSchedule } from "../../../api/schedules";
 
 
 const ManageSchedulesPage = () => {
@@ -85,15 +85,35 @@ const ManageSchedulesPage = () => {
         added.startDate = added.startDate.toISOString().slice(0, -5);
         added.endDate = added.endDate.toISOString().slice(0, -5);
         await postSchedule(added);
-        // location.reload();
+        location.reload();
     }
     if (changed) {
-      // Obsługa zmieniania
-      console.log('Zmodyfikowano wydarzenie:', changed);
-    }
+      const [id, changedFields] = Object.entries(changed)[0];
+
+        const originalSchedule = schedules.find(schedule => schedule.id === parseInt(id))
+        const updatedSchedule = {
+          ...originalSchedule,
+          ...changedFields 
+        };
+        console.log(updatedSchedule)
+        if (updatedSchedule.startDate) {
+          updatedSchedule.startDate = new Date(updatedSchedule.startDate);
+          updatedSchedule.startDate.setHours(updatedSchedule.startDate.getHours() + 2);
+          updatedSchedule.startDate = updatedSchedule.startDate.toISOString().slice(0, -5);
+      }
+      if (updatedSchedule.endDate) {
+          updatedSchedule.endDate = new Date(updatedSchedule.endDate);
+          updatedSchedule.endDate.setHours(updatedSchedule.endDate.getHours() + 2);
+          updatedSchedule.endDate = updatedSchedule.endDate.toISOString().slice(0, -5);
+      }
+
+        await putSchedule(id, updatedSchedule); 
+        location.reload();
+      }
     if (deleted !== undefined) {
-      // Obsługa usuwania
-      console.log('Usunięto wydarzenie o ID:', deleted);
+      console.log(deleted);
+      await deleteSchedule(deleted);
+      location.reload();
     }
   };
 
@@ -191,7 +211,6 @@ const ManageSchedulesPage = () => {
       onChange={onChange}
       ampm={false} // Ustawienie na format 24-godzinny
       inputFormat="dd/MM/yyyy HH:mm" // Format wejściowy
-      mask="__ / __ / ____ __:__" // Maski wejściowe dla lepszej użyteczności
     />
   );
 
