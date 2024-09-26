@@ -1,6 +1,6 @@
-import "../../../stylesheets/admin-main-page.css"
-import React, { useState, useEffect } from 'react';
-import Paper from '@mui/material/Paper';
+import "../../../stylesheets/admin-main-page.css";
+import React, { useState, useEffect } from "react";
+import Paper from "@mui/material/Paper";
 import {
   Scheduler,
   WeekView,
@@ -10,55 +10,39 @@ import {
   AppointmentTooltip,
   Toolbar,
   DateNavigator,
-} from '@devexpress/dx-react-scheduler-material-ui';
-import { EditingState, IntegratedEditing, ViewState } from '@devexpress/dx-react-scheduler';
-import { TextField, MenuItem, Select } from '@mui/material';
+} from "@devexpress/dx-react-scheduler-material-ui";
+import {
+  EditingState,
+  IntegratedEditing,
+  ViewState,
+} from "@devexpress/dx-react-scheduler";
+import { TextField, MenuItem, Select } from "@mui/material";
 import { fetchEmployees } from "../../../api/employees";
-import { DateTimePicker } from '@mui/x-date-pickers';
-import { deleteSchedule, fetchSchedules, postSchedule, putSchedule } from "../../../api/schedules";
-
+import { DateTimePicker } from "@mui/x-date-pickers";
+import {
+  deleteSchedule,
+  fetchSchedules,
+  postSchedule,
+  putSchedule,
+} from "../../../api/schedules";
 
 const ManageSchedulesPage = () => {
-
-
-  // const [data, setData] = useState([
-  //   {
-  //       id: 1,
-  //       title: 'Zmiana poranna - Recepcja',
-  //       startDate: new Date(2024, 8, 5, 9, 0), // 5 września 2024, 9:00
-  //       endDate: new Date(2024, 8, 5, 13, 0),  // 5 września 2024, 13:00
-  //       notes:"XDDDDDasd",
-  //       employeeId: 1,
-  //   },
-  //   {
-  //       id: 2,
-  //       title: 'Zmiana wieczorna - Ochrona',
-  //       startDate: new Date(2024, 8, 5, 18, 0), // 5 września 2024, 18:00
-  //       endDate: new Date(2024, 8, 5, 22, 0),  // 5 września 2024, 22:00
-  //       employeeId: 2,
-  //   },
-  //   {
-  //       id: 3,
-  //       title: 'Zmiana na lunch - Kucharz',
-  //       startDate: new Date(2024, 8, 6, 11, 0), // 6 września 2024, 11:00
-  //       endDate: new Date(2024, 8, 6, 15, 0),  // 6 września 2024, 15:00
-  //       employeeId: 3,
-  //   },
-  // ]);
-
   const [schedules, setSchedules] = useState([]);
   const [employees, setEmployees] = useState([]);
   const [currentDate, setCurrentDate] = useState(new Date());
-  const [currentViewName, setCurrentViewName] = useState('Week');
-  const [selectedPosition, setSelectedPosition] = useState('');
-  const roles = [...new Set(employees.map(employee => employee.position))];
+  const [currentViewName, setCurrentViewName] = useState("Week");
+  const [selectedPosition, setSelectedPosition] = useState("");
+  const roles = [...new Set(employees.map((employee) => employee.position))];
 
   const filteredData = selectedPosition
-    ? schedules.filter(event => employees.find(employee => employee.id === event.employeeId)?.position === selectedPosition)
+    ? schedules.filter(
+        (event) =>
+          employees.find((employee) => employee.id === event.employeeId)
+            ?.position === selectedPosition
+      )
     : schedules;
 
   useEffect(() => {
-
     const fetchSchedulesData = async () => {
       const schedulesData = await fetchSchedules();
       setSchedules(schedulesData);
@@ -75,41 +59,52 @@ const ManageSchedulesPage = () => {
 
   const handleViewChange = (viewName) => {
     setCurrentViewName(viewName);
-  }
+  };
 
   const commitChanges = async ({ added, changed, deleted }) => {
     if (added) {
-        added.startDate.setHours(added.startDate.getHours() + 2);
-        added.endDate.setHours(added.endDate.getHours() + 2);
-        
-        added.startDate = added.startDate.toISOString().slice(0, -5);
-        added.endDate = added.endDate.toISOString().slice(0, -5);
-        await postSchedule(added);
-        location.reload();
+      added.startDate.setHours(added.startDate.getHours() + 2);
+      added.endDate.setHours(added.endDate.getHours() + 2);
+      added.notes = added.notes != null ? added.notes : "";
+      added.startDate = added.startDate.toISOString().slice(0, -5);
+      added.endDate = added.endDate.toISOString().slice(0, -5);
+      await postSchedule(added);
+      location.reload();
     }
     if (changed) {
       const [id, changedFields] = Object.entries(changed)[0];
 
-        const originalSchedule = schedules.find(schedule => schedule.id === parseInt(id))
-        const updatedSchedule = {
-          ...originalSchedule,
-          ...changedFields 
-        };
-        console.log(updatedSchedule)
-        if (updatedSchedule.startDate) {
-          updatedSchedule.startDate = new Date(updatedSchedule.startDate);
-          updatedSchedule.startDate.setHours(updatedSchedule.startDate.getHours() + 2);
-          updatedSchedule.startDate = updatedSchedule.startDate.toISOString().slice(0, -5);
+      const originalSchedule = schedules.find(
+        (schedule) => schedule.id === parseInt(id)
+      );
+      const updatedSchedule = {
+        ...originalSchedule,
+        ...changedFields,
+      };
+      console.log(updatedSchedule);
+      if (updatedSchedule.startDate) {
+        updatedSchedule.startDate = new Date(updatedSchedule.startDate);
+        updatedSchedule.startDate.setHours(
+          updatedSchedule.startDate.getHours() + 2
+        );
+        updatedSchedule.startDate = updatedSchedule.startDate
+          .toISOString()
+          .slice(0, -5);
       }
       if (updatedSchedule.endDate) {
-          updatedSchedule.endDate = new Date(updatedSchedule.endDate);
-          updatedSchedule.endDate.setHours(updatedSchedule.endDate.getHours() + 2);
-          updatedSchedule.endDate = updatedSchedule.endDate.toISOString().slice(0, -5);
+        updatedSchedule.endDate = new Date(updatedSchedule.endDate);
+        updatedSchedule.endDate.setHours(
+          updatedSchedule.endDate.getHours() + 2
+        );
+        updatedSchedule.endDate = updatedSchedule.endDate
+          .toISOString()
+          .slice(0, -5);
       }
+      added.notes = added.notes != null ? added.notes : "";
 
-        await putSchedule(id, updatedSchedule); 
-        location.reload();
-      }
+      await putSchedule(id, updatedSchedule);
+      location.reload();
+    }
     if (deleted !== undefined) {
       console.log(deleted);
       await deleteSchedule(deleted);
@@ -118,7 +113,7 @@ const ManageSchedulesPage = () => {
   };
 
   const EmployeeSelector = ({ appointmentData, onFieldChange }) => {
-    const currentEmployeeId = appointmentData.employeeId || '';
+    const currentEmployeeId = appointmentData.employeeId || "";
 
     return (
       <TextField
@@ -140,7 +135,7 @@ const ManageSchedulesPage = () => {
   const RoleSelector = ({ roles, selectedPosition, onRoleChange }) => (
     <Select
       value={selectedPosition}
-      onChange={(e) => onRoleChange(e.target.value)} 
+      onChange={(e) => onRoleChange(e.target.value)}
       variant="outlined"
       displayEmpty
     >
@@ -155,16 +150,19 @@ const ManageSchedulesPage = () => {
 
   const BasicLayout = ({ appointmentData, onFieldChange, ...restProps }) => (
     <div>
-      <EmployeeSelector appointmentData={appointmentData} onFieldChange={onFieldChange} />
+      <EmployeeSelector
+        appointmentData={appointmentData}
+        onFieldChange={onFieldChange}
+      />
       <TextField
         label="Tytuł"
-        value={appointmentData.title || ''}
+        value={appointmentData.title || ""}
         onChange={(e) => onFieldChange({ title: e.target.value })}
         fullWidth
       />
       <TextField
         label="Notatki"
-        value={appointmentData.notes || ''}
+        value={appointmentData.notes || ""}
         onChange={(e) => onFieldChange({ notes: e.target.value })}
         multiline
         fullWidth
@@ -195,11 +193,11 @@ const ManageSchedulesPage = () => {
   );
 
   const CustomAppointmentForm = (props) => (
-    <AppointmentForm 
+    <AppointmentForm
       {...props}
       basicLayoutComponent={BasicLayout}
       messages={{
-        commitCommand: 'Zapisz'
+        commitCommand: "Zapisz",
       }}
     />
   );
@@ -209,11 +207,10 @@ const ManageSchedulesPage = () => {
       renderInput={(params) => <TextField {...params} fullWidth />}
       value={value}
       onChange={onChange}
-      ampm={false} // Ustawienie na format 24-godzinny
-      inputFormat="dd/MM/yyyy HH:mm" // Format wejściowy
+      ampm={false}
+      inputFormat="dd/MM/yyyy HH:mm"
     />
   );
-
 
   return (
     <Paper>
@@ -235,14 +232,14 @@ const ManageSchedulesPage = () => {
         <DateNavigator />
         <CustomViewSwitcher
           currentViewName={currentViewName}
-          onChange={handleViewChange} 
+          onChange={handleViewChange}
         />
-         <RoleSelector
+        <RoleSelector
           roles={roles}
           selectedPosition={selectedPosition}
           onRoleChange={setSelectedPosition}
         />
-        </Scheduler>
+      </Scheduler>
     </Paper>
   );
 };
