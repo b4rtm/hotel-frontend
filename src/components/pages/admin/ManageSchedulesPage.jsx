@@ -16,15 +16,26 @@ import {
   IntegratedEditing,
   ViewState,
 } from "@devexpress/dx-react-scheduler";
-import { TextField, MenuItem, Select } from "@mui/material";
-import { fetchEmployees } from "../../../api/employees";
+import {
+  TextField,
+  MenuItem,
+  Select,
+  Button,
+  FormControlLabel,
+  Checkbox,
+  FormGroup,
+} from "@mui/material";
+import { fetchEmployees, translateRole } from "../../../api/employees";
 import { DateTimePicker } from "@mui/x-date-pickers";
 import {
   deleteSchedule,
   fetchSchedules,
   postSchedule,
   putSchedule,
+  sendSchedulesEmail,
 } from "../../../api/schedules";
+import { TreeItem, TreeView } from "@mui/lab";
+import { ExpandMore, ChevronRight } from "@mui/icons-material";
 
 const ManageSchedulesPage = () => {
   const [schedules, setSchedules] = useState([]);
@@ -32,6 +43,8 @@ const ManageSchedulesPage = () => {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [currentViewName, setCurrentViewName] = useState("Week");
   const [selectedPosition, setSelectedPosition] = useState("");
+  const [selectedEmployees, setSelectedEmployees] = useState(new Set());
+
   const roles = [...new Set(employees.map((employee) => employee.position))];
 
   const filteredData = selectedPosition
@@ -41,6 +54,57 @@ const ManageSchedulesPage = () => {
             ?.position === selectedPosition
       )
     : schedules;
+
+  const handleToggleEmployee = (employeeId) => {
+    setSelectedEmployees((prev) => {
+      const newSet = new Set(prev);
+      if (newSet.has(employeeId)) {
+        newSet.delete(employeeId);
+      } else {
+        newSet.add(employeeId);
+      }
+      return newSet;
+    });
+  };
+
+  const handleTogglePosition = (position) => {
+    const employeesInPosition = employees.filter(
+      (employee) => employee.position === position
+    );
+
+    const allSelected = employeesInPosition.every(
+      (employee) => selectedEmployees.has(employee.id) // This will work now
+    );
+
+    setSelectedEmployees((prev) => {
+      const newSet = new Set(prev);
+      employeesInPosition.forEach((employee) => {
+        if (allSelected) {
+          newSet.delete(employee.id);
+        } else {
+          newSet.add(employee.id);
+        }
+      });
+      return newSet;
+    });
+  };
+
+  const handleSendEmail = async () => {
+    if (selectedEmployees.size === 0) {
+      alert("Wybierz co najmniej jednego pracownika.");
+      return;
+    }
+    try {
+      await sendSchedulesEmail({
+        employeeIds: Array.from(selectedEmployees),
+        startDate: currentDate,
+      });
+      alert("Grafiki zostały wysłane na e-mail wybranych pracowników.");
+    } catch (error) {
+      console.error("Błąd podczas wysyłania e-maili:", error);
+      alert("Wystąpił błąd podczas wysyłania e-maili.");
+    }
+  };
 
   useEffect(() => {
     const fetchSchedulesData = async () => {
@@ -214,6 +278,65 @@ const ManageSchedulesPage = () => {
 
   return (
     <Paper>
+      <div className="employee-selection">
+        <h3>Wybierz pracowników do wysłania grafiku:</h3>
+        <TreeView
+          defaultCollapseIcon={<ExpandMore />}
+          defaultExpandIcon={<ChevronRight />}
+        >
+          {roles.map((role) => (
+            <TreeItem
+              nodeId={role}
+              key={role}
+              label={
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={employees
+                        .filter((employee) => employee.position === role)
+                        .every((employee) =>
+                          selectedEmployees.has(employee.id)
+                        )}
+                      indeterminate={employees
+                        .filter((employee) => employee.position === role)
+                        .some((employee) => selectedEmployees.has(employee.id))}
+                      onChange={() => handleTogglePosition(role)}
+                    />
+                  }
+                  label={translateRole(role)}
+                />
+              }
+            >
+              {employees
+                .filter((employee) => employee.position === role)
+                .map((employee) => (
+                  <TreeItem
+                    nodeId={employee.id.toString()}
+                    key={employee.id}
+                    label={
+                      <FormControlLabel
+                        control={
+                          <Checkbox
+                            checked={selectedEmployees.has(employee.id)}
+                            onChange={() => handleToggleEmployee(employee.id)}
+                          />
+                        }
+                        label={employee.name}
+                      />
+                    }
+                  />
+                ))}
+            </TreeItem>
+          ))}
+        </TreeView>
+      </div>
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={handleSendEmail}
+      >
+        Wyślij grafiki na e-mail
+      </Button>
       <Scheduler data={filteredData} locale="pl">
         <ViewState
           currentDate={currentDate}

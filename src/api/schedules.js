@@ -46,3 +46,15 @@ export const putSchedule = async (id, values) => {
         console.error('Error putting schedule:', error);
     }
 };
+
+export const sendSchedulesEmail = async (values) => {
+    console.log(values);
+    try {
+        const response = await axios.post('http://localhost:8080/schedules/emails', values, {
+            headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+            }});
+    } catch (error) {
+        console.error('Error putting schedule:', error);
+    }
+};
