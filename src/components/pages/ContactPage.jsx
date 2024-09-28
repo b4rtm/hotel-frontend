@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 import Footer from "../Footer";
 import Navbar from "../Navbar";
-
+import "../../stylesheets/contact-page.css"
 
 const ContactPage = () => {
 

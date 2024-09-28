@@ -1,0 +1,26 @@
+
+.contact-page{
+    margin-left: 100px;
+}
+
+.contact-page h1{
+    font-size: 45px;
+}
+
+.contact-page p{
+    font-size: 20px;
+}
+
+@media (max-width: 768px) {
+    .contact-page{
+        margin: 10px;
+    }
+    
+    .contact-page h1{
+        font-size: 30px;
+    }
+    
+    .contact-page p{
+        font-size: 15px;
+    }
+}
