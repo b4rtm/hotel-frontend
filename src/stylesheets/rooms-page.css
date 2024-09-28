@@ -8,6 +8,8 @@
 
 .rooms-page .main-content{
     display: flex;
+    flex-direction: row;
+
 }
 
 .rooms-page h1{
@@ -100,4 +102,78 @@
     display: flex;
     flex-direction: column;
     width: 315px;
+}
+
+@media (max-width: 1024px) {
+    .rooms-page {
+        margin: 0 20px;
+    }
+
+    .rooms-page .main-content {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .filter-panel {
+        width: 80%;
+        margin-bottom: 20px;
+    }
+
+    .rooms-page h1 {
+        font-size: 36px;
+    }
+
+    .rooms-page .room-card {
+        margin: 20px 0;
+    }
+
+    .rooms-page .room-card p {
+        font-size: 18px;
+    }
+
+    .rooms-page .room-card button {
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 600px) {
+    .rooms-page {
+        margin: 0 10px;
+    }
+
+    .rooms-page .room-card {
+        margin: 10px 0;
+        width: 100%;
+    }
+
+    .rooms-page .main-content {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .filter-panel {
+        width: 100%;
+    }
+
+    .rooms-page h1 {
+        font-size: 24px;
+    }
+
+    .rooms-page .room-card p {
+        font-size: 16px;
+    }
+
+    .rooms-page .room-card button {
+        font-size: 14px;
+        padding: 6px 8px;
+    }
+
+    .pagination div {
+        font-size: 14px;
+        padding: 3px 6px;
+    }
+
+    .rooms-page .room-card img{
+        width: auto;
+    }
 }
