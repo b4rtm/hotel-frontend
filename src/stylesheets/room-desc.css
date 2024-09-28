@@ -43,7 +43,6 @@
 .room-desc .second-row .pick-date{
     display: flex;
     flex-direction: column;
-
 }
 
 .room-desc .second-row .date{
@@ -60,7 +59,6 @@
     text-align: center;
     color: red;
 }
-
 
 
 .room-desc img, .slider img{
@@ -124,4 +122,59 @@
 }
 
 
+.reviews-list {
+    margin: 20px auto;
+    padding: 20px;
+    width: 80%;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.reviews-list h1 {
+    font-size: 28px;
+    color: #0b091a;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.reviews-list h2 {
+    font-size: 26px;
+    color: #34495e;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.review {
+    padding: 15px;
+    margin-bottom: 15px;
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.review p {
+    margin: 5px 0;
+    color: #272727;
+    font-size: 19px;
+}
+
+.review p:first-child {
+    font-weight: bold;
+    font-size: 22px;
+    color: #001fce;
+}
+
+.review .MuiRating-root {
+    margin: 8px 0;
+}
+
+.reviews-list p {
+    color: #666;
+    font-size: 21px;
+}
 
