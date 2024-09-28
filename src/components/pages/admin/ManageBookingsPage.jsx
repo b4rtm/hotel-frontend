@@ -1,6 +1,5 @@
 import '../../../stylesheets/register-page.css';
 import { useEffect, useState } from "react";
-import "../../../stylesheets/admin-main-page.css"
 import Modal from 'react-modal';
 import { approveBooking, deleteBooking, fetchBookings, generateDatesBetween, postBooking } from '../../../api/bookings';
 import DatePicker from 'react-datepicker';

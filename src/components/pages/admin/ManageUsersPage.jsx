@@ -1,6 +1,5 @@
-import '../../../stylesheets/register-page.css';
+import '../../../stylesheets/manage-stuff.css';
 import { useEffect, useState } from "react";
-import "../../../stylesheets/admin-main-page.css"
 import { Form, Formik } from 'formik';
 import * as Yup from 'yup';
 import Modal from 'react-modal';
@@ -101,7 +100,7 @@ const ManageUsersPage = () => {
                 {currentUser != null && (
                     <div className="register-page">
                         <Formik
-                            key={currentUser.id} // Ustawienie klucza umożliwia ponowne załadowanie initialValues
+                            key={currentUser.id}
                             initialValues={{
                                 id: currentUser.id,
                                 name: currentUser.name,

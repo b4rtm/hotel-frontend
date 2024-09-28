@@ -1,6 +1,5 @@
 import '../../../stylesheets/register-page.css';
 import { useEffect, useState } from "react";
-import "../../../stylesheets/admin-main-page.css"
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import FormField from '../../FormField';

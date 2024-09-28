@@ -1,10 +1,8 @@
 import '../../../stylesheets/register-page.css';
 import { useEffect, useState } from "react";
-import "../../../stylesheets/admin-main-page.css"
 import {useFormik } from 'formik';
 import * as Yup from 'yup';
 import Modal from 'react-modal';
-
 import { Link } from 'react-router-dom';
 import { deleteEmployee, fetchEmployees, postEmployee, putEmployee, translateRole } from '../../../api/employees';
 import FormField from '../../FormField';
