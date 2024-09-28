@@ -1,3 +1,11 @@
+.manage-page {
+  background-color: white;
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  border-radius: 8px;
+}
+
 .manage-page h1{
     text-align: center;
     font-size: 45px;
@@ -11,21 +19,29 @@
     margin: 0 100px;
 }
 
-.manage-page .register-page{
-    margin-left: 300px;
+
+.manage-page .fields{
+  width: 100%;
+}
+.manage-page td, th{
+  padding: 10px 34px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+  font-size: larger;
 }
 
+.info {
+  transition: background-color 0.2s;
+}
 
-.manage-page td, th{
-    padding: 5px 15px;
-    text-align: center;
-    font-size: 20px;
-
+.info:hover {
+  background-color: #f1f1f1;
 }
 
 .manage-page table {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
     padding: 30px;
+    width: 100%;
   }
 
   .manage-page tr:hover {
@@ -35,6 +51,11 @@
   .manage-page svg {
     cursor: pointer;
     margin-right: 15px;
+    transition: transform 0.2s;
+  }
+
+  svg:hover {
+    transform: scale(1.1);
   }
 
   .modal{
@@ -148,3 +169,97 @@
 .css-zcgqxx-MuiButtonBase-root-MuiIconButton-root-MuiClock-pmButton, .css-h2z9v1-MuiButtonBase-root-MuiIconButton-root-MuiClock-amButton{
   display: none  !important; 
 }
+
+.manage-page .register-page {
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 8px;
+}
+
+.manage-page .register-page form {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  gap: 20px;
+}
+
+.manage-page .register-page form button {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.manage-page .register-page form button:hover {
+  background-color: #0056b3;
+}
+
+@media (max-width: 768px) {
+.manage-page {
+    padding: 10px;
+  }
+
+  .manage-page h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+
+  .manage-page .content {
+    margin: 0;
+  }
+
+  table {
+    font-size: 12px;
+    padding: 0;
+  }
+
+  .manage-page td, th {
+    padding: 5px 10px;
+  }
+
+  .register-page {
+    padding: 10px;
+  }
+
+  .register-page form {
+    gap: 10px;
+  }
+
+  .register-page form button {
+    padding: 8px;
+    font-size: 14px;
+  }
+
+  .logout-button {
+    font-size: 14px;
+    padding: 5px 10px;
+    top: 5px;
+    right: 5px;
+  }
+
+  .modal {
+    width: 90%;
+    padding: 10px;
+  }
+
+  .modal p {
+    font-size: 16px;
+  }
+
+  .modal .delete {
+    padding: 5px 10px;
+  }
+
+  svg {
+    width: 1.5em;
+    height: 1.5em;
+  }
+
+  .manage-page table {
+    width: auto;
+  }
+}
+

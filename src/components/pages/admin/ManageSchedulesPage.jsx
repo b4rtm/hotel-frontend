@@ -22,7 +22,6 @@ import {
   Button,
   FormControlLabel,
   Checkbox,
-  FormGroup,
 } from "@mui/material";
 import { fetchEmployees, translateRole } from "../../../api/employees";
 import { DateTimePicker } from "@mui/x-date-pickers";
@@ -35,6 +34,7 @@ import {
 } from "../../../api/schedules";
 import { TreeItem, TreeView } from "@mui/lab";
 import { ExpandMore, ChevronRight } from "@mui/icons-material";
+import "../../../stylesheets/manage-schedules.css";
 
 const ManageSchedulesPage = () => {
   const [schedules, setSchedules] = useState([]);
@@ -202,10 +202,10 @@ const ManageSchedulesPage = () => {
       variant="outlined"
       displayEmpty
     >
-      <MenuItem value="">Wszystkie</MenuItem>
+      <MenuItem value="">Wszystkie stanowiska</MenuItem>
       {roles.map((role) => (
         <MenuItem key={role} value={role}>
-          {role}
+          {translateRole(role)}
         </MenuItem>
       ))}
     </Select>
@@ -276,93 +276,93 @@ const ManageSchedulesPage = () => {
   );
 
   return (
-    <Paper>
-      <div className="employee-selection">
-        <h3>Wybierz pracowników do wysłania grafiku:</h3>
-        <TreeView
-          defaultCollapseIcon={<ExpandMore />}
-          defaultExpandIcon={<ChevronRight />}
-        >
-          {roles.map((role) => (
-            <TreeItem
-              nodeId={role}
-              key={role}
-              label={
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      checked={employees
-                        .filter((employee) => employee.position === role)
-                        .every((employee) =>
-                          selectedEmployees.has(employee.id)
-                        )}
-                      indeterminate={employees
-                        .filter((employee) => employee.position === role)
-                        .some((employee) => selectedEmployees.has(employee.id))}
-                      onChange={() => handleTogglePosition(role)}
-                    />
-                  }
-                  label={translateRole(role)}
-                />
-              }
-            >
-              {employees
-                .filter((employee) => employee.position === role)
-                .map((employee) => (
-                  <TreeItem
-                    nodeId={employee.id.toString()}
-                    key={employee.id}
-                    label={
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            checked={selectedEmployees.has(employee.id)}
-                            onChange={() => handleToggleEmployee(employee.id)}
-                          />
-                        }
-                        label={employee.name}
+    <div className="manage-schedules-page">
+      <Paper>
+        <div className="employee-selection">
+          <h3>Wybierz pracowników do wysłania grafiku:</h3>
+          <TreeView
+            defaultCollapseIcon={<ExpandMore />}
+            defaultExpandIcon={<ChevronRight />}
+          >
+            {roles.map((role) => (
+              <TreeItem
+                nodeId={role}
+                key={role}
+                label={
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        checked={employees
+                          .filter((employee) => employee.position === role)
+                          .every((employee) =>
+                            selectedEmployees.has(employee.id)
+                          )}
+                        indeterminate={employees
+                          .filter((employee) => employee.position === role)
+                          .some((employee) =>
+                            selectedEmployees.has(employee.id)
+                          )}
+                        onChange={() => handleTogglePosition(role)}
                       />
                     }
+                    label={translateRole(role)}
                   />
-                ))}
-            </TreeItem>
-          ))}
-        </TreeView>
-      </div>
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={handleSendEmail}
-      >
-        Wyślij grafiki na e-mail
-      </Button>
-      <Scheduler data={filteredData} locale="pl">
-        <ViewState
-          currentDate={currentDate}
-          onCurrentDateChange={setCurrentDate}
-          currentViewName={currentViewName}
-          onCurrentViewNameChange={handleViewChange}
-        />
-        <EditingState onCommitChanges={commitChanges} />
-        <IntegratedEditing />
-        <DayView startDayHour={9} endDayHour={22} />
-        <WeekView startDayHour={9} endDayHour={22} />
-        <Appointments />
-        <AppointmentTooltip showOpenButton showDeleteButton />
-        <CustomAppointmentForm />
-        <Toolbar />
-        <DateNavigator />
-        <CustomViewSwitcher
-          currentViewName={currentViewName}
-          onChange={handleViewChange}
-        />
-        <RoleSelector
-          roles={roles}
-          selectedPosition={selectedPosition}
-          onRoleChange={setSelectedPosition}
-        />
-      </Scheduler>
-    </Paper>
+                }
+              >
+                {employees
+                  .filter((employee) => employee.position === role)
+                  .map((employee) => (
+                    <TreeItem
+                      nodeId={employee.id.toString()}
+                      key={employee.id}
+                      label={
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              checked={selectedEmployees.has(employee.id)}
+                              onChange={() => handleToggleEmployee(employee.id)}
+                            />
+                          }
+                          label={employee.name}
+                        />
+                      }
+                    />
+                  ))}
+              </TreeItem>
+            ))}
+          </TreeView>
+        <Button variant="contained" color="primary" onClick={handleSendEmail}>
+          Wyślij grafiki na e-mail
+        </Button>
+        </div>
+        <Scheduler data={filteredData} locale="pl">
+          <ViewState
+            currentDate={currentDate}
+            onCurrentDateChange={setCurrentDate}
+            currentViewName={currentViewName}
+            onCurrentViewNameChange={handleViewChange}
+          />
+          <EditingState onCommitChanges={commitChanges} />
+          <IntegratedEditing />
+          <DayView startDayHour={0} endDayHour={24} />
+          <WeekView startDayHour={0} endDayHour={24} />
+          <Appointments />
+          <AppointmentTooltip showOpenButton showDeleteButton />
+          <CustomAppointmentForm />
+          <Toolbar />
+          <DateNavigator />
+          <CustomViewSwitcher
+            currentViewName={currentViewName}
+            onChange={handleViewChange}
+          />
+          <RoleSelector
+            roles={roles}
+            selectedPosition={selectedPosition}
+            onRoleChange={setSelectedPosition}
+          />
+        </Scheduler>
+      </Paper>
+    </div>
   );
 };
 
