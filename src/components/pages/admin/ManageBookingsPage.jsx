@@ -89,11 +89,20 @@ const ManageBookingsPage = () => {
 
   const addBooking = () => {
     const user = users.find((user) => user.email == email);
+
+    const startDateWithAddedDay = new Date(startDate);
+    startDateWithAddedDay.setDate(startDateWithAddedDay.getDate() + 1);
+    const formattedStartDate = startDateWithAddedDay.toISOString().split('T')[0];
+
+    const endDateWithAddedDay = new Date(endDate);
+    endDateWithAddedDay.setDate(endDateWithAddedDay.getDate() + 1);
+    const formattedEndDate = endDateWithAddedDay.toISOString().split('T')[0];
+
     postBooking({
       customerId: user.id,
       roomId: selectedRoom.id,
-      checkInDate: startDate,
-      checkOutDate: endDate,
+      checkInDate: formattedStartDate,
+      checkOutDate: formattedEndDate,
     });
     location.reload();
   };
