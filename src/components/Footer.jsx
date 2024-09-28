@@ -1,8 +1,6 @@
 import '../stylesheets/main-page.css'
 import '../stylesheets/footer.css'
 import { useTranslation } from 'react-i18next';
-import { useEffect, useState } from 'react';
-import i18next from 'i18next';
 import '../translations/i18n'
 import { Link } from 'react-router-dom';
 

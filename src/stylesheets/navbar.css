@@ -29,6 +29,10 @@ body {
   transition: color 0.3s;
 }
 
+.navbar-item:hover {
+  color: #6f7070; /* Change to desired hover color */
+}
+
 .dropdown {
   position: relative;
 }
@@ -81,12 +85,13 @@ a {
 @media (max-width: 768px) {
   .navbar {
     flex-direction: column; /* Stack items vertically */
-    align-items: flex-start; /* Align to the left */
+    align-items: center; /* Align to the left */
   }
 
   .navbar-item {
     margin: 5px 0; /* Space items vertically */
     width: 100%; /* Full width on mobile */
+    text-align: center;
   }
 
   .navbar-item:last-child {
@@ -95,5 +100,11 @@ a {
 
   .dropdown {
     width: 100%; /* Full width for dropdown */
+  }
+
+  .lang-icon img{
+    width: 25px;
+    height: 15px;
+    margin: 3px;
   }
 }
