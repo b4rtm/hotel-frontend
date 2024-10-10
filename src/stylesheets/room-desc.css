@@ -5,6 +5,7 @@
     margin-top: 40px;
     margin-left: 70px;
     font-family: Arial, sans-serif;
+    justify-content: center;
 }
 
 .room-desc h1{
@@ -18,6 +19,8 @@
 
 .room-desc .second-row{
     margin-right: 100px;
+    display: flex;
+    flex-direction: column;
 }
 
 .room-desc .second-row .desc{
@@ -178,3 +181,93 @@
     font-size: 21px;
 }
 
+@media (max-width: 1850px) {
+    .room-desc{
+        flex-wrap: wrap;
+    }
+}
+
+@media (max-width: 1150px) {
+    .slider{
+        width: 700px !important;
+    }
+
+    .room-desc .first-row{
+        margin-right: 0;
+    }
+    .room-desc{
+        margin-left: 0;
+    }
+    .room-desc img, .slider img{
+        height: auto;
+        width: 700px;
+    }
+}
+
+@media (max-width: 768px) {
+
+    .slider{
+        width: 350px !important;
+    }
+
+    .room-desc img, .slider img{
+        height: auto;
+        width: 350px;
+    }
+
+    .room-desc .second-row{
+        margin-right: 0;
+        max-width: 100%;
+    }
+
+    .room-desc h1 {
+        font-size: 30px; 
+    }
+
+    .room-desc .second-row .desc {
+        font-size: 16px; 
+        margin-bottom: 50px;
+    }
+
+    .room-desc .second-row .price {
+        font-size: 24px; 
+    }
+
+    .room-desc .second-row .capacity {
+        font-size: 18px; 
+        margin-bottom: 30px;
+    }
+
+    .room-desc .second-row .date label {
+        font-size: 16px; 
+    }
+
+    .react-datepicker__input-container input, input, select {
+        width: 150px;
+        font-size: 14px;
+    }
+
+    .reviews-list h1 {
+        font-size: 22px;
+    }
+
+    .reviews-list h2 {
+        font-size: 20px;
+    }
+
+    .review p {
+        font-size: 16px; 
+    }
+
+    .review p:first-child {
+        font-size: 18px;
+    }
+
+    .summary-container h1 {
+        font-size: 32px;
+    }
+
+    .summary-container p {
+        font-size: 18px;
+    }
+}
