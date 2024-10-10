@@ -43,6 +43,7 @@ const ManageRoomsPage = () => {
       capacity: room.capacity,
       pricePerNight: room.pricePerNight,
       description: room.description,
+      descriptionEn: room.descriptionEn,
       imagePaths: room.imagePaths || [],
       newImages: [],
     });
@@ -56,6 +57,7 @@ const ManageRoomsPage = () => {
       capacity: "",
       pricePerNight: "",
       description: "",
+      descriptionEn: "",
       imagePaths: [],
       newImages: [],
     },
@@ -64,6 +66,7 @@ const ManageRoomsPage = () => {
       capacity: Yup.string().required("Wpisz pojemność"),
       pricePerNight: Yup.string().required("Wpisz cenę"),
       description: Yup.string().required("Wpisz opis"),
+      descriptionEn: Yup.string().required("Wpisz opis"),
     }),
     onSubmit: async (values) => {
       if (currentRoom === 1) {
@@ -157,8 +160,6 @@ const ManageRoomsPage = () => {
 
   const handleCloseDeleteModal = () => {
     setIsDeleteImageModalOpen(false);
-    console.log(imageToDelete.id + "XDDDD");
-
     setImageToDelete(null);
   };
   return (
@@ -280,6 +281,14 @@ const ManageRoomsPage = () => {
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.description}
+              />
+              <FormField
+                label="descriptionEn"
+                name="Opis pokoju w języku angielskim"
+                type="textarea"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.descriptionEn}
               />
               {formik.touched.description && formik.errors.description && (
                 <p className="error">{formik.errors.description}</p>

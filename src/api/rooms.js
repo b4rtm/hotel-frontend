@@ -27,6 +27,8 @@ export const postRoom = async (values) => {
     formData.append('capacity', values.capacity);
     formData.append('pricePerNight', values.pricePerNight);
     formData.append('description', values.description);
+    formData.append('descriptionEn', values.descriptionEn);
+
     values.newImages.forEach((image, index) => {
         formData.append('newImages', image.file);
     });
@@ -49,7 +51,8 @@ export const putRoom = async (id, values) => {
     formData.append('capacity', values.capacity);
     formData.append('pricePerNight', values.pricePerNight);
     formData.append('description', values.description);
-    
+    formData.append('descriptionEn', values.descriptionEn);
+
     values.newImages.forEach((image, index) => {
         formData.append('newImages', image.file);
     });

@@ -18,7 +18,7 @@ import { useTranslation } from 'react-i18next';
 registerLocale('pl', pl);
 
 const RoomDescriptionPage = () => {
-    const { t } = useTranslation();
+    const { t, i18n  } = useTranslation();
     const [startDate, setStartDate] = useState(null);
     const [endDate, setEndDate] = useState(null);
     const [reservedDates, setReservedDates] = useState(null);
@@ -89,7 +89,7 @@ const RoomDescriptionPage = () => {
                     <h1>{room?.name}</h1>
                 </div>
                 <div className='second-row'>
-                    <p className='desc'>{room?.description}</p>
+                    {i18n.language === 'en' ? room?.descriptionEn : room?.description}
                     <p className='price'>{room?.pricePerNight} {t('currency')} {t('perNight')}</p>
                     <p className='capacity'>{t('roomCapacity')} {room?.capacity} {room?.capacity === 1 ? t('person') : t('people')}</p>
                     
