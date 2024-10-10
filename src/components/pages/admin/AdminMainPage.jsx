@@ -14,7 +14,7 @@ const AdminMainPage = () => {
                 <OptionTile image="/calendar.png" label="Zarządzaj rezerwacjami" path="/bookings"></OptionTile>
                 <OptionTile image="/bed.png" label="Zarządzaj pokojami" path="/rooms"></OptionTile>
                 <OptionTile image="/staff.png" label="Zarządzaj personelem" path="/staff"></OptionTile>
-                <OptionTile image="/timetable.png" label="Ustal grafiki" path="/schedules"></OptionTile>
+                <OptionTile image="/timetable.png" label="Ustal grafiki personelu" path="/schedules"></OptionTile>
             </div>
         </div>
     );
