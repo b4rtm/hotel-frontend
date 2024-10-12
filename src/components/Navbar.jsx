@@ -14,7 +14,7 @@ const Navbar = () => {
   const navigate = useNavigate();
 
   const handleLanguageChange = (lang) => {
-    i18n.changeLanguage(lang); // Change the language here
+    i18n.changeLanguage(lang);
   };
 
   const options = [
@@ -75,14 +75,14 @@ const Navbar = () => {
           </Link>
         </>
       )}
-        <div className="select-lang">
-          <div className="lang-icon" onClick={() => handleLanguageChange('pl')}>
-            <img src="/poland-flag-icon.png" alt="PL" />
-          </div>
-          <div className="lang-icon" onClick={() => handleLanguageChange('en')}>
-            <img src="/uk-flag-icon.png" alt="EN" />
-          </div>
+      <div className="select-lang">
+        <div className="lang-icon" onClick={() => handleLanguageChange("pl")}>
+          <img src="/poland-flag-icon.png" alt="PL" />
         </div>
+        <div className="lang-icon" onClick={() => handleLanguageChange("en")}>
+          <img src="/uk-flag-icon.png" alt="EN" />
+        </div>
+      </div>
     </div>
   );
 };

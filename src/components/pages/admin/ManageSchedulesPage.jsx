@@ -71,8 +71,8 @@ const ManageSchedulesPage = () => {
       (employee) => employee.position === position
     );
 
-    const allSelected = employeesInPosition.every(
-      (employee) => selectedEmployees.has(employee.id) // This will work now
+    const allSelected = employeesInPosition.every((employee) =>
+      selectedEmployees.has(employee.id)
     );
 
     setSelectedEmployees((prev) => {
@@ -331,9 +331,9 @@ const ManageSchedulesPage = () => {
               </TreeItem>
             ))}
           </TreeView>
-        <Button variant="contained" color="primary" onClick={handleSendEmail}>
-          Wyślij grafiki na e-mail
-        </Button>
+          <Button variant="contained" color="primary" onClick={handleSendEmail}>
+            Wyślij grafiki na e-mail
+          </Button>
         </div>
         <Scheduler data={filteredData} locale="pl">
           <ViewState

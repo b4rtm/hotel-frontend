@@ -41,7 +41,7 @@ const ManageUsersPage = () => {
   };
 
   const handleEditUser = (user) => {
-    setCurrentUser(user); // Ustawienie aktualnego użytkownika do edycji
+    setCurrentUser(user);
   };
 
   const handleFormSubmit = async (values) => {
