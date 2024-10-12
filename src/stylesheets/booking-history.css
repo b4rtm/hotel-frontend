@@ -1,68 +1,67 @@
-
-.booking-history-page h1{
-    text-align: center;
-    font-size: 60px;
-    font-family: Arial, Helvetica, sans-serif;
+.booking-history-page h1 {
+  text-align: center;
+  font-size: 60px;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
-.booking-history-page .booking{
-    margin: 135px;
-    font-size: 24px;
-    border: 1px rgb(170, 170, 170) solid;
-    border-radius: 15px;
-    display: flex;
-    max-height: 500px;
-    justify-content: space-between;
+.booking-history-page .booking {
+  margin: 135px;
+  font-size: 24px;
+  border: 1px rgb(170, 170, 170) solid;
+  border-radius: 15px;
+  display: flex;
+  max-height: 500px;
+  justify-content: space-between;
 }
 
-.booking-history-page .booking img{
-    width: 800px;
-    object-fit: cover;
-    right: 0px;
+.booking-history-page .booking img {
+  width: 800px;
+  object-fit: cover;
+  right: 0px;
 }
 
-.booking-history-page .booking .booking-info{
-    margin-left: 50px;
-    font-size: 40px;
-    font-weight: bold;
+.booking-history-page .booking .booking-info {
+  margin-left: 50px;
+  font-size: 40px;
+  font-weight: bold;
 }
 
-.green-button{
-    margin-top: 10px;
-    background-color: rgb(13, 252, 5);
-    border-radius: 15px;
-    border: none;
+.green-button {
+  margin-top: 10px;
+  background-color: rgb(13, 252, 5);
+  border-radius: 15px;
+  border: none;
 }
 
-.modal{
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: white;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-    display: flex;
-    flex-direction: column;
-  }
-
-.added-review{
-    background-color: rgb(0, 60, 255);
-    color: white;
-    margin-top: 10px;
-    text-align: center;
-    border-radius: 15px;
-    font-weight:initial;
-    border: none;
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
 }
 
-.awaiting-button{
-    background-color: rgb(197, 171, 23);
-    color: white;
-    margin-top: 10px;
-    text-align: center;
-    border-radius: 15px;
-    font-weight:initial;
-    border: none;
+.added-review {
+  background-color: rgb(0, 60, 255);
+  color: white;
+  margin-top: 10px;
+  text-align: center;
+  border-radius: 15px;
+  font-weight: initial;
+  border: none;
+}
+
+.awaiting-button {
+  background-color: rgb(197, 171, 23);
+  color: white;
+  margin-top: 10px;
+  text-align: center;
+  border-radius: 15px;
+  font-weight: initial;
+  border: none;
 }

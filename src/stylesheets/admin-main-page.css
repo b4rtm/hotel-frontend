@@ -1,44 +1,43 @@
-
-.admin-main-page{
-   text-align: center;
+.admin-main-page {
+  text-align: center;
 }
 
-.admin-main-page h1{
-    font-size: 3rem;
-    margin-bottom: 100px;
-    font-family: 'Arial', sans-serif;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+.admin-main-page h1 {
+  font-size: 3rem;
+  margin-bottom: 100px;
+  font-family: "Arial", sans-serif;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
 }
 
-.admin-main-page .options{
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
+.admin-main-page .options {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
 }
 
-.admin-main-page .tile{
-    background-color: rgb(243, 246, 255);
-    font-size: 30px;
-    padding: 40px 70px;
-    border: solid 1px;
-    margin: 100px;
-    max-width: 200px;
-    cursor: pointer;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); 
-    transition: transform 0.3s ease;
-    border-radius: 12px;
+.admin-main-page .tile {
+  background-color: rgb(243, 246, 255);
+  font-size: 30px;
+  padding: 40px 70px;
+  border: solid 1px;
+  margin: 100px;
+  max-width: 200px;
+  cursor: pointer;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+  border-radius: 12px;
 }
 
 .admin-main-page .tile:hover {
-    background-color: rgb(230, 235, 250);
-    transform: translateY(-5px)
+  background-color: rgb(230, 235, 250);
+  transform: translateY(-5px);
 }
 
-.admin-main-page .tile img{
+.admin-main-page .tile img {
   width: 100px;
 }
 
-.admin-main-page .tile .title{
+.admin-main-page .tile .title {
   margin-bottom: 30px;
 }
 
@@ -51,9 +50,9 @@
   border: none;
   border-radius: 5px;
   font-size: 25px;
-  position:absolute;
-  top:50px;
-  right:50px;
+  position: absolute;
+  top: 50px;
+  right: 50px;
   cursor: pointer;
 }
 

@@ -1,42 +1,43 @@
 .slick-dots li button:before {
-    font-size: 12px;
-    color: white;
+  font-size: 12px;
+  color: white;
 }
 
 .slick-dots li.slick-active button:before {
-    color: white;
+  color: white;
 }
 
-/* Strzałki */
-.slick-prev, .slick-next {
-    width: 40px;
-    height: 40px;
-    color: white;
-}
-
-.slick-prev{
-    z-index: 1;
-}
-
-.slick-prev:before, .slick-next:before {
-    font-size: 30px;
-    color: white; 
-}
-
-.slider{
-    width: 1000px;
-    overflow: visible; 
+.slick-prev,
+.slick-next {
+  width: 40px;
+  height: 40px;
+  color: white;
 }
 
 .slick-prev {
-    left: 10px;
+  z-index: 1;
+}
+
+.slick-prev:before,
+.slick-next:before {
+  font-size: 30px;
+  color: white;
+}
+
+.slider {
+  width: 1000px;
+  overflow: visible;
+}
+
+.slick-prev {
+  left: 10px;
 }
 
 .slick-next {
-    right: 10px;
+  right: 10px;
 }
 
-.slick-track{
-    display: flex;
-    min-width: 1000px;
+.slick-track {
+  display: flex;
+  min-width: 1000px;
 }

@@ -21,18 +21,17 @@
 }
 
 @media (max-width: 1600px) {
-
-    .main-img{
-       width: 100%;
-       min-height: 350px;
-       object-fit: cover;
-       margin: 0;
-    }
-    .welcome {
-      font-size: 5vw; 
-    }
-  
-    .welcome .larger-text {
-      font-size: 7vw;
-    }
+  .main-img {
+    width: 100%;
+    min-height: 350px;
+    object-fit: cover;
+    margin: 0;
   }
+  .welcome {
+    font-size: 5vw;
+  }
+
+  .welcome .larger-text {
+    font-size: 7vw;
+  }
+}
