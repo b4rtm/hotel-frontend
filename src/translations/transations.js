@@ -99,7 +99,10 @@ const translations ={
             contactMessage: "Cieszymy się, że zainteresowałeś/aś się hotelem Royal Residence. Jesteśmy gotowi odpowiedzieć na Twoje pytania, zorganizować Twój pobyt i zapewnić Ci niezapomniane doświadczenia.",
             contactInfoDescription: "Poniżej znajdziesz wszelkie informacje kontaktowe, które pozwolą Ci skontaktować się z naszym zespołem obsługi klienta.",
             myReservations: "Moje rezerwacje",
-            logout: "Wyloguj"
+            logout: "Wyloguj",
+            reviewForRoom: "Recenzja dla pokoju ",
+            forReservationFrom: "od dnia",
+            to: "do",
         }
   },
   en: {
@@ -202,7 +205,11 @@ const translations ={
             contactMessage: "We are glad that you are interested in Royal Residence. We are ready to answer your questions, organize your stay, and provide you with an unforgettable experience.",
             contactInfoDescription: "Below you will find all the contact information to get in touch with our customer service team.",
             myReservations: "My bookings",
-            logout: "Log out"
+            logout: "Log out",
+            reviewForRoom: "Review for room ",
+            forReservationFrom: "for reservation from",
+            to: "to",
+
 
         }
   }

@@ -42,8 +42,20 @@ const BookingHistoryPage = () => {
     return today >= checkOut;
   };
 
+  const [modalContent, setModalContent] = useState({
+    roomName: "",
+    checkInDate: "",
+    checkOutDate: "",
+  });
+
   const openModal = (bookingId) => {
     setSelectedBookingId(bookingId);
+    const selectedBooking = bookings.find(booking => booking.id === bookingId);
+    setModalContent({
+      roomName: selectedBooking.room.name,
+      checkInDate: formatDate(selectedBooking.checkInDate),
+      checkOutDate: formatDate(selectedBooking.checkOutDate),
+    });
     setModalIsOpen(true);
   };
 
@@ -131,22 +143,27 @@ const BookingHistoryPage = () => {
         className="modal"
         overlayClassName="review-modal-overlay"
       >
-        <h2>t('reviewModalTitle')</h2>
-        <Rating
-          value={rating}
-          onChange={(event, newValue) => {
-            setRating(newValue);
-          }}
-        />
+        <h2>{t('reviewModalTitle')}</h2>
+        <p>{`${t("reviewForRoom")} ${modalContent.roomName} ${t("forReservationFrom")} ${modalContent.checkInDate} ${t("to")} ${modalContent.checkOutDate}`}</p>
+        <div className="rating-container">
+          <Rating
+            value={rating}
+            onChange={(event, newValue) => {
+              setRating(newValue);
+            }}
+            style={{ fontSize: "48px" }}
+          />
+        </div>
         <TextareaAutosize
           aria-label="minimum height"
           value={review}
           minRows={3}
           placeholder={t("enterReview")}
           onChange={(event) => setReview(event.target.value)}
+          style={{ fontSize: "18px", padding: "5px" }}
         />
-        <button onClick={handleAddReview}>{t("submitReview")}</button>
-        <button onClick={closeModal}>{t("cancel")}</button>
+        <button className="modal-button" onClick={handleAddReview}>{t("submitReview")}</button>
+        <button className="modal-button cancel" onClick={closeModal}>{t("cancel")}</button>
       </Modal>
     </>
   );
