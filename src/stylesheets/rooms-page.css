@@ -109,6 +109,28 @@
   width: 100%;
 }
 
+.filter-panel input,
+.filter-panel select,
+.filter-panel label,
+.filter-panel .MuiSlider-root {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.filter-panel {
+  max-width: 315px;
+}
+
+.filter-panel .MuiSlider-root {
+  margin-top: 10px;
+}
+
+.filter-panel .pick-date {
+  display: flex;
+  flex-direction: column;
+  width: 100%; 
+}
+
 @media (max-width: 1024px) {
   .rooms-page {
     margin: 0 20px;
