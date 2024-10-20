@@ -75,7 +75,6 @@ const ManageBookingsPage = () => {
     const room = rooms.find((room) => room.id === roomId);
 
     const newRoom = await fetchRoom(room.id);
-    console.log(newRoom);
     setSelectedRoom(newRoom);
 
     const parsedDates = newRoom.bookings.flatMap((booking) =>

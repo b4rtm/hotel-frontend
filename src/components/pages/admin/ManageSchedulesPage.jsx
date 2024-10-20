@@ -100,7 +100,6 @@ const ManageSchedulesPage = () => {
       });
       alert("Grafiki zostały wysłane na e-mail wybranych pracowników.");
     } catch (error) {
-      console.error("Błąd podczas wysyłania e-maili:", error);
       alert("Wystąpił błąd podczas wysyłania e-maili.");
     }
   };
@@ -144,7 +143,6 @@ const ManageSchedulesPage = () => {
         ...originalSchedule,
         ...changedFields,
       };
-      console.log(updatedSchedule);
       if (updatedSchedule.startDate) {
         updatedSchedule.startDate = new Date(updatedSchedule.startDate);
         updatedSchedule.startDate.setHours(
@@ -169,7 +167,6 @@ const ManageSchedulesPage = () => {
       location.reload();
     }
     if (deleted !== undefined) {
-      console.log(deleted);
       await deleteSchedule(deleted);
       location.reload();
     }

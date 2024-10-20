@@ -154,7 +154,7 @@ const ManageRoomsPage = () => {
       setIsDeleteImageModalOpen(false);
       setImageToDelete(null);
     } catch (error) {
-      console.error("Błąd podczas usuwania zdjęcia:", error);
+      alert("Błąd podczas usuwania zdjęcia:", error);
     }
   };
 

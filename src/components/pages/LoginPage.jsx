@@ -53,7 +53,6 @@ const LoginPage = () => {
 
   const handleGoogleLoginError = (error) => {
     setGoogleLoginError(t("googleLoginFailed"));
-    console.error(error);
   };
 
   return (

@@ -70,7 +70,6 @@ const ManageStaffPage = () => {
       position: Yup.string().required("Wybierz stanowisko"),
     }),
     onSubmit: async (values) => {
-      console.log("XDD");
       if (currentEmployee === 1) {
         await postEmployee(values);
       } else {

@@ -55,7 +55,7 @@ const RegisterPage = () => {
                             await axios.post("http://localhost:8080/auth/register", values);
                             navigateTo('/login?message=activate');
                         } catch (error) {
-                            console.error("Błąd rejestracji:", error);
+                            alert.error("Błąd rejestracji:", error);
                         } finally {
                             setSubmitting(false);
                         }

@@ -24,7 +24,6 @@ const BookingHistoryPage = () => {
   useEffect(() => {
     const getBookings = async () => {
       const data = await fetchUserBookings(userId);
-      console.log(data);
       setBookings(data);
       const roomsData = await fetchRooms();
       setRooms(roomsData);
@@ -66,12 +65,6 @@ const BookingHistoryPage = () => {
   };
 
   const handleAddReview = async () => {
-    console.log(bookings);
-    console.log(`Dodaj recenzję dla rezerwacji ${selectedBookingId}:`, {
-      review,
-      rating,
-    });
-
     const selectedBooking = bookings.find(
       (booking) => booking.id === selectedBookingId
     );
