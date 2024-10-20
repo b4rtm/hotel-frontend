@@ -182,8 +182,20 @@ input[type="file"]::file-selector-button:hover {
 .manage-page .register-page form {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-around;
+  justify-content: center;
   gap: 20px;
+}
+
+.manage-page .form-field{
+  display: flex;
+  flex-direction: column; 
+  align-items: center;    
+  width: 100%;          
+}
+
+.manage-page .register-page form > * {
+  flex-basis: calc(50% - 10px); 
+  box-sizing: border-box;
 }
 
 .manage-page .register-page form button {
@@ -194,6 +206,7 @@ input[type="file"]::file-selector-button:hover {
   border-radius: 4px;
   cursor: pointer;
   transition: background-color 0.3s;
+  max-height: 100px;
 }
 
 .manage-page .register-page form button:hover {

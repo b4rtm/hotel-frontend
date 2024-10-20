@@ -280,8 +280,8 @@ const ManageBookingsPage = () => {
               onChange={(e) => setEmail(e.target.value)}
               value={email}
             />
+            <button onClick={addBooking}>Dodaj rezerwację</button>
           </form>
-          <button onClick={addBooking}>Dodaj rezerwację</button>
         </div>
       </div>
       <Modal
