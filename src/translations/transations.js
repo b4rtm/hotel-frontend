@@ -103,6 +103,7 @@ const translations ={
             reviewForRoom: "Recenzja dla pokoju ",
             forReservationFrom: "od dnia",
             to: "do",
+            noReviews: "Brak opinii"
         }
   },
   en: {
@@ -209,8 +210,7 @@ const translations ={
             reviewForRoom: "Review for room ",
             forReservationFrom: "for reservation from",
             to: "to",
-
-
+            noReviews: "No reviews"
         }
   }
 }

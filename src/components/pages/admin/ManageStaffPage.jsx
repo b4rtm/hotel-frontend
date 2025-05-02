@@ -171,50 +171,58 @@ const ManageStaffPage = () => {
         {currentEmployee != null && (
           <div className="register-page">
             <form onSubmit={formik.handleSubmit}>
-              <FormField
-                label="name"
-                name="Imię"
-                type="text"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.name}
-              />
-              {formik.touched.name && formik.errors.name && (
-                <p className="error">{formik.errors.name}</p>
-              )}
-              <FormField
-                label="surname"
-                name="Nazwisko"
-                type="text"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.surname}
-              />
-              {formik.touched.surname && formik.errors.surname && (
-                <p className="error">{formik.errors.surname}</p>
-              )}
-              <FormField
-                label="email"
-                name="Email"
-                type="text"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.email}
-              />
-              {formik.touched.email && formik.errors.email && (
-                <p className="error">{formik.errors.email}</p>
-              )}
-              <FormField
-                label="phoneNumber"
-                name="Numer telefonu"
-                type="text"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.phoneNumber}
-              />
-              {formik.touched.phoneNumber && formik.errors.phoneNumber && (
-                <p className="error">{formik.errors.phoneNumber}</p>
-              )}
+              <div>
+                <FormField
+                  label="name"
+                  name="Imię"
+                  type="text"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.name}
+                />
+                {formik.touched.name && formik.errors.name && (
+                  <p className="error">{formik.errors.name}</p>
+                )}
+              </div>
+              <div>
+                <FormField
+                  label="surname"
+                  name="Nazwisko"
+                  type="text"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.surname}
+                />
+                {formik.touched.surname && formik.errors.surname && (
+                  <p className="error">{formik.errors.surname}</p>
+                )}
+              </div>
+              <div>
+                <FormField
+                  label="email"
+                  name="Email"
+                  type="text"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.email}
+                />
+                {formik.touched.email && formik.errors.email && (
+                  <p className="error">{formik.errors.email}</p>
+                )}
+              </div>
+              <div>
+                <FormField
+                  label="phoneNumber"
+                  name="Numer telefonu"
+                  type="text"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.phoneNumber}
+                />
+                {formik.touched.phoneNumber && formik.errors.phoneNumber && (
+                  <p className="error">{formik.errors.phoneNumber}</p>
+                )}
+              </div>
               <div className="form-field">
                 <label htmlFor="position">Stanowisko</label>
                 <select
@@ -233,10 +241,10 @@ const ManageStaffPage = () => {
                   />
                   <option value="HOUSEKEEPER" label="Pokojówka/Pokojowy" />
                 </select>
+                {formik.touched.position && formik.errors.position && (
+                  <p className="error">{formik.errors.position}</p>
+                )}
               </div>
-              {formik.touched.position && formik.errors.position && (
-                <p className="error">{formik.errors.position}</p>
-              )}
               {!formik.isValidating && <button type="submit">Zatwierdź</button>}
               {!formik.isValid && formik.submitCount > 0 && (
                 <p className="error">Formularz zawiera błędy</p>

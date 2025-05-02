@@ -226,7 +226,7 @@ const ManageBookingsPage = () => {
                 onChange={handleRoomChange}
               >
                 <option value="">
-                  {selectedRoom ? selectedRoom.name : "Wybierz pokój"}
+                  {selectedRoom ? selectedRoom.name : "Pokój"}
                 </option>
                 {rooms.map((room) => (
                   <option key={room.id} value={room.id}>
@@ -235,6 +235,13 @@ const ManageBookingsPage = () => {
                 ))}
               </select>
             </div>
+            <FormField
+              label="email"
+              name="E-mail"
+              type="text"
+              onChange={(e) => setEmail(e.target.value)}
+              value={email}
+            />
             <div className="form-field">
               <label>Początek rezerwacji:</label>
               <DatePicker
@@ -272,13 +279,6 @@ const ManageBookingsPage = () => {
                 locale="pl"
               />
             </div>
-            <FormField
-              label="email"
-              name="E-mail"
-              type="text"
-              onChange={(e) => setEmail(e.target.value)}
-              value={email}
-            />
             <button onClick={addBooking}>Dodaj rezerwację</button>
           </form>
         </div>

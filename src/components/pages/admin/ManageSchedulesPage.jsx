@@ -32,9 +32,10 @@ import {
   putSchedule,
   sendSchedulesEmail,
 } from "../../../api/schedules";
-import { TreeItem, TreeView } from "@mui/lab";
 import { ExpandMore, ChevronRight } from "@mui/icons-material";
 import "../../../stylesheets/manage-schedules.css";
+import { TreeView } from "@mui/x-tree-view/TreeView";
+import { TreeItem } from "@mui/x-tree-view/TreeItem";
 
 const ManageSchedulesPage = () => {
   const [schedules, setSchedules] = useState([]);
@@ -45,7 +46,6 @@ const ManageSchedulesPage = () => {
   const [selectedEmployees, setSelectedEmployees] = useState(new Set());
 
   const roles = [...new Set(employees.map((employee) => employee.position))];
-
   const filteredData = selectedPosition
     ? schedules.filter(
         (event) =>
@@ -125,8 +125,8 @@ const ManageSchedulesPage = () => {
 
   const commitChanges = async ({ added, changed, deleted }) => {
     if (added) {
-      added.startDate.setHours(added.startDate.getHours() + 2);
-      added.endDate.setHours(added.endDate.getHours() + 2);
+      added.startDate.setHours(added.startDate.getHours() + 1);
+      added.endDate.setHours(added.endDate.getHours() + 1);
       added.notes = added.notes != null ? added.notes : "";
       added.startDate = added.startDate.toISOString().slice(0, -5);
       added.endDate = added.endDate.toISOString().slice(0, -5);
@@ -146,7 +146,7 @@ const ManageSchedulesPage = () => {
       if (updatedSchedule.startDate) {
         updatedSchedule.startDate = new Date(updatedSchedule.startDate);
         updatedSchedule.startDate.setHours(
-          updatedSchedule.startDate.getHours() + 2
+          updatedSchedule.startDate.getHours() + 1
         );
         updatedSchedule.startDate = updatedSchedule.startDate
           .toISOString()
@@ -155,13 +155,13 @@ const ManageSchedulesPage = () => {
       if (updatedSchedule.endDate) {
         updatedSchedule.endDate = new Date(updatedSchedule.endDate);
         updatedSchedule.endDate.setHours(
-          updatedSchedule.endDate.getHours() + 2
+          updatedSchedule.endDate.getHours() + 1
         );
         updatedSchedule.endDate = updatedSchedule.endDate
           .toISOString()
           .slice(0, -5);
       }
-      added.notes = added.notes != null ? added.notes : "";
+      changed.notes = changed.notes != null ? changed.notes : "";
 
       await putSchedule(id, updatedSchedule);
       location.reload();
@@ -185,7 +185,7 @@ const ManageSchedulesPage = () => {
       >
         {employees.map((employee) => (
           <MenuItem key={employee.id} value={employee.id}>
-            {employee.name}
+            {`${employee.name} ${employee.surname}`}
           </MenuItem>
         ))}
       </TextField>
@@ -209,7 +209,18 @@ const ManageSchedulesPage = () => {
   );
 
   const BasicLayout = ({ appointmentData, onFieldChange, ...restProps }) => (
-    <div>
+<div
+  style={{
+    display: "flex",
+    flexDirection: "column",
+    gap: "16px",
+    padding: "16px",
+    justifyContent: "center",
+    alignItems: "center",  
+    height: "100%",
+    width: "100%"       
+  }}
+>
       <EmployeeSelector
         appointmentData={appointmentData}
         onFieldChange={onFieldChange}
@@ -281,10 +292,10 @@ const ManageSchedulesPage = () => {
             defaultCollapseIcon={<ExpandMore />}
             defaultExpandIcon={<ChevronRight />}
           >
-            {roles.map((role) => (
+            {roles.map((role, roleIndex) => (
               <TreeItem
-                nodeId={role}
-                key={role}
+                itemId={`role-${roleIndex}`}
+                key={`role-${role}`}
                 label={
                   <FormControlLabel
                     control={
@@ -310,7 +321,7 @@ const ManageSchedulesPage = () => {
                   .filter((employee) => employee.position === role)
                   .map((employee) => (
                     <TreeItem
-                      nodeId={employee.id.toString()}
+                      itemId={employee.id.toString()}
                       key={employee.id}
                       label={
                         <FormControlLabel
@@ -320,7 +331,7 @@ const ManageSchedulesPage = () => {
                               onChange={() => handleToggleEmployee(employee.id)}
                             />
                           }
-                          label={employee.name}
+                          label={`${employee.name} ${employee.surname}`}
                         />
                       }
                     />
@@ -332,7 +343,15 @@ const ManageSchedulesPage = () => {
             Wyślij grafiki na e-mail
           </Button>
         </div>
-        <Scheduler data={filteredData} locale="pl">
+        <Scheduler
+  data={filteredData}
+  locale="pl"
+  ref={(schedulerRef) => {
+    if (schedulerRef) {
+      schedulerRef.scrollToTime(6, 0); // Przewiń widok do 6:00 rano
+    }
+  }}
+>
           <ViewState
             currentDate={currentDate}
             onCurrentDateChange={setCurrentDate}

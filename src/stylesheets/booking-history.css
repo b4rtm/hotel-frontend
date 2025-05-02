@@ -33,6 +33,13 @@
   border: none;
 }
 
+.orange-button{
+  margin-top: 10px;
+  background-color: rgb(252, 153, 5);
+  border-radius: 15px;
+  border: none
+}
+
 .modal {
   position: fixed;
   top: 50%;

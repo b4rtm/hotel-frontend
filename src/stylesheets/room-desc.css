@@ -19,7 +19,7 @@
   margin-right: 100px;
   display: flex;
   flex-direction: column;
-  font-size: 21px;
+  font-size: 27px;
 }
 
 .room-desc .second-row .price {
@@ -213,6 +213,12 @@ select {
   .room-desc .second-row {
     margin-right: 0;
     max-width: 100%;
+    font-size: 20px;
+
+  }
+
+  .room_description{
+    margin: 0px 15px;
   }
 
   .room-desc h1 {

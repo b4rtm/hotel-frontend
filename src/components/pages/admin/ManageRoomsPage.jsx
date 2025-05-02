@@ -242,17 +242,6 @@ const ManageRoomsPage = () => {
           <div className="register-page">
             <form encType="multipart/form-data" onSubmit={formik.handleSubmit}>
               <FormField
-                label="name"
-                name="Nazwa"
-                type="text"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.name}
-              />
-              {formik.touched.name && formik.errors.name && (
-                <p className="error">{formik.errors.name}</p>
-              )}
-              <FormField
                 label="capacity"
                 name="Pojemność"
                 type="number"
@@ -330,6 +319,17 @@ const ManageRoomsPage = () => {
                   )
                 )}
               </div>
+              <FormField
+                label="name"
+                name="Nazwa"
+                type="text"
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                value={formik.values.name}
+              />
+              {formik.touched.name && formik.errors.name && (
+                <p className="error">{formik.errors.name}</p>
+              )}
               {!formik.isValidating && <button type="submit">Zatwierdź</button>}
               {!formik.isValid && formik.submitCount > 0 && (
                 <p className="error">Formularz zawiera błędy</p>

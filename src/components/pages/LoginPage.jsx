@@ -102,6 +102,9 @@ const LoginPage = () => {
               } else if (error.response.status === 403) {
                 setErrorMessage(t("accountNotActivated"));
               }
+              else{
+                console.log(error.response)
+              }
             } finally {
               setSubmitting(false);
             }

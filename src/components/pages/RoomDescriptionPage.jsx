@@ -89,7 +89,7 @@ const RoomDescriptionPage = () => {
           <h1>{room?.name}</h1>
         </div>
         <div className="second-row">
-          {i18n.language === "en" ? room?.descriptionEn : room?.description}
+          <p className="room_description">{i18n.language === "en" ? room?.descriptionEn : room?.description}</p>
           <p className="price">
             {room?.pricePerNight} {t("currency")} {t("perNight")}
           </p>

@@ -222,7 +222,7 @@ const RoomsPage = () => {
                     {room.pricePerNight} {t("currency")}
                   </p>
                   <div className="rating">
-                    <p>{calculateAverageRating(room.reviews)}</p>
+                    <p>{calculateAverageRating(room.reviews) == 0 ? t("noReviews") : calculateAverageRating(room.reviews)}</p>
                     <img className="star" src="star.png" />
                   </div>
                   <button>{t("reserve")}</button>

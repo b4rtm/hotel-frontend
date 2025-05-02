@@ -113,7 +113,7 @@ const BookingHistoryPage = () => {
                   )
                 )}
                 {booking.approved && !isReviewable(booking.checkOutDate) && (
-                  <button className="green-button">
+                  <button className="orange-button">
                     {t("approvedByHotel")}
                   </button>
                 )}
